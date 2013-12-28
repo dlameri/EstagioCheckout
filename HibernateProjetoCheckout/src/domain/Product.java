@@ -1,10 +1,13 @@
 package domain;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -17,6 +20,8 @@ public class Product {
 	@GeneratedValue(generator = "product_id", strategy = GenerationType.AUTO)
 	@Column(name="CD_PRODUTO")
 	private Long id;
+	@OneToMany(mappedBy="id.produto") 
+	private List<HistoryProduct> historyProduct; 
 
 	public Long getId() {
 		return id;

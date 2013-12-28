@@ -1,10 +1,16 @@
 package domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.AssociationOverride;
+import javax.persistence.AssociationOverrides;
+import javax.persistence.EmbeddedId;
+import javax.persistence.JoinColumn;
 
-@Entity
-@Table(name="Historico_Produto")
+@AssociationOverrides({
+	@AssociationOverride(name="pk.product", joinColumns=@JoinColumn(name="CD_Produto")),
+	@AssociationOverride(name="pk.history", joinColumns=@JoinColumn(name="CD_Historico"))
+})
 public class HistoryProduct {
 
+	@EmbeddedId
+	private HistoryProductId id;
 }
