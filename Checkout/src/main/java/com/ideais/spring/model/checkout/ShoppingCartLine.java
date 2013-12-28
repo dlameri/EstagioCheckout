@@ -38,5 +38,4 @@ public class ShoppingCartLine {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	
 }

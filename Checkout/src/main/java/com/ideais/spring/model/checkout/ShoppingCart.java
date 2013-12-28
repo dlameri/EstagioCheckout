@@ -28,6 +28,5 @@ public class ShoppingCart {
 	
 	public void remove(Product product) {
 		
-	}
-	
+	}	
 }
