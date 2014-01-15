@@ -3,7 +3,31 @@ package com.ideais.spring.model.checkout;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 public class ShoppingCart {
+	
+	@Id
+	@SequenceGenerator(name = "shoppingCart_id", sequenceName = "shoppingCart_id")
+	@GeneratedValue(generator = "shoppingCart_id", strategy = GenerationType.AUTO)
+	@Column(name="CD_CARRINHO_COMPRAS")
+	private Long id;
+	@ManyToOne(targetEntity=PurchaseHistory.class)
+	@JoinColumn(name="CD_HISTORICO_COMPRAS", referencedColumnName="CD_HISTORICO_COMPRAS", nullable=false)
+	@Cascade(CascadeType.MERGE)
+	private PurchaseHistory purchaseHistory;
+	@OneToMany(mappedBy="shoppingCart")
+	@Cascade(CascadeType.ALL)
 	private List<ShoppingCartLine> shoppingCartLines = new ArrayList<ShoppingCartLine>();
 	
 	public ShoppingCart() {
@@ -46,6 +70,30 @@ public class ShoppingCart {
 		}
 		
 		return null;
+	}
+
+	public PurchaseHistory getPurchaseHistory() {
+		return purchaseHistory;
+	}
+
+	public void setPurchaseHistory(PurchaseHistory purchaseHistory) {
+		this.purchaseHistory = purchaseHistory;
+	}
+
+	public List<ShoppingCartLine> getShoppingCartLines() {
+		return shoppingCartLines;
+	}
+
+	public void setShoppingCartLines(List<ShoppingCartLine> shoppingCartLines) {
+		this.shoppingCartLines = shoppingCartLines;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 }

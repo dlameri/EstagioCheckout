@@ -1,11 +1,33 @@
 package com.ideais.spring.model.checkout;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import com.ideais.spring.model.stock.Item;
 
 public class ShoppingCartLine {
+	@Id
+	@SequenceGenerator(name = "shoppingCartLine_id", sequenceName = "shoppingCartLine_id")
+	@GeneratedValue(generator = "shoppingCartLine_id", strategy = GenerationType.AUTO)
+	@Column(name="CD_CARRINHO_COMPRAS_LINHA")
+	private Long id;
+	@OneToOne(mappedBy="shoppingCartLine")
 	private Item item;
+	@Column(name="NM_QUANTIDADE")
 	private Integer quantity;
+	@Column(name="NM_PRECO")
 	private Double price;
+	@ManyToOne(targetEntity=PurchaseHistory.class)
+	@JoinColumn(name="CD_CARRINHO_COMPRAS", referencedColumnName="CD_CARRINHO_COMPRAS", nullable=false)
+	@Cascade(CascadeType.MERGE)
+	private ShoppingCart shoppingCart;
 	
 	public ShoppingCartLine() {
 		
@@ -76,6 +98,22 @@ public class ShoppingCartLine {
 		} else if (!item.equals(other.item))
 			return false;
 		return true;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public ShoppingCart getShoppingCart() {
+		return shoppingCart;
+	}
+
+	public void setShoppingCart(ShoppingCart shoppingCart) {
+		this.shoppingCart = shoppingCart;
 	}
 	
 }
