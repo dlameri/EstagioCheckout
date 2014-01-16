@@ -1,6 +1,7 @@
 package com.ideais.spring.model.checkout;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -8,10 +9,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import com.ideais.spring.model.stock.Item;
 
+@Entity
+@Table(name="CARRINHO_COMPRAS_LINHA")
 public class ShoppingCartLine {
 	@Id
 	@SequenceGenerator(name = "shoppingCartLine_id", sequenceName = "shoppingCartLine_id")
@@ -24,7 +28,7 @@ public class ShoppingCartLine {
 	private Integer quantity;
 	@Column(name="NM_PRECO")
 	private Double price;
-	@ManyToOne(targetEntity=PurchaseHistory.class)
+	@ManyToOne(targetEntity=ShoppingCart.class)
 	@JoinColumn(name="CD_CARRINHO_COMPRAS", referencedColumnName="CD_CARRINHO_COMPRAS", nullable=false)
 	@Cascade(CascadeType.MERGE)
 	private ShoppingCart shoppingCart;
@@ -75,30 +79,30 @@ public class ShoppingCartLine {
 		}
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((item == null) ? 0 : item.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ShoppingCartLine other = (ShoppingCartLine) obj;
-		if (item == null) {
-			if (other.item != null)
-				return false;
-		} else if (!item.equals(other.item))
-			return false;
-		return true;
-	}
+//	@Override
+//	public int hashCode() {
+//		final int prime = 31;
+//		int result = 1;
+//		result = prime * result + ((item == null) ? 0 : item.hashCode());
+//		return result;
+//	}
+//
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		ShoppingCartLine other = (ShoppingCartLine) obj;
+//		if (item == null) {
+//			if (other.item != null)
+//				return false;
+//		} else if (!item.equals(other.item))
+//			return false;
+//		return true;
+//	}
 
 	public Long getId() {
 		return id;

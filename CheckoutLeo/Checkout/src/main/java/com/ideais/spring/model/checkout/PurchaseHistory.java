@@ -2,7 +2,6 @@ package com.ideais.spring.model.checkout;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
@@ -13,7 +12,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.GenerationType;
-
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -30,17 +28,17 @@ public class PurchaseHistory {
 	private Long idPurchaseHistory;
 	@OneToMany(mappedBy="purchaseHistory")
 	@Cascade(CascadeType.ALL)
-	private List<ShoppingCart> shoppingsCarts = new ArrayList<ShoppingCart>();
+	private List<ShoppingCart> shoppingCarts = new ArrayList<ShoppingCart>();
 	@OneToOne
 	@JoinColumn(name="CD_CLIENTE", referencedColumnName="CD_CLIENTE", nullable=false)
 	private Customer customer;
 	
-	public List<ShoppingCart> getShoppingsCarts() {
-		return shoppingsCarts;
+	public List<ShoppingCart> getShoppingCarts() {
+		return shoppingCarts;
 	}
 	
-	public void setShoppingsCarts(List<ShoppingCart> shoppingsCarts) {
-		this.shoppingsCarts = shoppingsCarts;
+	public void setShoppingCarts(List<ShoppingCart> shoppingCarts) {
+		this.shoppingCarts = shoppingCarts;
 	}
 	
 	public Customer getCustomer() {

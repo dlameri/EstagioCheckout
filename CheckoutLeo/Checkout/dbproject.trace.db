@@ -1,0 +1,12 @@
+01-15 23:45:21 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "ENDERECO" not found; SQL statement:
+alter table ENDERECO drop constraint FK95D357C94227DDC [42102-161]
+01-15 23:45:21 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "HISTORICO_COMPRAS" not found; SQL statement:
+alter table HISTORICO_COMPRAS drop constraint FK682ECD264227DDC [42102-161]
+01-16 13:59:44 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "CARRINHO_COMPRAS" not found; SQL statement:
+alter table CARRINHO_COMPRAS drop constraint FK8E05146058815D39 [42102-161]
+01-16 13:59:44 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "CARRINHO_COMPRAS_LINHA" not found; SQL statement:
+alter table CARRINHO_COMPRAS_LINHA drop constraint FKAFAA068BEAEFFE28 [42102-161]
