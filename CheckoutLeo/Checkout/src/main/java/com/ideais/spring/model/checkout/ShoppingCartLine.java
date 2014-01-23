@@ -12,7 +12,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import com.ideais.spring.model.stock.Item;
+import com.ideais.spring.model.stock.Product;
 
 @Entity
 @Table(name="CARRINHO_COMPRAS_LINHA")
@@ -23,7 +23,7 @@ public class ShoppingCartLine {
 	@Column(name="CD_CARRINHO_COMPRAS_LINHA")
 	private Long id;
 	@OneToOne(mappedBy="shoppingCartLine")
-	private Item item;
+	private Product product;
 	@Column(name="NM_QUANTIDADE")
 	private Integer quantity;
 	@Column(name="NM_PRECO")
@@ -38,15 +38,15 @@ public class ShoppingCartLine {
 	}
 	
 	public Double calculatePrice() {
-		return item.getProduct().getPriceFor() * quantity;
+		return product.getItem().getPriceFor() * quantity;
 	}
 
-	public Item getItem() {
-		return item;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setItem(Item item) {
-		this.item = item;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	public Integer getQuantity() {

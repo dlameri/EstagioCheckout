@@ -10,3 +10,12 @@ alter table CARRINHO_COMPRAS drop constraint FK8E05146058815D39 [42102-161]
 01-16 13:59:44 jdbc[2]: exception
 org.h2.jdbc.JdbcSQLException: Table "CARRINHO_COMPRAS_LINHA" not found; SQL statement:
 alter table CARRINHO_COMPRAS_LINHA drop constraint FKAFAA068BEAEFFE28 [42102-161]
+01-23 16:13:38 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "IMAGE" not found; SQL statement:
+alter table IMAGE drop constraint FK428B13BE2E01662 [42102-161]
+01-23 16:13:38 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "PRODUTO" not found; SQL statement:
+alter table PRODUTO drop constraint FK18595AD944544D3C [42102-161]
+01-23 16:13:38 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "PRODUTO" not found; SQL statement:
+alter table PRODUTO drop constraint FK18595AD9E2E01662 [42102-161]

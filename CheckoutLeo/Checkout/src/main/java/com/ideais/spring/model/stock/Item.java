@@ -1,16 +1,41 @@
 package com.ideais.spring.model.stock;
 
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+@Entity
+@Table(name="ITEM")
 public class Item {
+	@Id
+	@SequenceGenerator(name = "item_id", sequenceName = "item_id")
+	@GeneratedValue(generator = "item_id", strategy = GenerationType.AUTO)
+	@Column(name="CD_ITEM", nullable=false)
 	private Long id;
-	private String name;
-	private String longDescription;
-	private String shortDescription;
-	private String dimensions;
-	private Integer weight;
-	private Integer warranty;
-	private String brand;
-	private String model;
-	private Product product;
+	@Column(name="NR_PRECO_DE")
+	private double priceFrom;
+	@Column(name="NR_PRECO_PARA")
+	private double priceFor;
+	@Column(name="NM_NOME_OPCAO") //variacao de tipo
+	private String optionName;
+	@Column(name="NM_VALOR_OPCAO") //valor de variação
+	private String optionValue;
+	@Column(name="NR_NUMERO_ESTOQUE")
+	private Integer stock;
+	@OneToMany(mappedBy="item")
+	@Cascade(CascadeType.ALL)
+	private List<Product> products;
+	@OneToMany(mappedBy="item")
+	@Cascade(CascadeType.ALL)
+	private List<Image> images;
 
 	public Long getId() {
 		return id;
@@ -20,101 +45,60 @@ public class Item {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public double getPriceFrom() {
+		return priceFrom;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setPriceFrom(double priceFrom) {
+		this.priceFrom = priceFrom;
 	}
 
-	public String getLongDescription() {
-		return longDescription;
+	public double getPriceFor() {
+		return priceFor;
 	}
 
-	public void setLongDescription(String longDescription) {
-		this.longDescription = longDescription;
+	public void setPriceFor(double priceFor) {
+		this.priceFor = priceFor;
 	}
 
-	public String getShortDescription() {
-		return shortDescription;
+	public String getOptionName() {
+		return optionName;
 	}
 
-	public void setShortDescription(String shortDescription) {
-		this.shortDescription = shortDescription;
+	public void setOptionName(String optionName) {
+		this.optionName = optionName;
 	}
 
-	public String getDimensions() {
-		return dimensions;
+	public String getOptionValue() {
+		return optionValue;
 	}
 
-	public void setDimensions(String dimensions) {
-		this.dimensions = dimensions;
+	public void setOptionValue(String optionValue) {
+		this.optionValue = optionValue;
 	}
 
-	public Integer getWeight() {
-		return weight;
+	public Integer getStock() {
+		return stock;
 	}
 
-	public void setWeight(Integer weight) {
-		this.weight = weight;
+	public void setStock(Integer stock) {
+		this.stock = stock;
 	}
 
-	public Integer getWarranty() {
-		return warranty;
+	public List<Product> getProducts() {
+		return products;
 	}
 
-	public void setWarranty(Integer warranty) {
-		this.warranty = warranty;
+	public void setProducts(List<Product> products) {
+		this.products = products;
 	}
 
-	public String getBrand() {
-		return brand;
+	public List<Image> getImages() {
+		return images;
 	}
 
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
-
-	public String getModel() {
-		return model;
-	}
-
-	public void setModel(String model) {
-		this.model = model;
-	}
-
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Item other = (Item) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+	public void setImage(List<Image> images) {
+		this.images = images;
 	}
 
 }
