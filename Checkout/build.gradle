@@ -30,6 +30,12 @@ dependencies {
     compile 'commons-dbcp:commons-dbcp:1.4'
     compile 'net.sf.ehcache:ehcache-core:2.5.2'
     compile 'javax.servlet:servlet-api:2.5'
+    
+
+    compile 'org.springframework.social:spring-social-core:1.0.3.RELEASE'
+	compile 'org.springframework.social:spring-social-facebook:1.0.3.RELEASE'
+	compile 'org.springframework.social:spring-social-test:1.0.3.RELEASE'
+	
 
 }
 
