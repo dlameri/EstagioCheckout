@@ -2,13 +2,13 @@ package com.ideais.spring.dao;
 
 import java.util.List;
 
-public interface GenericDao {
+public interface GenericDao<T> {
 
-    List<Object> findAll();
+    List<T> findAll();
 
-    Object findById(Long id);
+    T findById(Long id);
 
-    void saveOrUpdate(Object object);
+    void saveOrUpdate(T object);
 
     void remove(Object object);
 }
