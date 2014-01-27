@@ -17,7 +17,7 @@ public class PurchaseHistoryDao implements GenericDao<PurchaseHistory> {
 	@Override
     @Transactional(readOnly = true)
     public List<PurchaseHistory> findAll() {
-        return sessionFactory.getCurrentSession().createQuery("from HISTORICO_COMPRAS").list();
+        return sessionFactory.getCurrentSession().createQuery("from PurchaseHistory").list();
     }
 
     @Override
@@ -29,8 +29,8 @@ public class PurchaseHistoryDao implements GenericDao<PurchaseHistory> {
     @Override
     @Transactional
     public void saveOrUpdate(PurchaseHistory object) {
-    	PurchaseHistory pH = (PurchaseHistory) sessionFactory.getCurrentSession().merge((PurchaseHistory) object);
-        sessionFactory.getCurrentSession().save(pH);
+    	PurchaseHistory purchaseHistory = (PurchaseHistory) sessionFactory.getCurrentSession().merge((PurchaseHistory) object);
+        sessionFactory.getCurrentSession().save(purchaseHistory);
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {

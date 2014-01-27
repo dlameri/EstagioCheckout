@@ -17,7 +17,7 @@ public class CustomerDao implements GenericDao<Customer> {
 	@Override
     @Transactional(readOnly = true)
     public List<Customer> findAll() {
-        return sessionFactory.getCurrentSession().createQuery("from CLIENTE").list();
+        return sessionFactory.getCurrentSession().createQuery("from Customer").list();
     }
 
     @Override
