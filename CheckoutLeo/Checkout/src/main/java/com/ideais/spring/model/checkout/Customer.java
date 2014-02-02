@@ -1,40 +1,47 @@
 package com.ideais.spring.model.checkout;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 @Entity
-@Table(name="CLIENTE")
+@Table(name = "CLIENTE")
 public class Customer {
-	
+
 	@Id
 	@SequenceGenerator(name = "customer_id", sequenceName = "customer_id")
 	@GeneratedValue(generator = "customer_id", strategy = GenerationType.AUTO)
-	@Column(name="CD_CLIENTE", nullable=false)
+	@Column(name = "CD_CLIENTE", nullable = false)
 	private Long customerFbId;
-	@Column(name="NM_NOME")
+	@Column(name = "NM_NOME")
 	private String name;
-	@Column(name="NM_SOBRENOME")
+	@Column(name = "NM_SOBRENOME")
 	private String surname;
-	@Column(name="NM_TELEFONE")
+	@Column(name = "NM_TELEFONE")
 	private String phoneNumber;
-	@OneToOne(mappedBy="customer")
+	@Column(name = "NM_CEP")
+	private String zipCode;
+
+	//One to Many
+	@OneToMany(mappedBy = "customer")
 	@Cascade(CascadeType.ALL)
-	private Address address;
-	@OneToOne(mappedBy="customer")
-	private PurchaseHistory purchaseHistory;
-	
-	public Customer() {
-		
-	}
+	private List<ShoppingCart> shoppingCarts;
+	@OneToMany(mappedBy = "customer")
+	@Cascade(CascadeType.ALL)
+	private List<Address> addresses;
+
+	//One to Many
+	@OneToMany(mappedBy = "customer")
+	@Cascade(CascadeType.ALL)
+	private List<PurchaseOrder> purchaseOrders;
 
 	public Long getCustomerFbId() {
 		return customerFbId;
@@ -60,12 +67,12 @@ public class Customer {
 		this.surname = surname;
 	}
 
-	public Address getAddress() {
-		return address;
+	public List<Address> getAddresses() {
+		return addresses;
 	}
 
-	public void setAddress(Address address) {
-		this.address = address;
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
 	}
 
 	public String getPhoneNumber() {
@@ -76,12 +83,28 @@ public class Customer {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public PurchaseHistory getPurchaseHistory() {
-		return purchaseHistory;
+	public List<PurchaseOrder> getPurchaseOrders() {
+		return purchaseOrders;
 	}
 
-	public void setPurchaseHistory(PurchaseHistory purchaseHistory) {
-		this.purchaseHistory = purchaseHistory;
+	public void setPurchaseOrders(List<PurchaseOrder> purchaseOrders) {
+		this.purchaseOrders = purchaseOrders;
+	}
+
+	public List<ShoppingCart> getShoppingCarts() {
+		return shoppingCarts;
+	}
+
+	public void setShoppingCarts(List<ShoppingCart> shoppingCarts) {
+		this.shoppingCarts = shoppingCarts;
 	}
 	
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
 }

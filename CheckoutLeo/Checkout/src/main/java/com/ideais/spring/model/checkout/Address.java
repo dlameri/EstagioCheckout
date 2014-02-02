@@ -6,9 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name="ENDERECO")
@@ -33,9 +36,17 @@ public class Address {
 	private String country;
 	@Column(name="NM_CEP")
 	private String zipCode;
-	@OneToOne
+	
+	//Many to One
+	@ManyToOne(targetEntity=Customer.class)
 	@JoinColumn(name="CD_CLIENTE", referencedColumnName="CD_CLIENTE", nullable=false)
+	@Cascade(CascadeType.MERGE)
 	private Customer customer;
+	
+	//One to One
+	@OneToOne(mappedBy = "shippingAddress")
+	@Cascade(CascadeType.ALL)
+	private PurchaseOrder purchaseOrder;
 	
 	public Long getId() {
 		return id;
@@ -107,6 +118,14 @@ public class Address {
 	
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public PurchaseOrder getPurchaseOrder() {
+		return purchaseOrder;
+	}
+
+	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+		this.purchaseOrder = purchaseOrder;
 	}
 	
 }

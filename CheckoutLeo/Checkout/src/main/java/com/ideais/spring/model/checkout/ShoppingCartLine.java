@@ -12,41 +12,42 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import com.ideais.spring.model.stock.Product;
+import com.ideais.spring.model.stock.Sku;
 
 @Entity
 @Table(name="CARRINHO_COMPRAS_LINHA")
 public class ShoppingCartLine {
+	
 	@Id
 	@SequenceGenerator(name = "shoppingCartLine_id", sequenceName = "shoppingCartLine_id")
 	@GeneratedValue(generator = "shoppingCartLine_id", strategy = GenerationType.AUTO)
 	@Column(name="CD_CARRINHO_COMPRAS_LINHA")
 	private Long id;
-	@OneToOne(mappedBy="shoppingCartLine")
-	private Product product;
 	@Column(name="NM_QUANTIDADE")
 	private Integer quantity;
 	@Column(name="NM_PRECO")
 	private Double price;
+	
+	//One to One
+	@OneToOne(mappedBy="shoppingCartLine")
+	private Sku sku;
+	
+	//Many to One
 	@ManyToOne(targetEntity=ShoppingCart.class)
 	@JoinColumn(name="CD_CARRINHO_COMPRAS", referencedColumnName="CD_CARRINHO_COMPRAS", nullable=false)
 	@Cascade(CascadeType.MERGE)
 	private ShoppingCart shoppingCart;
 	
-	public ShoppingCartLine() {
-		
-	}
-	
 	public Double calculatePrice() {
-		return product.getItem().getPriceFor() * quantity;
+		return sku.getProduct().getPriceFor() * quantity;
 	}
 
-	public Product getProduct() {
-		return product;
+	public Sku getSku() {
+		return sku;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setSku(Sku sku) {
+		this.sku = sku;
 	}
 
 	public Integer getQuantity() {
@@ -65,8 +66,8 @@ public class ShoppingCartLine {
 		return price;
 	}
 
-	public void setPrice(Double price) {
-		this.price = price;
+	public void setPrice() {
+		this.price = calculatePrice();
 	}
 	
 	public void increaseByOne() {

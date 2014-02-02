@@ -1,18 +1,16 @@
 package com.ideais.spring.model.stock;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import com.ideais.spring.model.checkout.ShoppingCartLine;
 
 @Entity
 @Table(name="PRODUTO")
@@ -22,30 +20,30 @@ public class Product {
 	@GeneratedValue(generator = "product_id", strategy = GenerationType.AUTO)
 	@Column(name="CD_PRODUTO", nullable=false)
 	private Long id;
-	@Column(name="NM_NOME")
+	@Column(name="NR_NOME")
 	private String name;
-	@Column(name="NM_DESCRICAO")
-	private String longDescription;
-	@Column(name="NM_DESCRICAO_CURTA")
-	private String shortDescription;
-	@Column(name="NM_DIMENSAO")
-	private String dimensions;
-	@Column(name="NR_PESO")
-	private Integer weight;
-	@Column(name="NR_GARANTIA")
-	private Integer warranty;
-	@Column(name="NM_MARCA")
-	private String brand;
-	@Column(name="NM_MODELO")
-	private String model;
-	@ManyToOne(targetEntity=Item.class)
-	@JoinColumn(name="CD_ITEM", referencedColumnName="CD_ITEM", nullable=false)
-	@Cascade(CascadeType.MERGE)
-	private Item item;
-	@OneToOne
-	@JoinColumn(name="CD_CARRINHO_COMPRAS", referencedColumnName="CD_CARRINHO_COMPRAS", nullable=false)
-	private ShoppingCartLine shoppingCartLine;
+	@Column(name="NR_PRECO_DE")
+	private double priceFrom;
+	@Column(name="NR_PRECO_PARA")
+	private double priceFor;
+	@Column(name="NM_NOME_OPCAO") //variacao de tipo
+	private String optionName;
+	@Column(name="NM_VALOR_OPCAO") //valor de variação
+	private String optionValue;
 	
+	//One to Many
+	@OneToMany(mappedBy="product")
+	@Cascade(CascadeType.ALL)
+	private List<Sku> skus;
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -54,101 +52,44 @@ public class Product {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public double getPriceFrom() {
+		return priceFrom;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setPriceFrom(double priceFrom) {
+		this.priceFrom = priceFrom;
 	}
 
-	public String getLongDescription() {
-		return longDescription;
+	public double getPriceFor() {
+		return priceFor;
 	}
 
-	public void setLongDescription(String longDescription) {
-		this.longDescription = longDescription;
+	public void setPriceFor(double priceFor) {
+		this.priceFor = priceFor;
 	}
 
-	public String getShortDescription() {
-		return shortDescription;
+	public String getOptionName() {
+		return optionName;
 	}
 
-	public void setShortDescription(String shortDescription) {
-		this.shortDescription = shortDescription;
+	public void setOptionName(String optionName) {
+		this.optionName = optionName;
 	}
 
-	public String getDimensions() {
-		return dimensions;
+	public String getOptionValue() {
+		return optionValue;
 	}
 
-	public void setDimensions(String dimensions) {
-		this.dimensions = dimensions;
+	public void setOptionValue(String optionValue) {
+		this.optionValue = optionValue;
 	}
 
-	public Integer getWeight() {
-		return weight;
+	public List<Sku> getSkus() {
+		return skus;
 	}
 
-	public void setWeight(Integer weight) {
-		this.weight = weight;
-	}
-
-	public Integer getWarranty() {
-		return warranty;
-	}
-
-	public void setWarranty(Integer warranty) {
-		this.warranty = warranty;
-	}
-
-	public String getBrand() {
-		return brand;
-	}
-
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
-
-	public String getModel() {
-		return model;
-	}
-
-	public void setModel(String model) {
-		this.model = model;
-	}
-
-	public Item getItem() {
-		return item;
-	}
-
-	public void setItem(Item item) {
-		this.item = item;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Product other = (Product) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+	public void setSkus(List<Sku> skus) {
+		this.skus = skus;
 	}
 
 }

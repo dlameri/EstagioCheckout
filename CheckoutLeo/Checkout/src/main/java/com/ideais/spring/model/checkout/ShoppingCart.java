@@ -1,6 +1,5 @@
 package com.ideais.spring.model.checkout;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
@@ -24,17 +24,26 @@ public class ShoppingCart {
 	@GeneratedValue(generator = "shoppingCart_id", strategy = GenerationType.AUTO)
 	@Column(name="CD_CARRINHO_COMPRAS")
 	private Long id;
-	@ManyToOne(targetEntity=PurchaseHistory.class)
-	@JoinColumn(name="CD_HISTORICO_COMPRAS", referencedColumnName="CD_HISTORICO_COMPRAS", nullable=false)
-	@Cascade(CascadeType.MERGE)
-	private PurchaseHistory purchaseHistory;
+	@Column(name="NM_MEIO_DE_PAGAMENTO")
+	private MeanOfPayment meanOfPayment;
+	@Column(name="NR_FRETE")
+	private Double freight; 
+	
+	//One to One
+	@OneToOne(mappedBy = "shoppingCart")
+	@Cascade(CascadeType.ALL)
+	private PurchaseOrder purchaseOrder;
+	
+	//One to Many
 	@OneToMany(mappedBy="shoppingCart")
 	@Cascade(CascadeType.ALL)
-	private List<ShoppingCartLine> shoppingCartLines = new ArrayList<ShoppingCartLine>();
+	private List<ShoppingCartLine> shoppingCartLines;
 	
-	public ShoppingCart() {
-		
-	}
+	//Many to One
+	@ManyToOne(targetEntity=Customer.class)
+	@JoinColumn(name="CD_CLIENTE", referencedColumnName="CD_CLIENTE", nullable=false)
+	@Cascade(CascadeType.MERGE)
+	private Customer customer;
 	
 	public Double calculateTotalPrice() {
 		Double totalPrice = 0.0;
@@ -43,10 +52,10 @@ public class ShoppingCart {
 			totalPrice += shoppingCartLines.get(i).calculatePrice();
 		}
 		
-		return totalPrice;
+		return totalPrice + freight;
 	}
 	
-	public void add(ShoppingCartLine shoppingCartLine) { //aficionar sessão do zero, criar sessão (?)
+	public void add(ShoppingCartLine shoppingCartLine) { //adicionar sessão do zero, criar sessão (?)
 		ShoppingCartLine existingShoppingCartLine = contains(shoppingCartLine);
 		
 		if (existingShoppingCartLine != null) {
@@ -60,7 +69,7 @@ public class ShoppingCart {
 		shoppingCartLines.remove(shoppingCartLine);
 	}
 	
-	public void emptyShoppingCart() { //expirar sessão (?)
+	public void emptyShoppingCart() { 
 		shoppingCartLines.removeAll(shoppingCartLines);
 	}
 	
@@ -73,13 +82,21 @@ public class ShoppingCart {
 		
 		return null;
 	}
-
-	public PurchaseHistory getPurchaseHistory() {
-		return purchaseHistory;
+	
+	public Double getFreight() {
+		return freight;
 	}
 
-	public void setPurchaseHistory(PurchaseHistory purchaseHistory) {
-		this.purchaseHistory = purchaseHistory;
+	public void setFreight(Double freight) {
+		this.freight = freight;
+	}
+
+	public PurchaseOrder getPurchaseOrder() {
+		return purchaseOrder;
+	}
+
+	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+		this.purchaseOrder = purchaseOrder;
 	}
 
 	public List<ShoppingCartLine> getShoppingCartLines() {
@@ -96,6 +113,14 @@ public class ShoppingCart {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public MeanOfPayment getMeanOfPayment() {
+		return meanOfPayment;
+	}
+
+	public void setMeanOfPayment(MeanOfPayment meanOfPayment) {
+		this.meanOfPayment = meanOfPayment;
 	}
 	
 }

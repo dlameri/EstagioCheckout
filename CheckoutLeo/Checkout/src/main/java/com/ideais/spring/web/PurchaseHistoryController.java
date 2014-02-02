@@ -1,6 +1,6 @@
 package com.ideais.spring.web;
 
-import com.ideais.spring.model.checkout.PurchaseHistory;
+import com.ideais.spring.model.checkout.PurchaseOrder;
 import com.ideais.spring.service.GenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class PurchaseHistoryController {
 
     @Autowired
-    private GenericService<PurchaseHistory> purchaseHistoryService;
+    private GenericService<PurchaseOrder> purchaseHistoryService;
     
     @RequestMapping("/list")
     public ModelAndView list(){
@@ -26,40 +26,40 @@ public class PurchaseHistoryController {
 
     @RequestMapping(value = "/new",method = RequestMethod.GET)
     public ModelAndView newPurchaseHistory(){
-        return new ModelAndView("purchaseHistory/new", "purchaseHistory", new PurchaseHistory());
+        return new ModelAndView("purchaseHistory/new", "purchaseHistory", new PurchaseOrder());
     }
 
     @RequestMapping(value = "/new",method = RequestMethod.POST)
-    public String newPurchaseHistory(PurchaseHistory purchaseHistory){
+    public String newPurchaseHistory(PurchaseOrder purchaseHistory){
     	purchaseHistoryService.save(purchaseHistory);
         return "redirect:list";
     }
 
     @RequestMapping(value = "/edit/{id}",method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable Long id){
-        PurchaseHistory purchaseHistory = purchaseHistoryService.find(id);
+        PurchaseOrder purchaseHistory = purchaseHistoryService.find(id);
         return new ModelAndView("purchaseHistory/edit", "purchaseHistory", purchaseHistory);
     }
 
     @RequestMapping(value = "/edit",method = RequestMethod.POST)
-    public String edit(PurchaseHistory purchaseHistory) {
+    public String edit(PurchaseOrder purchaseHistory) {
     	purchaseHistoryService.save(purchaseHistory);
         return "redirect:list";
     }
 
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.GET)
     public ModelAndView delete(@PathVariable Long id){
-        PurchaseHistory purchaseHistory = purchaseHistoryService.find(id);
+        PurchaseOrder purchaseHistory = purchaseHistoryService.find(id);
         return new ModelAndView("purchaseHistory/delete", "purchaseHistory", purchaseHistory);
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public String delete(PurchaseHistory purchaseHistory){
+    public String delete(PurchaseOrder purchaseHistory){
     	purchaseHistoryService.remove(purchaseHistory);
         return "redirect:list";
     }
 
-    public void setCustomerService(GenericService<PurchaseHistory> purchaseHistoryService) {
+    public void setCustomerService(GenericService<PurchaseOrder> purchaseHistoryService) {
         this.purchaseHistoryService = purchaseHistoryService;
     }
 

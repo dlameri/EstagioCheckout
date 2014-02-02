@@ -6,13 +6,14 @@
 		<!-- Checkout -->
 		<mapping class="com.ideais.spring.model.checkout.Address"/>
 		<mapping class="com.ideais.spring.model.checkout.Customer"/>
-		<mapping class="com.ideais.spring.model.checkout.PurchaseHistory"/>
+		<mapping class="com.ideais.spring.model.checkout.PurchaseOrder"/>
 		<mapping class="com.ideais.spring.model.checkout.ShoppingCart"/>
 		<mapping class="com.ideais.spring.model.checkout.ShoppingCartLine"/>
 		
 		<!-- Stock -->
 		<mapping class="com.ideais.spring.model.stock.Image"/>
-		<mapping class="com.ideais.spring.model.stock.Item"/>
+		<mapping class="com.ideais.spring.model.stock.Sku"/>
 		<mapping class="com.ideais.spring.model.stock.Product"/>
+		<mapping class="com.ideais.spring.model.stock.Brand"/>
     </session-factory>
 </hibernate-configuration>

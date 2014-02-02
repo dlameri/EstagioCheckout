@@ -15,6 +15,7 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 @Table(name="IMAGE")
 public class Image {
+	
 	@Id
 	@SequenceGenerator(name = "image_id", sequenceName = "image_id")
 	@GeneratedValue(generator = "image_id", strategy = GenerationType.AUTO)
@@ -24,10 +25,12 @@ public class Image {
 	private String path;
 	@Column(name="BO_PRINCIPAL")
 	private Boolean main;
-	@ManyToOne(targetEntity=Item.class)
-	@JoinColumn(name="CD_ITEM", referencedColumnName="CD_ITEM", nullable=false)
+	
+	//Many to One
+	@ManyToOne(targetEntity=Sku.class)
+	@JoinColumn(name="CD_SKU", referencedColumnName="CD_SKU", nullable=false)
 	@Cascade(CascadeType.MERGE)
-	private Item item;
+	private Sku sku;
 
 	public Long getId() {
 		return id;
@@ -53,12 +56,12 @@ public class Image {
 		this.main = main;
 	}
 
-	public Item getItem() {
-		return item;
+	public Sku getSku() {
+		return sku;
 	}
 
-	public void setItem(Item item) {
-		this.item = item;
+	public void setSku(Sku sku) {
+		this.sku = sku;
 	}
 	
 }
