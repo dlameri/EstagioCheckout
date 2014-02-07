@@ -11,11 +11,15 @@
 
 
 
-    <context:property-placeholder location="classpath:config.properties"/>
+    <context:property-placeholder location="classpath:config.properties, classpath:integration.properties"/>    
     
     <context:annotation-config/>
     
     <context:component-scan base-package="com.ideais.spring" />
+
+	<bean id="shoppingCartUrl" class="java.lang.String">  
+    	<constructor-arg value="${catalog.integration.items}"/>  
+	</bean>  
 
     <tx:annotation-driven transaction-manager="transactionManager" />
 

@@ -1,6 +1,6 @@
 package com.ideais.spring.web;
 
-import com.ideais.spring.model.checkout.PurchaseOrder;
+import com.ideais.spring.dao.domain.checkout.PurchaseOrder;
 import com.ideais.spring.service.GenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;

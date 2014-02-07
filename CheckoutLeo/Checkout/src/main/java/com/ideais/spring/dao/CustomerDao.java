@@ -1,6 +1,6 @@
 package com.ideais.spring.dao;
 
-import com.ideais.spring.model.checkout.Customer;
+import com.ideais.spring.dao.domain.checkout.Customer;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
