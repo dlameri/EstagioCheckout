@@ -44,5 +44,5 @@ task copyToLib(type: Copy) {
 }
 
 jettyRun {
-	httpPort = 9000
+	httpPort = 9081
 }

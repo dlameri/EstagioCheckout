@@ -46,8 +46,6 @@ public class Sku {
 	@Column(name="NR_NUMERO_ESTOQUE")
 	private Integer stock;
 	
-	//lazy eager (lazy)
-	
 	//Many to One
 	@ManyToOne(targetEntity=Brand.class)
 	@JoinColumn(name="CD_MARCA", referencedColumnName="CD_MARCA", nullable=false)

@@ -1,5 +1,6 @@
 package com.ideais.spring.dao.domain.checkout;
 
+import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,17 +42,17 @@ public class ShoppingCart {
 	@Cascade(CascadeType.MERGE)
 	private Customer customer;
 	
-	public Double calculateTotalPrice() {
-		Double totalPrice = 0.0;
+	public BigDecimal calculateTotalPrice() {
+		BigDecimal totalPrice = BigDecimal.ZERO;
 		
 		for (int i = 0; i < shoppingCartLines.size(); i++) {
-			totalPrice += shoppingCartLines.get(i).calculatePrice();
+			totalPrice = totalPrice.add(shoppingCartLines.get(i).calculatePrice());
 		}
 		
 		return totalPrice;
 	}
 	
-	public void add(ShoppingCartLine shoppingCartLine) { //adicionar sessão do zero, criar sessão (?)
+	public void add(ShoppingCartLine shoppingCartLine) {
 		ShoppingCartLine existingShoppingCartLine = contains(shoppingCartLine);
 		
 		if (existingShoppingCartLine != null) {

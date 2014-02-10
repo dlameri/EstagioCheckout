@@ -1,5 +1,6 @@
 package com.ideais.spring.dao.domain.checkout;
 
+import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ public class Payment {
 	@Column(name="NR_PARCELAS")
     private Integer parcels = 1;
 	@Column(name="NR_VALOR_TOTAL")
-    private Double amount;
+    private BigDecimal amount;
 	
 	//One to One
 	@OneToOne(mappedBy = "payment")
@@ -55,11 +56,11 @@ public class Payment {
 		this.parcels = parcels;
 	}
 
-	public Double getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
 
-	public void setAmount(Double amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 

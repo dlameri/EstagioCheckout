@@ -1,7 +1,7 @@
 package com.ideais.spring.api.service.model.json;
 
 public class Image {
-	private Long imageId;
+	private Long id;
 	private String path;
 	private String alt;
 	
@@ -21,12 +21,12 @@ public class Image {
 		this.alt = alt;
 	}
 
-	public Long getImageId() {
-		return imageId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setImageId(Long imageId) {
-		this.imageId = imageId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 }

@@ -1,5 +1,6 @@
 package com.ideais.spring.dao.domain.checkout;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -27,10 +28,12 @@ public class PurchaseOrder {
 	private StatusOfOrder statusOfOrder;
 	@Column(name="DT_DATA_DA_COMPRA")
 	private Date purchaseDate;	
+	@Column(name="DT_PREVISAO_CHEGADA")
+	private Date scheduledDelivery;
 	@Column(name="NR_FRETE")
-	private Double freight; 
+	private BigDecimal freight; 
 	@Column(name="NR_TOTAL")
-	private Double totalAmount; 
+	private BigDecimal totalAmount; 
 
 	//One to One
 	@OneToOne
@@ -49,11 +52,11 @@ public class PurchaseOrder {
 	@Cascade(CascadeType.MERGE)
 	private Customer customer;
 	
-	public Double getFreight() {
+	public BigDecimal getFreight() {
 		return freight;
 	}
 
-	public void setFreight(Double freight) {
+	public void setFreight(BigDecimal freight) {
 		this.freight = freight;
 	}
 	
@@ -113,8 +116,20 @@ public class PurchaseOrder {
 		this.payment = payment;
 	}
 	
-	public Double getTotalAmount() {
-		return shoppingCart.calculateTotalPrice() + freight;
+	public BigDecimal getTotalAmount() {
+		return shoppingCart.calculateTotalPrice().add(freight);
+	}
+
+	public Date getScheduledDelivery() {
+		return scheduledDelivery;
+	}
+
+	public void setScheduledDelivery(Date scheduledDelivery) {
+		this.scheduledDelivery = scheduledDelivery;
+	}
+
+	public void setTotalAmount(BigDecimal totalAmount) {
+		this.totalAmount = totalAmount;
 	}
 	
 }

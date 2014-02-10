@@ -1,11 +1,16 @@
 package com.ideais.spring.dao.domain.catalog;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 public class ShoppingCart {
 	private Long id;
 	private List<Sku> skus;
-	private Double totalPrice;
+	private BigDecimal totalPrice;
+	private BigDecimal freight = BigDecimal.ZERO;
+	private Date scheduledDelivery;
+	private Address address;
 	
 	public List<Sku> getSkus() {
 		return skus;
@@ -16,18 +21,18 @@ public class ShoppingCart {
 		calculeTotalPrice();
 	}
 	
-	public Double getTotalPrice() {
+	public BigDecimal getTotalPrice() {
 		return totalPrice;
 	}
 	
 	private void calculeTotalPrice() {
-		Double total = 0.0;
+		BigDecimal total = BigDecimal.ZERO;
 		
-		for (int i = 0; i < skus.size(); i++) {
-			total += skus.get(i).getPriceFor();
+		for (int i = 0; i < skus.size(); i++) {			
+			total = total.add(skus.get(i).getProduct().getPriceFor());
 		}
 		
-		totalPrice = total;
+		totalPrice = total.add(freight);
 	}
 
 	public Long getId() {
@@ -38,8 +43,32 @@ public class ShoppingCart {
 		this.id = id;
 	}
 
-	public void setTotalPrice(Double totalPrice) {
+	public void setTotalPrice(BigDecimal totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+	
+	public BigDecimal getFreight() {
+		return freight;
+	}
+	
+	public void setFreight(BigDecimal freight) {
+		this.freight = freight;
+	}
+	
+	public Date getScheduledDelivery() {
+		return scheduledDelivery;
+	}
+
+	public void setScheduledDelivery(Date scheduledDelivery) {
+		this.scheduledDelivery = scheduledDelivery;
+	}
+	
+	public Address getAddress() {
+		return address;
+	}
+	
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 	
 }

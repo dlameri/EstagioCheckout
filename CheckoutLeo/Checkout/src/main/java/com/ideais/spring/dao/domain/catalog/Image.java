@@ -3,7 +3,7 @@ package com.ideais.spring.dao.domain.catalog;
 public class Image {
 	private Long id;
 	private String path;
-	private String name;
+	private String alt;
 	
 	public String getPath() {
 		return path;
@@ -13,12 +13,12 @@ public class Image {
 		this.path = path;
 	}
 	
-	public String getName() {
-		return name;
+	public String getAlt() {
+		return alt;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	public void setAlt(String alt) {
+		this.alt = alt;
 	}
 
 	public Long getId() {

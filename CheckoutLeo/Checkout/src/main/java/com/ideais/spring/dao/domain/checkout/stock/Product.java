@@ -1,5 +1,6 @@
 package com.ideais.spring.dao.domain.checkout.stock;
 
+import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,13 +24,9 @@ public class Product {
 	@Column(name="NR_NOME")
 	private String name;
 	@Column(name="NR_PRECO_DE")
-	private double priceFrom;
+	private BigDecimal priceFrom;
 	@Column(name="NR_PRECO_PARA")
-	private double priceFor;
-	@Column(name="NM_NOME_OPCAO") //variacao de tipo
-	private String optionName;
-	@Column(name="NM_VALOR_OPCAO") //valor de variação
-	private String optionValue;
+	private BigDecimal priceFor;
 	
 	//One to Many
 	@OneToMany(mappedBy="product")
@@ -52,36 +49,20 @@ public class Product {
 		this.id = id;
 	}
 
-	public double getPriceFrom() {
+	public BigDecimal getPriceFrom() {
 		return priceFrom;
 	}
 
-	public void setPriceFrom(double priceFrom) {
+	public void setPriceFrom(BigDecimal priceFrom) {
 		this.priceFrom = priceFrom;
 	}
 
-	public double getPriceFor() {
+	public BigDecimal getPriceFor() {
 		return priceFor;
 	}
 
-	public void setPriceFor(double priceFor) {
+	public void setPriceFor(BigDecimal priceFor) {
 		this.priceFor = priceFor;
-	}
-
-	public String getOptionName() {
-		return optionName;
-	}
-
-	public void setOptionName(String optionName) {
-		this.optionName = optionName;
-	}
-
-	public String getOptionValue() {
-		return optionValue;
-	}
-
-	public void setOptionValue(String optionValue) {
-		this.optionValue = optionValue;
 	}
 
 	public List<Sku> getSkus() {

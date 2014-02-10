@@ -1,22 +1,29 @@
 package com.ideais.spring.dao.domain.catalog;
 
+import java.util.List;
+
 public class Sku {
 	private Long id;
-	private Long productId;
-	private Double priceFor;
-	private Double priceFrom;
+	private Product product;
 	private Integer quantity;
-	private Integer Stock;
+	private Integer stock;
 	private String name;
 	private String longDescription;
-	private Image image;
+	private String shortDescription;
+	private List<Image> images;
+	private Integer width;
+	private Integer height;
+	private Integer depth;
+	private Integer weight;
+	private Integer warranty;
+	private String model;
 	
-	public Long getProductId() {
-		return productId;
+	public Product getProduct() {
+		return product;
 	}
 	
-	public void setProductId(Long productId) {
-		this.productId = productId;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 	
 	public Integer getQuantity() {
@@ -28,11 +35,11 @@ public class Sku {
 	}
 	
 	public Integer getStock() {
-		return Stock;
+		return stock;
 	}
 	
 	public void setStock(Integer stock) {
-		Stock = stock;
+		this.stock = stock;
 	}
 	
 	public String getName() {
@@ -51,28 +58,12 @@ public class Sku {
 		this.longDescription = longDescription;
 	}
 	
-	public Image getImage() {
-		return image;
+	public List<Image> getImages() {
+		return images;
 	}
 	
-	public void setImage(Image image) {
-		this.image = image;
-	}
-
-	public Double getPriceFor() {
-		return priceFor;
-	}
-
-	public void setPriceFor(Double priceFor) {
-		this.priceFor = priceFor;
-	}
-
-	public Double getPriceFrom() {
-		return priceFrom;
-	}
-
-	public void setPriceFrom(Double priceFrom) {
-		this.priceFrom = priceFrom;
+	public void setImages(List<Image> images) {
+		this.images = images;
 	}
 
 	public Long getId() {
@@ -81,6 +72,62 @@ public class Sku {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public String getShortDescription() {
+		return shortDescription;
+	}
+
+	public void setShortDescription(String shortDescription) {
+		this.shortDescription = shortDescription;
+	}
+
+	public Integer getWidth() {
+		return width;
+	}
+
+	public void setWidth(Integer width) {
+		this.width = width;
+	}
+
+	public Integer getHeight() {
+		return height;
+	}
+
+	public void setHeight(Integer height) {
+		this.height = height;
+	}
+
+	public Integer getDepth() {
+		return depth;
+	}
+
+	public void setDepth(Integer depth) {
+		this.depth = depth;
+	}
+
+	public Integer getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Integer weight) {
+		this.weight = weight;
+	}
+
+	public Integer getWarranty() {
+		return warranty;
+	}
+
+	public void setWarranty(Integer warranty) {
+		this.warranty = warranty;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public void setModel(String model) {
+		this.model = model;
 	}
 
 }

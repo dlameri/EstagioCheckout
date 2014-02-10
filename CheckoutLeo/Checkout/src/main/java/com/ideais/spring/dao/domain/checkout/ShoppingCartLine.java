@@ -1,5 +1,7 @@
 package com.ideais.spring.dao.domain.checkout;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,8 +12,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+
 import com.ideais.spring.dao.domain.checkout.stock.Sku;
 
 @Entity
@@ -26,7 +30,7 @@ public class ShoppingCartLine {
 	@Column(name="NM_QUANTIDADE")
 	private Integer quantity;
 	@Column(name="NM_PRECO")
-	private Double price;
+	private BigDecimal price;
 	
 	//One to One
 	@OneToOne(mappedBy="shoppingCartLine")
@@ -38,8 +42,8 @@ public class ShoppingCartLine {
 	@Cascade(CascadeType.MERGE)
 	private ShoppingCart shoppingCart;
 	
-	public Double calculatePrice() {
-		return sku.getProduct().getPriceFor() * quantity;
+	public BigDecimal calculatePrice() {
+		return sku.getProduct().getPriceFor().multiply(new BigDecimal(quantity));
 	}
 
 	public Sku getSku() {
@@ -62,7 +66,7 @@ public class ShoppingCartLine {
 		}
 	}
 
-	public Double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
