@@ -6,6 +6,7 @@ import com.ideais.spring.api.service.model.json.Cart;
 import com.ideais.spring.api.service.model.json.CartItem;
 import com.ideais.spring.dao.domain.checkout.stock.Item;
 import com.ideais.spring.dao.domain.checkout.ShoppingCart;
+import com.ideais.spring.dao.domain.checkout.ShoppingCartLine;
 import com.ideais.spring.util.JsonReaderUtil;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -35,13 +36,17 @@ public class ShoppingCartJsonDao {
     	Cart cart = new Cart();
     	
     	for (int i = 0; i < shoppingCart.getShoppingCartLines().size(); i++) {
-    		Item item = shoppingCart.getShoppingCartLines().get(i).getItem();
-    		Integer quantity = shoppingCart.getShoppingCartLines().get(i).getQuantity();
-    		
-    		cart.addStockItem(new CartItem(item, quantity));
+    		cart.addStockItem(createCartItem(shoppingCart.getShoppingCartLines().get(i)));
     	}
     	
     	return mapper.writeValueAsString(cart);
+    }
+    
+    private CartItem createCartItem(ShoppingCartLine shoppingCartLine) {
+    	Item item = shoppingCartLine.getItem();
+		Integer quantity = shoppingCartLine.getQuantity();
+		
+		return new CartItem(item, quantity);
     }
     
 }

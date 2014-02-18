@@ -1,20 +1,15 @@
 package com.ideais.spring.controller;
 
 import javax.servlet.http.Cookie;
-
 import java.io.IOException;
 import java.rmi.RemoteException;
-
 import org.springframework.web.bind.annotation.CookieValue;
-
 import javax.servlet.http.HttpServletResponse;
-
 import com.ideais.spring.dao.domain.checkout.ShoppingCart;
 import com.ideais.spring.dao.domain.checkout.stock.Item;
 import com.ideais.spring.service.FreightService;
 import com.ideais.spring.service.ItemService;
 import com.ideais.spring.service.ShoppingCartService;
-
 import org.apache.axis.AxisFault;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
