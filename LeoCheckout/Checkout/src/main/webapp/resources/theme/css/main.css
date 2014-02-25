@@ -1,0 +1,314 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+* {
+	margin: 0;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+html, body {
+	margin:0;
+	padding:0;
+	height:100%;
+}
+
+body {
+	background-image: url('../images/body-bg.png');
+	background-repeat:repeat-x;
+	background-color: #efefef;
+
+}
+
+#wrapper {
+	min-height:100%;
+	position:relative;
+}
+
+#header {
+	background-color: #ffffff;
+	border-bottom: 5px solid #333; 
+}
+
+#content {
+	padding-bottom:100px; 
+}
+
+#footer {
+	color:#ffffff;
+	background-color:#003366;
+	width:100%;
+	height:100px;
+	position:absolute;
+	bottom:0;
+	left:0;
+}
+
+#line {
+	position: absolute;
+	top: 0;
+	width:100%;
+	height:5px;
+	background-color:#003366;
+}
+
+#header-content {
+	width: 1024px;
+	margin: 0 auto;
+}
+
+#header img {
+	width: 60px;
+}
+
+#header figure {
+	padding-top: 15px;
+	display:table;
+	width: 80px;
+}
+
+#header-content {
+	padding: 10px 10px 0px 10px; 
+	width: 1024px;
+	margin: 0 auto;
+}
+
+#header-content ul {
+	text-align: right;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+#header-content ul li {
+	padding: 0 0 0 30px;
+	position: relative;
+	display: inline-block;
+}
+
+#header-content li ul {
+	position: absolute;
+	right: 0;
+	display: none;
+}
+
+#header-content ul li a {
+	font-size: 1.3em;
+	display: block;
+	text-decoration: none;
+	color: #777;
+	background: #fff;
+	padding: 5px;
+	border-bottom: 0;
+}
+
+#header-content ul li a:hover {
+	color: #000000;
+}
+
+#header-content ul li ul li a {
+	font-size: 1.1em;
+	display: block;
+	text-decoration: none;
+	color: #777;
+	background: #fff;
+	padding: 5px;
+	border: 1px solid #ccc;
+	border-bottom: 0;
+}
+
+#header-content ul li ul li a:hover {
+	color: #000000;
+	background: #f6f6f6;
+}
+
+/* Fix IE. Hide from IE Mac \*/
+* html ul li { float: left; }
+* html ul li a { height: 1%; }
+/* End */
+
+#header-content li:hover ul { 
+	display: block; 
+}
+
+#footer-content {
+	padding-top: 5px;
+	width: 1024px;
+	margin: 0 auto;
+}
+
+#footer-content a {
+	font-style: italic;
+	color: #ffffff;
+}
+
+#footer-content a:hover {
+	color: #dfdede;
+}
+
+.logo-title {
+	color: #091c36;
+}
+
+.logo-subtitle {
+	color: #142b4d;
+}
+
+#content-container {
+	padding: 5px;
+	width: 1024px;
+	margin: 0 auto;
+}
+
+#content-container p {
+	padding-top: 15px;
+}
+
+.products-line {
+	padding: 25px 0 25px 0;
+	width: 100%;
+	clear: both;
+	border-bottom-width:1px;
+	border-bottom-style: solid;
+	border-bottom-color: #777;
+}
+
+.product {
+	width: 253px;
+	display: table-cell;
+}
+
+.product img {
+	width: 200px;
+}
+
+.product figure h3 {
+	color: #4C4C4C;
+	padding-bottom: 7px;
+}
+
+.product h4 {
+	color: #0030A1;
+}
+
+.product h5 {
+	color: #B10404;
+}
+
+.senderInfo, .msgInfo {
+	border:0 none;
+}
+
+.lbl {
+	display:inline-block;
+	width: 80px;
+}
+
+#buy-figure {
+	padding: 25px 0 5px 0;
+}
+
+#product-figure {
+	padding-top: 25px;
+	width: 50%;
+	float: left;
+}
+
+#product-info {
+	padding-top: 25px;
+	width: 50%;
+	float: right;
+}
+
+#description {
+	float: left;
+}
+
+.cartItems {
+	border-collapse:collapse;
+	width: 1024px;
+}
+
+.cartItem, th, td {
+	font-size: 0.75em;
+	width: 1024px;
+	border-bottom: 1px solid #BBBBBB;
+}
+
+.cartItems {
+	color: #373737;
+}
+
+.topBox {
+	font-size: 1.4em;
+	background: #BBBBBB;	
+}
+
+.cartItemInput {
+	font-size:1em;
+	background: none;
+    border: none;
+    color: #000000;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 5px 0 5px 0;
+}
+
+.quantityInput {
+	float:left;
+}
+
+.input {
+	text-align: center;
+}
+
+.quantityInput {
+	margin-top: 10px;
+	width: 30px;
+}
+
+.cartTotal {
+	font-size:1.2em;
+	background: #DADADA;	
+	color: #6C6C6C;
+	height: 35px;
+	text-align: right;	
+}
+
+.cartTotal td {
+	padding-right: 5px;
+}
+
+.totalAmount {
+	font-size:1.4em;
+	color: #FFFFFF;
+	background: #484848;	
+	height: 50px;
+	text-align: right;	
+}
+
+.valores {
+	text-align: right;
+	padding-right: 5px;
+}
+
+.product {
+	text-align: left;
+}
+
+.inpPostCd {
+	background: #AAAAAA;
+	border: 0;
+}
+
+#postalCodeID1 {
+	width:50px;	
+}
+
+#postalCodeID2 {
+	width:35px;	
+	margin-right: 5px;
+}
+
+.freightBox {
+	margin-bottom: 20px;
+}

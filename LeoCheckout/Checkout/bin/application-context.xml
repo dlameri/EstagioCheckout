@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+
+    <context:property-placeholder location="classpath:config.properties, classpath:integration.properties, classpath:store.properties"/>    
+    
+    <context:annotation-config/>
+    
+    <context:component-scan base-package="com.ideais.spring" />
+
+	<bean id="stockIntegrationUrl" class="java.lang.String">  
+    	<constructor-arg value="${stock.integration}"/>  
+	</bean>  
+	
+	<bean id="freightIntegrationUrl" class="java.lang.String">  
+    	<constructor-arg value="${freight.integration}"/>  
+	</bean>  
+	
+	<bean id="storeZipCode" class="java.lang.String">  
+    	<constructor-arg value="${zip.code}"/>  
+	</bean> 
+	
+	<bean id="defaultCdStore" class="java.lang.String">  
+    	<constructor-arg value="${defaultCdStore}"/>  
+	</bean> 
+	
+	<bean id="defaultPassword" class="java.lang.String">  
+    	<constructor-arg value="${defaultPassword}"/>  
+	</bean> 
+	
+	<bean id="defaultServiceType" class="java.lang.String">  
+    	<constructor-arg value="${defaultServiceType}"/>  
+	</bean> 
+	
+	<bean id="handDeliver" class="java.lang.String">  
+    	<constructor-arg value="${handDeliver}"/>  
+	</bean> 
+	
+	<bean id="declaredValue" class="java.lang.String">  
+    	<constructor-arg value="${declaredValue}"/>  
+	</bean> 
+	
+	<bean id="receivedNotification" class="java.lang.String">  
+    	<constructor-arg value="${receivedNotification}"/>  
+	</bean> 
+
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
+        <property name="targetDataSource">
+            <bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" >
+                <property name="driverClassName" value="${dataSource.connection.driver}" />
+                <property name="url" value="${dataSource.connection.url}" />
+                <property name="username" value="${dataSource.connection.username}" />
+                <property name="password" value="${dataSource.connection.password}" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">
+                    ${dataSource.test.hibernate.dialect}
+                </prop>
+                <prop key="hibernate.show_sql">
+                    true
+                </prop>
+                <prop key="hibernate.hbm2ddl.auto">
+                    ${dataSource.test.hbm2ddl.auto}
+                </prop>
+                <prop key="hibernate.cache.use_query_cache">
+                    true
+                </prop>
+                <prop key="hibernate.cache.use_second_level_cache">
+                    true
+                </prop>
+                <prop key="hibernate.cache.provider_class">
+                    net.sf.ehcache.hibernate.SingletonEhCacheProvider
+                </prop>
+                <prop key="hibernate.default_batch_fetch_size">
+                    100
+                </prop>
+            </props>
+        </property>
+        <property name="configLocations">
+            <value>classpath*:hibernate.cfg.xml</value>
+        </property>
+    </bean>
+
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+
+
+</beans>
