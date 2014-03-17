@@ -21,7 +21,6 @@ import org.hibernate.annotations.FetchMode;
 @Entity
 @Table(name = "PRODUTO")
 public class Product {
-	
 	@Id
 	@SequenceGenerator(name = "product_id", sequenceName = "product_id")
 	@GeneratedValue(generator = "product_id", strategy = GenerationType.AUTO)
@@ -36,6 +35,9 @@ public class Product {
 
 	@Column(name = "NM_DESCRICAO_CURTA", nullable = false)
 	private String shortDescription;
+
+	@Column(name = "NR_PESO", nullable = false)
+	private Integer weight;
 
 	@Column(name = "NR_GARANTIA", nullable = false)
 	private Integer warranty;
@@ -63,6 +65,11 @@ public class Product {
 	@Cascade(CascadeType.ALL)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Item> items;
+
+	@OneToOne
+	@JoinColumn(name = "CD_DIMENSOES", referencedColumnName = "CD_DIMENSOES", nullable = false)
+	@Cascade(CascadeType.ALL)
+	private Dimensions dimensions;
 	
 	public List<Item> getItems() {
 	    return items;
@@ -102,6 +109,22 @@ public class Product {
 
 	public void setShortDescription(String shortDescription) {
 		this.shortDescription = shortDescription;
+	}
+
+	public Dimensions getDimensions() {
+		return dimensions;
+	}
+
+	public void setDimensions(Dimensions dimensions) {
+		this.dimensions = dimensions;
+	}
+
+	public Integer getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Integer weight) {
+		this.weight = weight;
 	}
 
 	public Integer getWarranty() {

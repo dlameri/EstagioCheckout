@@ -33,7 +33,7 @@ public class ItemsPackage {
 	}
 	
 	private Integer getItemVolumetricWeight(Item item) {
-		Dimensions dimensions = item.getDimensions();
+		Dimensions dimensions = item.getProduct().getDimensions();
 		
 		if (dimensions != null && checkDimension(dimensions)) {
 			return (int) ((dimensions.getHeight() * dimensions.getWidth() * dimensions.getDepth()) / WEIGHT_CONSTANT); 
@@ -61,11 +61,11 @@ public class ItemsPackage {
 	}
 	
 	private Integer calculateShoppingCartLineWeight(ShoppingCartLine shoppingCartLine) {
-		if (shoppingCartLine.getItem().getWeight() == null) {
+		if (shoppingCartLine.getItem().getProduct().getWeight() == null) {
 			return 0; //jogar exceção de peso nulo
 		}
 		
-		return shoppingCartLine.getItem().getWeight() * shoppingCartLine.getQuantity();
+		return shoppingCartLine.getItem().getProduct().getWeight() * shoppingCartLine.getQuantity();
 	}
 
 	public String getDefaultFormat() {

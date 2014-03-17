@@ -29,20 +29,6 @@ public class ItemService {
 		return itemJsonDao.getItemFromStock(id);
 	}
 	
-	public List<Item> getItemsFromIds(List<Long> ids) throws Exception {		
-		return itemJsonDao.getItemsFromStock(ids);
-	}
-	
-	public List<Item> getItems(Cart cart) throws Exception {
-		List<Long> ids = new ArrayList<Long>();
-		
-		for (int i = 0; i < cart.getCartItems().size(); i++) {
-			ids.add(cart.getCartItems().get(i).getCartItemId());
-		}
-		
-		return itemJsonDao.getItemsFromStock(ids);
-	}
-	
 	public Integer refreshItemQuantity(Cart cart) {
 		return itemJsonDao.updateStock(cart);
 	}

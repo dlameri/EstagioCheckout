@@ -36,8 +36,8 @@ public class Customer {
 	@Column(name = "NM_TELEFONE")
 	private String phoneNumber;
 	
-	@Column(name = "NM_CEP")
-	private String zipCode;
+	@Column(name = "NM_CPF")
+	private String cpf;
 
 	@JsonBackReference
 	@OneToMany(mappedBy = "customer")
@@ -108,13 +108,13 @@ public class Customer {
 	public void setShoppingCarts(List<ShoppingCart> shoppingCarts) {
 		this.shoppingCarts = shoppingCarts;
 	}
-	
-	public String getZipCode() {
-		return zipCode;
+
+	public String getCpf() {
+		return cpf;
 	}
 
-	public void setZipCode(String zipCode) {
-		this.zipCode = zipCode;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 }

@@ -16,7 +16,6 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 @Table(name="IMAGENS")
 public class Image {
-	
 	@Id
 	@SequenceGenerator(name="image_id", sequenceName="image_id")
 	@GeneratedValue(generator="image_id", strategy=GenerationType.AUTO)

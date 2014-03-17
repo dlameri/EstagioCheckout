@@ -32,6 +32,8 @@ public class FreightXmlDao {
 	private final String PARAMETER_STORE_CODE = "nCdEmpresa=";
 	private final String PARAMETER_SEPARATOR = "&";
 	private final Integer SUCCESS_RESPONSE_CODE = 200;
+	private String freightPriceUrl = "CalcPreco?";
+	private String freightDeliverytimeUrl = "CalcPrazo?";
 	@Autowired
 	private String freightIntegrationUrl;
 	@Autowired
@@ -53,15 +55,39 @@ public class FreightXmlDao {
 		return getFreight(itemsPackage, EMPTY_STRING, destinationZipCode);
 	}
 	
-	public FreightDetails getFreight(ItemsPackage itemsPackage, String serviceType, String destinationZipCode) throws Exception {
-		HttpClient client = new HttpClient();	
-		String request = buildFreightUrl(itemsPackage, serviceType, destinationZipCode);    			
-        GetMethod method = new GetMethod(request);     
-                             
-        return  makeFreightRequestFromCorreios(serviceType, destinationZipCode, method, client);
+	public FreightDetails getFreight(ItemsPackage itemsPackage, String serviceType, String destinationZipCode) throws Exception {              
+        FreightDetails freightDetails = makeFreightValueRequestFromCorreios(serviceType, destinationZipCode, itemsPackage);
+        freightDetails.setDeliveryDays(makeFreightDeiveryDaysRequestFromCorreios(serviceType, destinationZipCode));
+               
+        return freightDetails;
 	}
 	
-	private FreightDetails makeFreightRequestFromCorreios(String serviceType, String destinationZipCode, GetMethod method, HttpClient client) throws Exception {
+	private String makeFreightDeiveryDaysRequestFromCorreios(String serviceType, String destinationZipCode) throws Exception {
+		HttpClient client = new HttpClient();	
+		String request = buildFreightDaysUrl(serviceType, destinationZipCode);  			
+        GetMethod method = new GetMethod(request);  
+                
+		if (client.executeMethod(method) == SUCCESS_RESPONSE_CODE) {
+			return XmlFreightParserUtil.getFreightDaysFromXmlString(method.getResponseBodyAsString());
+		}
+		
+		throw new Exception("erro na request, bad request!"); //criar propria exceção
+	}
+
+	private String buildFreightDaysUrl(String serviceType, String destinationZipCode) {
+		String request = freightIntegrationUrl + freightDeliverytimeUrl;
+		
+		request += buildServiceTypeProperties(serviceType);
+		request += buildZipCodesPropertiesForDeliveryDays(destinationZipCode);
+		
+		return request;
+	}
+
+	private FreightDetails makeFreightValueRequestFromCorreios(String serviceType, String destinationZipCode, ItemsPackage itemsPackage) throws Exception {
+		HttpClient client = new HttpClient();	
+		String request = buildFreightValueUrl(itemsPackage, serviceType, destinationZipCode);    			
+        GetMethod method = new GetMethod(request);  
+        
 		if (client.executeMethod(method) == SUCCESS_RESPONSE_CODE) {
 			return XmlFreightParserUtil.getFreightFromXmlString(serviceType, destinationZipCode, storeZipCode, method.getResponseBodyAsString());
 		}
@@ -69,8 +95,8 @@ public class FreightXmlDao {
 		throw new Exception("erro na request, bad request!"); //criar propria exceção
 	}
 
-	private String buildFreightUrl(ItemsPackage itemsPackage, String serviceType, String destinationZipCode) {
-		String request = freightIntegrationUrl;
+	private String buildFreightValueUrl(ItemsPackage itemsPackage, String serviceType, String destinationZipCode) {
+		String request = freightIntegrationUrl + freightPriceUrl;
 		
 		request += buildStoreProperties();
 		request += buildServiceTypeProperties(serviceType);
@@ -136,6 +162,15 @@ public class FreightXmlDao {
 		
 		return request;
 	}
+	
+	private String buildZipCodesPropertiesForDeliveryDays(String destinationZipCode) {
+		String request = "";
+		
+		request += PARAMETER_ZIPCODE_ORIGIN + storeZipCode + PARAMETER_SEPARATOR;
+		request += PARAMETER_ZIPCODE_DESTINY + destinationZipCode;
+		
+		return request;
+	}
 
 	private String buildServiceTypeProperties(String serviceType) {
 		if (EMPTY_STRING.equals(serviceType)) {
@@ -152,10 +187,6 @@ public class FreightXmlDao {
 		request += PARAMETER_STORE_PASSWORD + defaultPassword + PARAMETER_SEPARATOR;
 		
 		return request;
-	}
-	
-	public Integer getDeliverDays(String destinationZipCode) {
-		return null;	
 	}
 	
 }

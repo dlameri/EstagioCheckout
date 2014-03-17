@@ -2,7 +2,6 @@ package com.ideais.spring.dao.domain.checkout.stock;
 
 import java.math.BigDecimal;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,21 +11,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-
 import com.ideais.spring.util.ValueFormatter;
 
 @Entity
 @Table(name="ITEM")
 public class Item {
-	
 	@Id
 	@SequenceGenerator(name="item_id", sequenceName="item_id")
 	@GeneratedValue(generator="item_id", strategy=GenerationType.AUTO)
@@ -36,10 +31,10 @@ public class Item {
 	@Column(name="NR_SKU")
 	private Long sku;
 	
-	@Column(name="NR_PRECO_DE", nullable=false)
+	@Column(name = "NR_PRECO_DE", precision = 7, scale = 2, nullable = false)
 	private BigDecimal priceFrom;
-	
-	@Column(name="NR_PRECO_POR", nullable=false)
+
+	@Column(name = "NR_PRECO_POR", precision = 7, scale = 2, nullable = false)
 	private BigDecimal priceFor;
 	
 	@Column(name="NM_NOME_OPCAO")
@@ -54,14 +49,6 @@ public class Item {
 	@Column(name="BO_ATIVO", nullable=false)
 	private Boolean active;
 	
-	@Column(name = "NR_PESO", nullable = false)
-	private Integer weight;
-	
-	@OneToOne
-	@JoinColumn(name = "CD_DIMENSOES", referencedColumnName = "CD_DIMENSOES", nullable = false)
-	@Cascade(CascadeType.ALL)
-	private Dimensions dimensions;
-	
 	@JsonBackReference 
 	@ManyToOne
 	@JoinColumn(name="CD_PRODUCT", referencedColumnName="CD_PRODUCT", nullable=false)
@@ -75,23 +62,8 @@ public class Item {
 	@Transient
 	private Long productId;
 	
-	@Transient
-	private String productName;
-	
 	public Long getProductId() {
-	    return productId;
-	}
-
-	public void setProductId(Long productId) {
-	    this.productId = productId;
-	}
-
-	public String getProductName() {
-	    return productName;
-	}
-
-	public void setProductName(String productName) {
-	    this.productName = productName;
+	    return product.getId();
 	}
 
 	public List<Image> getImages() {
@@ -174,28 +146,12 @@ public class Item {
 		this.active = active;
 	}
 	
-	public Dimensions getDimensions() {
-		return dimensions;
-	}
-
-	public void setDimensions(Dimensions dimensions) {
-		this.dimensions = dimensions;
-	}
-
 	public String getFormattedPriceFrom() {
-		return ValueFormatter.format(priceFrom);
+	    return ValueFormatter.format(priceFrom);
 	}
-	
+
 	public String getFormattedPriceFor() {
 		return ValueFormatter.format(priceFor);
-	}
-	
-	public Integer getWeight() {
-		return weight;
-	}
-
-	public void setWeight(Integer weight) {
-		this.weight = weight;
 	}
 	
 }

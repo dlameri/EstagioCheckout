@@ -9,14 +9,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name="SUBCATEGORIA")
 public class Subcategory {
-	
 	@Id
 	@SequenceGenerator(name="subcategory_id", sequenceName="subcategory_id")
 	@GeneratedValue(generator="subcategory_id", strategy=GenerationType.AUTO)

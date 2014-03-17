@@ -5,17 +5,19 @@ import java.util.Date;
 
 public class FreightDetails {
 	
-	private BigDecimal freightValue;
+	private BigDecimal freightValue = BigDecimal.ZERO;
 	private String storeZipCode;
 	private String destinationZipCode;
 	private String serviceType;
-	private Date deliveryDate;
+	private String deliveryDays;
 	
 	public FreightDetails(String serviceType, String destinationZipCode, String storeZipCode) {
 		this.serviceType = serviceType;
 		this.destinationZipCode = destinationZipCode;
 		this.storeZipCode = storeZipCode;
 	}
+	
+	public FreightDetails() {}
 	
 	public BigDecimal getFreightValue() {
 		return freightValue;
@@ -49,12 +51,24 @@ public class FreightDetails {
 		this.serviceType = serviceType;
 	}
 	
-	public Date getDeliveryDate() {
-		return deliveryDate;
+	public String getDeliveryDays() {
+		if (deliveryDays == null) {
+			return "Digite o CEP acima para calcular o prazo de entrega.";
+		}
+		
+		return formatDeliveryDays(deliveryDays);
 	}
 	
-	public void setDeliveryDate(Date deliveryDate) {
-		this.deliveryDate = deliveryDate;
+	private String formatDeliveryDays(String deliveryDays) {
+		if (Integer.parseInt(deliveryDays) > 1) {
+			return deliveryDays + " dias úteis.";
+		}
+		
+		return deliveryDays + " dia útil.";
+	}
+
+	public void setDeliveryDays(String deliveryDays) {
+		this.deliveryDays = deliveryDays;
 	}
 	
 }

@@ -90,7 +90,7 @@
 											<div class="product">
 												<a href="#" class="productName">
 													<span class="cont">
-														<strong class="n name">${line.item.productName}</strong><br />
+														<strong class="n name">${line.item.product.name}</strong><br />
 													</span>
 												</a>
 											</div>
@@ -108,7 +108,7 @@
 									    		</div>
 										
 										<td rowspan="1" class="col03">
-											<span>Digite o CEP acima para calcular o prazo de entrega.</span>
+											<div class="entrega">${sessionScope.freightDetails.deliveryDays}</div>
 										</td>	
 						
 										<td class="col04">

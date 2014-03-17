@@ -2,18 +2,14 @@ package com.ideais.spring.controller;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.web.bind.annotation.CookieValue;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
-
 import com.ideais.spring.api.service.model.json.Cart;
 import com.ideais.spring.api.service.model.json.CartItem;
 import com.ideais.spring.dao.ItemJsonDao;
@@ -25,7 +21,6 @@ import com.ideais.spring.service.FreightService;
 import com.ideais.spring.service.ItemService;
 import com.ideais.spring.service.ShoppingCartService;
 import com.ideais.spring.util.DigitsValidator;
-
 import org.apache.axis.AxisFault;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -50,6 +45,8 @@ public class ShoppingCartController {
     private ShoppingCartService shoppingCartService;
     @Autowired
     private FreightService freightService;
+    @Autowired
+    private String cookiePath;
     @Autowired
     private ItemService itemService;
 	private final Integer SUCCESS_RESPONSE_CODE = 200;
@@ -82,6 +79,11 @@ public class ShoppingCartController {
     public ModelAndView listCartItems(@CookieValue(value="CartItems", required=false) String cartCookie, HttpServletRequest request) {
     	try {    		    	    		
     		ShoppingCart shoppingCart = getShoppingCart(cartCookie, request);
+    		FreightDetails freightDetails = (FreightDetails) request.getSession().getAttribute("freightDetails");
+    		
+    		if (freightDetails == null) {
+    			request.getSession().setAttribute("freightDetails", new FreightDetails());
+    		}
     		
 	    	return new ModelAndView("shoppingcart/list", "cart", shoppingCart);
     	} catch (Exception e) {
@@ -118,19 +120,24 @@ public class ShoppingCartController {
 	    	FreightDetails freightDetails = (FreightDetails) request.getSession().getAttribute("freightDetails");
 			
 			if (freightDetails != null) {
-				if (shoppingCart.getShoppingCartLines().size() <= 0) {
-					shoppingCart.setFreight(BigDecimal.ZERO);
-					freightDetails.setFreightValue(shoppingCart.getFreight());
-				} else {
-					freightDetails = freightService.getFreightDetails(shoppingCart, freightDetails.getDestinationZipCode());
-				}
-				
+				freightDetails = updateFreightDetails(shoppingCart, freightDetails);
 				setFreightInSession(freightDetails, shoppingCart, request);
 			} 
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private FreightDetails updateFreightDetails(ShoppingCart shoppingCart, FreightDetails freightDetails) throws Exception {
+		if (shoppingCart.getShoppingCartLines().size() <= 0) {
+			shoppingCart.setFreight(BigDecimal.ZERO);
+			freightDetails.setFreightValue(shoppingCart.getFreight());
+		} else {
+			freightDetails = freightService.getFreightDetails(shoppingCart, freightDetails.getDestinationZipCode());
+		}
+		
+		return freightDetails;
 	}
 
 	@RequestMapping(value = "/emptyCart", method = RequestMethod.POST)
@@ -212,8 +219,7 @@ public class ShoppingCartController {
     	
     	ShoppingCart shoppingCart;
     	try {    		
-	    	shoppingCart = getShoppingCart(cartCookie, request);	    		
-    		
+	    	shoppingCart = getShoppingCart(cartCookie, request);	    			
 	        request.getSession().setAttribute("cart", shoppingCart);
 	    	
 	    	return "redirect:../customer/list";
@@ -248,42 +254,40 @@ public class ShoppingCartController {
 
 	private ShoppingCart getShoppingCart(String cartCookie, HttpServletRequest request) throws Exception {
     	if (request.getSession().getAttribute("cart") == null) {		
-			if (cartCookie == null || EMPTY_STRING.equals(cartCookie)) {
-		    	return new ShoppingCart();
-	    	} else {
-	        	return createShoppingCartFromCart(shoppingCartService.getCartFromJson(cartCookie));
-	    	}
+			return getShoppingCartFromCookie(cartCookie);
     	}
 
     	return (ShoppingCart) request.getSession().getAttribute("cart");
     }
+
+	private ShoppingCart getShoppingCartFromCookie(String cartCookie) throws Exception, IOException {
+		if (cartCookie == null || EMPTY_STRING.equals(cartCookie)) {
+			return new ShoppingCart();
+		} else {
+			return createShoppingCartFromCart(shoppingCartService.getCartFromJson(cartCookie));
+		}
+	}
     
     private Cookie createCartCookie(ShoppingCart shoppingCart) throws JsonGenerationException, JsonMappingException, IOException {
     	String jsonCart = shoppingCartService.getJsonCart(shoppingCart);
 
     	Cookie cartCookie = new Cookie("CartItems", jsonCart);
     	cartCookie.setMaxAge(60 * 60 * 1000);
-    	cartCookie.setPath("/Checkout/");
+    	cartCookie.setPath(cookiePath);
     	
     	return cartCookie;
     }
       
-    //TODO: os dois métodos abaixo não deveriam estar aqui, implementar construtor para ambos
-    //pegar todos os items de uma vez pelo ItemService pelo construtor de ShoppingCart que recebe List<Item>
     private ShoppingCart createShoppingCartFromCart(Cart cart) throws Exception {
     	ShoppingCart shoppingCart = new ShoppingCart();
     	List<ShoppingCartLine> shoppingCartLines = new ArrayList<ShoppingCartLine>();
-    	//List<Long> ids = new ArrayList<Long>();
     	
     	for (int i = 0; i < cart.getCartItems().size(); i++) {
-    		//ids.add(cart.getCartItems().get(i).getCartItemId());
     		shoppingCartLines.add(createShoppingCartLine(cart.getCartItems().get(i)));
     	}
-
     	shoppingCart.setShoppingCartLines(shoppingCartLines);
     	
     	return shoppingCart;
-    	//return new ShoppingCart(itemService.getItemsFromIds(ids));
     }
     
     private ShoppingCartLine createShoppingCartLine(CartItem cartItem) throws Exception {
