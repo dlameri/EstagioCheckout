@@ -45,14 +45,14 @@
 						<p class="shTx"><span class="ico shIco"></span>consulte o prazo de entrega do seu pedido</p>
 						<div class="calc">
 							
-							<form method="post" action="calculatefreight" name="calculateFreight">
+							<form method="post" action="calculateFreight" name="calculateFreight">
 								<fieldset class="inpPostCd">
 							
 									<label class="cep">Digite seu CEP:</label>
 									<input type="text" name="postalCodeID1" id="postalCodeID1" maxlength="5" class="tp1"/>   
 									<input type="text" name="postalCodeID2" id="postalCodeID2" maxlength="3" class="tp2"/>
 									
-									<input class="calculatefreight" type="submit" value="calcular frete" />
+									<input class="calculateFreight" type="submit" value="calcular frete" />
 									<a id="searchCep" href="#">
 										Procurar CEP
 									</a>
@@ -77,7 +77,7 @@
 						
 						<tbody>
 							<c:forEach items="${cart.shoppingCartLines}" var="line" varStatus="status">
-								<form method="post" action="editquantity/${line.item.id}" name="editQuantity">
+								<form method="post" action="editQuantity/${line.item.id}" name="editQuantity">
 							
 									<tr class="gridProducts">
 										<th rowspan="1">
@@ -90,7 +90,7 @@
 											<div class="product">
 												<a href="#" class="productName">
 													<span class="cont">
-														<strong class="n name">${line.item.product.name}</strong><br />
+														<strong class="n name">${line.item.productName}</strong><br />
 													</span>
 												</a>
 											</div>
@@ -112,12 +112,12 @@
 										</td>	
 						
 										<td class="col04">
-										   	<div class="valores"> R$ ${line.item.priceFor}
+										   	<div class="valores"> R$ ${line.item.formattedPriceFor}
 										   	</div>
 										</td>
 										
 										<td class="col05" >
-											<div class="valores"> R$ ${line.price}</div>
+											<div class="valores"> R$ ${line.formattedPrice}</div>
 										</td>
 			
 									</tr>
@@ -132,7 +132,7 @@
 							<tr class="cartTotal" class="valores">
 								<th colspan="5" scope="row">SUBTOTAL:</th>
 								<td>
-									<span>R$ ${cart.subTotalAmount}</span>			
+									<span>R$ ${cart.formattedSubTotalAmount}</span>			
 								</td>
 							</tr>
 								
@@ -140,7 +140,7 @@
 							<tr class="cartTotal" class="valores">
 								<td colspan="4"><span class="ico"></span></td><th class="sp tp1">FRETE:</th>
 								<td>
-									<span> R$ ${cart.freight}</span>
+									<span> R$ ${cart.formattedFreight}</span>
 								</td>
 							</tr>
 							
@@ -156,18 +156,21 @@
 								
 								<th scope="row" colspan="5">TOTAL:</th>
 								<td>
-									<span>R$ ${cart.totalAmount}</span>
+									<span>R$ ${cart.formattedTotalAmount}</span>
 								</td>
 							</tr>
 						
 						</tfoot>
 					</table>
 					
-			        <form:form action="emptycart" method="post" commandName="cart">
+			        <form:form action="emptyCart" method="post" commandName="cart">
 		        		<form:hidden path="id"/>
 			            <span>esvaziar carrinho de compras</span>
 						<input class="cartItemInput" value="esvaziar" type="submit">
 			        </form:form>
+			        
+        		 	<h2><a href="proccessShoppingCart">Comprar</a></h2>
+			        
 				</div>
 			</div><!-- #content -->
 			

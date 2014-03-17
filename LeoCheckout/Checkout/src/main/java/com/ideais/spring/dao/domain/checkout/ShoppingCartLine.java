@@ -1,6 +1,8 @@
 package com.ideais.spring.dao.domain.checkout;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,10 +13,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+
 import com.ideais.spring.dao.domain.checkout.stock.Item;
+import com.ideais.spring.util.ValueFormatter;
 
 @Entity
 @Table(name="CARRINHO_COMPRAS_LINHA")
@@ -76,6 +82,10 @@ public class ShoppingCartLine {
 
 	public BigDecimal getPrice() {
 		return price;
+	}
+	
+	public String getFormattedPrice() {
+		return ValueFormatter.format(price);
 	}
 
 	public void setPrice() {

@@ -6,6 +6,8 @@ import com.ideais.spring.dao.domain.checkout.stock.Item;
 
 public class ItemsPackage {
 	
+	private static final int MAXIMUM_SUM_OF_DIMENSIONS = 200;
+	private static final int MINIMUM_SUM_OF_DIMENSIONS = 29;
 	private final String DEFAULT_FORMAT = "1";
 	private final Integer DEFAULT_DEPTH = 16;
 	private final Integer DEFAULT_HEIGHT = 2;
@@ -31,21 +33,39 @@ public class ItemsPackage {
 	}
 	
 	private Integer getItemVolumetricWeight(Item item) {
-		Dimensions dimensions = item.getProduct().getDimensions();
+		Dimensions dimensions = item.getDimensions();
 		
-		if (dimensions != null) {
-			return (dimensions.getHeight() * dimensions.getWidth() * dimensions.getDepth()) / WEIGHT_CONSTANT; 
+		if (dimensions != null && checkDimension(dimensions)) {
+			return (int) ((dimensions.getHeight() * dimensions.getWidth() * dimensions.getDepth()) / WEIGHT_CONSTANT); 
 		}
 		
-		return MINIMUM_VOLUME;
+		return MINIMUM_VOLUME; //jogar exceção de nulo
 	}
 	
+	private boolean checkDimension(Dimensions dimensions) {
+		Integer sumOfDimensions = (int) (dimensions.getHeight() + dimensions.getWidth() + dimensions.getDepth());
+		
+		if (sumOfDimensions >= MINIMUM_SUM_OF_DIMENSIONS && sumOfDimensions <= MAXIMUM_SUM_OF_DIMENSIONS) {
+			return true;
+		}
+		
+		return false; //jogar exceção de dimensão inapropriado
+	}
+
 	private Integer getValueToIncrementWeight(Integer itemVolumetricWeight, ShoppingCartLine shoppingCartLine) {
 		if (itemVolumetricWeight > MINIMUM_VOLUME) {
 			return (itemVolumetricWeight) * shoppingCartLine.getQuantity();
 		}
 		
-		return shoppingCartLine.getItem().getProduct().getWeight() * shoppingCartLine.getQuantity();
+		return calculateShoppingCartLineWeight(shoppingCartLine);
+	}
+	
+	private Integer calculateShoppingCartLineWeight(ShoppingCartLine shoppingCartLine) {
+		if (shoppingCartLine.getItem().getWeight() == null) {
+			return 0; //jogar exceção de peso nulo
+		}
+		
+		return shoppingCartLine.getItem().getWeight() * shoppingCartLine.getQuantity();
 	}
 
 	public String getDefaultFormat() {

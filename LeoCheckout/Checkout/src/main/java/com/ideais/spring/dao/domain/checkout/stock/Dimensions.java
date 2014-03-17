@@ -5,35 +5,28 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import org.codehaus.jackson.annotate.JsonBackReference;
 
 @Entity
 @Table(name = "DIMENSOES")
 public class Dimensions {
 	
 	@Id
-	@SequenceGenerator(name = "item_id", sequenceName = "item_id")
-	@GeneratedValue(generator = "item_id", strategy = GenerationType.AUTO)
+	@SequenceGenerator(name = "dimensions_id", sequenceName = "dimensions_id")
+	@GeneratedValue(generator = "dimensions_id", strategy = GenerationType.AUTO)
 	@Column(name = "CD_DIMENSOES")
 	private Long id;
 	
 	@Column(name = "NM_ALTURA", nullable = false)
-	private Integer height;
+	private Double height;
 	
 	@Column(name = "NM_LARGURA", nullable = false)
-	private Integer width;
+	private Double width;
 	
 	@Column(name = "NM_COMPRIMENTO", nullable = false)
-	private Integer depth;
+	private Double depth;
 	
-	@JsonBackReference 
-	@OneToOne
-	@JoinColumn(name="CD_PRODUTO", referencedColumnName="CD_PRODUTO", nullable=false)
-	private Product product;
 
 	public Long getId() {
 		return id;
@@ -43,28 +36,28 @@ public class Dimensions {
 		this.id = id;
 	}
 
-	public Integer getHeight() {
+	public Double getHeight() {
 		return height;
 	}
 
-	public void setHeight(Integer height) {
+	public void setHeight(Double height) {
 		this.height = height;
 	}
 
-	public Integer getWidth() {
+	public Double getWidth() {
 		return width;
 	}
 
-	public void setWidth(Integer width) {
+	public void setWidth(Double width) {
 		this.width = width;
 	}
 
-	public Integer getDepth() {
+	public Double getDepth() {
 		return depth;
 	}
 
-	public void setDepth(Integer depth) {
+	public void setDepth(Double depth) {
 		this.depth = depth;
 	}
-
+	
 }

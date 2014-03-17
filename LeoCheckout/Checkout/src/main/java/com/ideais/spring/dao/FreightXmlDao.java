@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import com.ideais.spring.dao.domain.checkout.CorreiosCodes;
+import com.ideais.spring.dao.domain.checkout.FreightDetails;
 import com.ideais.spring.dao.domain.checkout.ItemsPackage;
 import com.ideais.spring.util.XmlFreightParserUtil;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -48,21 +49,21 @@ public class FreightXmlDao {
 	@Autowired
 	private String receivedNotification;
 	
-	public BigDecimal getFreight(ItemsPackage itemsPackage, String destinationZipCode) throws Exception {
+	public FreightDetails getFreight(ItemsPackage itemsPackage, String destinationZipCode) throws Exception {
 		return getFreight(itemsPackage, EMPTY_STRING, destinationZipCode);
 	}
 	
-	public BigDecimal getFreight(ItemsPackage itemsPackage, String serviceType, String destinationZipCode) throws Exception {
+	public FreightDetails getFreight(ItemsPackage itemsPackage, String serviceType, String destinationZipCode) throws Exception {
 		HttpClient client = new HttpClient();	
 		String request = buildFreightUrl(itemsPackage, serviceType, destinationZipCode);    			
         GetMethod method = new GetMethod(request);     
                              
-        return  makeFreightRequestFromCorreios(method, client);
+        return  makeFreightRequestFromCorreios(serviceType, destinationZipCode, method, client);
 	}
 	
-	private BigDecimal makeFreightRequestFromCorreios(GetMethod method, HttpClient client) throws Exception {
+	private FreightDetails makeFreightRequestFromCorreios(String serviceType, String destinationZipCode, GetMethod method, HttpClient client) throws Exception {
 		if (client.executeMethod(method) == SUCCESS_RESPONSE_CODE) {
-			return XmlFreightParserUtil.getFreightFromXmlString(method.getResponseBodyAsString());
+			return XmlFreightParserUtil.getFreightFromXmlString(serviceType, destinationZipCode, storeZipCode, method.getResponseBodyAsString());
 		}
 		
 		throw new Exception("erro na request, bad request!"); //criar propria exceção

@@ -1,8 +1,8 @@
 package com.ideais.spring.dao.domain.checkout.stock;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,11 +15,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+
+import com.ideais.spring.util.ValueFormatter;
 
 @Entity
 @Table(name="ITEM")
@@ -49,15 +51,48 @@ public class Item {
 	@Column(name="NR_ESTOQUE", nullable=false)
 	private Integer stock;
 	
-	@ManyToOne(targetEntity=Product.class, fetch=FetchType.EAGER)
-	@JoinColumn(name="CD_PRODUTO", referencedColumnName="CD_PRODUTO", nullable=false)
+	@Column(name="BO_ATIVO", nullable=false)
+	private Boolean active;
+	
+	@Column(name = "NR_PESO", nullable = false)
+	private Integer weight;
+	
+	@OneToOne
+	@JoinColumn(name = "CD_DIMENSOES", referencedColumnName = "CD_DIMENSOES", nullable = false)
+	@Cascade(CascadeType.ALL)
+	private Dimensions dimensions;
+	
+	@JsonBackReference 
+	@ManyToOne
+	@JoinColumn(name="CD_PRODUCT", referencedColumnName="CD_PRODUCT", nullable=false)
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private Product product;
 	
-	@OneToMany(mappedBy="item", fetch=FetchType.EAGER)
-	@Fetch(value = FetchMode.SUBSELECT)
-	@Cascade(CascadeType.ALL)
+	@OneToMany(mappedBy="item", fetch = FetchType.EAGER)
+	@Cascade({CascadeType.DELETE, CascadeType.SAVE_UPDATE})
 	private List<Image> images;
+	
+	@Transient
+	private Long productId;
+	
+	@Transient
+	private String productName;
+	
+	public Long getProductId() {
+	    return productId;
+	}
+
+	public void setProductId(Long productId) {
+	    this.productId = productId;
+	}
+
+	public String getProductName() {
+	    return productName;
+	}
+
+	public void setProductName(String productName) {
+	    this.productName = productName;
+	}
 
 	public List<Image> getImages() {
 		return images;
@@ -76,7 +111,7 @@ public class Item {
 	}
 
 	public BigDecimal getPriceFrom() {
-		return priceFrom.setScale(2, RoundingMode.CEILING);
+		return priceFrom;
 	}
 
 	public void setPriceFrom(BigDecimal priceFrom) {
@@ -84,7 +119,7 @@ public class Item {
 	}
 
 	public BigDecimal getPriceFor() {
-		return priceFor.setScale(2, RoundingMode.CEILING);
+		return priceFor;
 	}
 
 	public void setPriceFor(BigDecimal priceFor) {
@@ -129,6 +164,38 @@ public class Item {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+	
+	public Dimensions getDimensions() {
+		return dimensions;
+	}
+
+	public void setDimensions(Dimensions dimensions) {
+		this.dimensions = dimensions;
+	}
+
+	public String getFormattedPriceFrom() {
+		return ValueFormatter.format(priceFrom);
+	}
+	
+	public String getFormattedPriceFor() {
+		return ValueFormatter.format(priceFor);
+	}
+	
+	public Integer getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Integer weight) {
+		this.weight = weight;
 	}
 	
 }

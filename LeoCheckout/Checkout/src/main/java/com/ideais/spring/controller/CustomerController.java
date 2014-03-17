@@ -1,6 +1,8 @@
 package com.ideais.spring.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import com.ideais.spring.dao.domain.checkout.Customer;
+import com.ideais.spring.dao.domain.checkout.ShoppingCart;
 import com.ideais.spring.service.GenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -20,7 +22,11 @@ public class CustomerController {
     private GenericService<Customer> customerService;
     
     @RequestMapping("/list")
-    public ModelAndView list(){
+    public ModelAndView list(HttpServletRequest request){
+    	
+    	ShoppingCart shoppingCart = (ShoppingCart) request.getSession().getAttribute("cart");
+    	System.out.println(shoppingCart.getFormattedSubTotalAmount());
+    	
         return new ModelAndView("customer/list", "list", customerService.listObjects());
     }
 

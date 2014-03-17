@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import org.codehaus.jackson.annotate.JsonBackReference;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Fetch;
@@ -29,18 +28,11 @@ public class Category {
 	@Column(name="NM_NOME", nullable=false, unique=true)
 	private String name;
 	
-	@JsonBackReference
-	@OneToMany(mappedBy="category", fetch = FetchType.EAGER)
-	@Fetch(value = FetchMode.SUBSELECT)
+	@OneToMany(mappedBy="category", fetch = FetchType.EAGER, orphanRemoval=true)
 	@Cascade({CascadeType.DELETE, CascadeType.SAVE_UPDATE})
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Subcategory> subcategories;
 
-	@JsonBackReference
-	@OneToMany(mappedBy="category", fetch=FetchType.EAGER)
-	@Fetch(value = FetchMode.SUBSELECT)
-	@Cascade(CascadeType.SAVE_UPDATE)
-	private List<Product> products;
-	
 	public List<Subcategory> getSubcategories() {
 		return subcategories;
 	}
@@ -68,14 +60,6 @@ public class Category {
 	@Override
 	public String toString() {
 		return name;
-	}
-
-	public List<Product> getProducts() {
-		return products;
-	}
-
-	public void setProducts(List<Product> products) {
-		this.products = products;
 	}
 	
 }

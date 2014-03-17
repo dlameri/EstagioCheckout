@@ -70,7 +70,7 @@ public class Image {
 		return productUrl;
 	}
 
-	public void setItemUrl(String productUrl) {
+	public void setProductUrl(String productUrl) {
 		this.productUrl = productUrl;
 	}
 
@@ -118,7 +118,7 @@ public class Image {
 		return item;
 	}
 
-	public void setItem(Item item) {
+	public void setItem (Item item) {
 		this.item = item;
 	}
 	

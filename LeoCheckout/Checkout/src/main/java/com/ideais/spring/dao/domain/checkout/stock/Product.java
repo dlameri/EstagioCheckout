@@ -13,7 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import org.codehaus.jackson.annotate.JsonBackReference;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Fetch;
@@ -26,7 +25,7 @@ public class Product {
 	@Id
 	@SequenceGenerator(name = "product_id", sequenceName = "product_id")
 	@GeneratedValue(generator = "product_id", strategy = GenerationType.AUTO)
-	@Column(name = "CD_PRODUTO")
+	@Column(name = "CD_PRODUCT")
 	private Long id;
 
 	@Column(name = "NM_NOME", nullable = false)
@@ -38,38 +37,40 @@ public class Product {
 	@Column(name = "NM_DESCRICAO_CURTA", nullable = false)
 	private String shortDescription;
 
-	@Column(name = "NR_PESO", nullable = false)
-	private Integer weight;
-
 	@Column(name = "NR_GARANTIA", nullable = false)
 	private Integer warranty;
 
-	@ManyToOne(targetEntity=Brand.class, fetch=FetchType.EAGER)
-	@JoinColumn(name="CD_MARCA", referencedColumnName="CD_MARCA", nullable=false)
-	@Cascade(CascadeType.SAVE_UPDATE)
-	private Brand brand;
+	@Column(name = "NM_MARCA", nullable = false)
+	private String brand;
 
 	@Column(name = "NM_MODELO", nullable = false)
 	private String model;
-
-	@JsonBackReference
-	@OneToMany(mappedBy="product", fetch=FetchType.EAGER, orphanRemoval=true)
-	@Fetch(value = FetchMode.SUBSELECT)
-	@Cascade(CascadeType.ALL)
-	private List<Item> items;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@Column(name = "BO_ATIVO", nullable = false)
+	private Boolean active;
+
+	@ManyToOne
 	@JoinColumn(name = "CD_SUBCATEGORIA", referencedColumnName = "CD_SUBCATEGORIA", nullable = false)
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private Subcategory subcategory;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "CD_CATEGORIA", referencedColumnName = "CD_CATEGORIA", nullable = false)
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private Category category;
 	
-	@OneToOne(mappedBy="product")
-	private Dimensions dimensions;
+	@OneToMany(mappedBy="product", fetch = FetchType.EAGER)
+	@Cascade(CascadeType.ALL)
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Item> items;
+	
+	public List<Item> getItems() {
+	    return items;
+	}
+
+	public void setItems(List<Item> items) {
+	    this.items = items;
+	}
 
 	public Long getId() {
 		return id;
@@ -103,22 +104,6 @@ public class Product {
 		this.shortDescription = shortDescription;
 	}
 
-	public Dimensions getDimensions() {
-		return dimensions;
-	}
-
-	public void setDimensions(Dimensions dimensions) {
-		this.dimensions = dimensions;
-	}
-
-	public Integer getWeight() {
-		return weight;
-	}
-
-	public void setWeight(Integer weight) {
-		this.weight = weight;
-	}
-
 	public Integer getWarranty() {
 		return warranty;
 	}
@@ -127,11 +112,11 @@ public class Product {
 		this.warranty = warranty;
 	}
 
-	public Brand getBrand() {
+	public String getBrand() {
 		return brand;
 	}
 
-	public void setBrand(Brand brand) {
+	public void setBrand(String brand) {
 		this.brand = brand;
 	}
 
@@ -159,12 +144,12 @@ public class Product {
 		this.category = category;
 	}
 
-	public List<Item> getItems() {
-		return items;
+	public Boolean getActive() {
+		return active;
 	}
 
-	public void setItems(List<Item> items) {
-		this.items = items;
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
-
+	
 }

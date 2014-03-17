@@ -15,7 +15,6 @@
 		<mapping class="com.ideais.spring.dao.domain.checkout.stock.Image"/>
 		<mapping class="com.ideais.spring.dao.domain.checkout.stock.Item"/>
 		<mapping class="com.ideais.spring.dao.domain.checkout.stock.Product"/>
-		<mapping class="com.ideais.spring.dao.domain.checkout.stock.Brand"/>
 		<mapping class="com.ideais.spring.dao.domain.checkout.stock.Dimensions"/>
 		<mapping class="com.ideais.spring.dao.domain.checkout.stock.Category"/>
 		<mapping class="com.ideais.spring.dao.domain.checkout.stock.Subcategory"/>		

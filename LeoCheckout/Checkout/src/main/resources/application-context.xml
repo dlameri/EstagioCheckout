@@ -66,7 +66,7 @@
         </property>
     </bean>
 
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="hibernateProperties">
             <props>
@@ -78,15 +78,6 @@
                 </prop>
                 <prop key="hibernate.hbm2ddl.auto">
                     ${dataSource.test.hbm2ddl.auto}
-                </prop>
-                <prop key="hibernate.cache.use_query_cache">
-                    true
-                </prop>
-                <prop key="hibernate.cache.use_second_level_cache">
-                    true
-                </prop>
-                <prop key="hibernate.cache.provider_class">
-                    net.sf.ehcache.hibernate.SingletonEhCacheProvider
                 </prop>
                 <prop key="hibernate.default_batch_fetch_size">
                     100
@@ -100,7 +91,7 @@
 
 
     <bean id="transactionManager"
-          class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="dataSource" ref="dataSource" />
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>

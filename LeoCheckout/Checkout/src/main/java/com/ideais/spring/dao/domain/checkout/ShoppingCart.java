@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import com.ideais.spring.dao.domain.checkout.stock.Item;
+import com.ideais.spring.util.ValueFormatter;
 
 @Entity
 @Table(name="CARRINHO_COMPRAS")
@@ -31,7 +32,7 @@ public class ShoppingCart {
 	
 	@Column(name="NM_FRETE")
 	private BigDecimal freight = BigDecimal.ZERO;
-
+	
 	@Column(name="NM_PRECO_TOTAL")
 	private BigDecimal totalAmount = BigDecimal.ZERO;
 	
@@ -244,11 +245,19 @@ public class ShoppingCart {
 	}
 
 	public BigDecimal getSubTotalAmount() {
-		return subTotalAmount;
+		return subTotalAmount.setScale(2, RoundingMode.CEILING);
 	}
 
-	public void setSubTotalAmount(BigDecimal subTotalAmount) {
-		this.subTotalAmount = subTotalAmount;
+	public String getFormattedFreight() {
+		return ValueFormatter.format(freight);
+	}
+
+	public String getFormattedTotalAmount() {
+		return ValueFormatter.format(totalAmount);
+	}
+
+	public String getFormattedSubTotalAmount() {
+		return ValueFormatter.format(subTotalAmount);
 	}
 		
 }

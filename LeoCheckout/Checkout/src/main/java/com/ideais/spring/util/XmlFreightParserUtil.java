@@ -8,6 +8,7 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
 import org.jdom2.input.SAXBuilder;
+import com.ideais.spring.dao.domain.checkout.FreightDetails;
 
 public class XmlFreightParserUtil {
 	
@@ -15,9 +16,12 @@ public class XmlFreightParserUtil {
 	private static final String GRAND_CHILD_NODE = "cServico";
 	private static final String CHILD_NODE = "Servicos";
 
-	public static BigDecimal getFreightFromXmlString(String xml) throws Exception {		
+	public static FreightDetails getFreightFromXmlString(String serviceType, String destinationZipCode, String storeZipCode, String xml) throws Exception {		
 		try {
-			return new BigDecimal(getFreightValue(xml)); 	    
+			FreightDetails freightDetails = new FreightDetails(serviceType, destinationZipCode, storeZipCode);
+			freightDetails.setFreightValue(new BigDecimal(getFreightValue(xml)));
+			
+			return freightDetails; 	    
 		} catch (JDOMException e) {
 		    // handle JDOMException
 		} catch (IOException e) {
