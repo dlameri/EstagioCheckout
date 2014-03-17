@@ -31,8 +31,11 @@
                 TVs
             </b>
         </nav>
-
+        
         <h1>Meu Carrinho</h1>
+
+        <button>Continuar Comprando</button>
+        <button>Finalizar Compra</button>
         	<section>
                 <table>
                     <thead>
@@ -56,40 +59,35 @@
                                     </section>
                                 </td>
                                 
-                                <td class="col02">
+                                <td class="grid02">
                                     <input type="number" value="1" min="0" max="99">
                                     <a>retirar do carrinho</a>
                                 </td>   
                 
-                                <td class="col03">
+                                <td class="grid03">
                                     <span> De R$ 1.699,00
                                         <br/> Por R$ 1.259,10                              
                                     </span>
                                 </td>
                                 
-                                <td class="col04">
-                                    <span id="shoppingCartLineLoop:0:lineTotal">
-                                        <span class="regular price">TOTAL</span>
-                                    </span>
+                                <td class="grid04">
+                                    <span class="regular price">TOTAL</span>
                                 </td>
-
                             </tr>
                     </tbody>
                 
                     <tfoot>
                         <tr class="subtotal">
                             <th>SUBTOTAL:</th>
-                            <td class="tp1">
-                                <span class="stotal">
-                                    <span id="subtotal">R$ 1.259,10</span>         
-                                </span>
+                            <td colspan="3">
+                                <span id="subtotal">R$ 1.259,10</span>         
                             </td>
                         </tr>
                         
                         <tr class="total">
-                            <th class="tp2" scope="row">TOTAL:</th>
-                            <td class="tp2">
-                                <span class="regular price">
+                            <th>TOTAL:</th>
+                            <td colspan="3">
+                                <span>
                                     <span id="total">R$ 1.259,10</span>
                                 </span>
                             </td>
@@ -97,5 +95,8 @@
                     </tfoot>
                 </table>    
         </section>
+
+        <button>Continuar Comprando</button>
+        <button>Finalizar Compra</button>
     </body>
 </html>

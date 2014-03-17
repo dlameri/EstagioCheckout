@@ -35,9 +35,6 @@ public class Customer {
 	
 	@Column(name = "NM_TELEFONE")
 	private String phoneNumber;
-	
-	@Column(name = "NM_CEP")
-	private String zipCode;
 
 	@JsonBackReference
 	@OneToMany(mappedBy = "customer")
@@ -108,13 +105,4 @@ public class Customer {
 	public void setShoppingCarts(List<ShoppingCart> shoppingCarts) {
 		this.shoppingCarts = shoppingCarts;
 	}
-	
-	public String getZipCode() {
-		return zipCode;
-	}
-
-	public void setZipCode(String zipCode) {
-		this.zipCode = zipCode;
-	}
-
 }
