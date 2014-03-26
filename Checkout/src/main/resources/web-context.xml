@@ -17,19 +17,8 @@
         <property name="prefix" value="/WEB-INF/jsp/" />
         <property name="suffix" value=".jsp" />
     </bean>
-	
-	<!-- Bean de configuração FB  -->
-	<bean id="connectionFactoryLocator" class="org.springframework.social.connect.support.ConnectionFactoryRegistry">
-    <property name="connectionFactories">
-        <list>
-            <bean class="org.springframework.social.facebook.connect.FacebookConnectionFactory">
-                <constructor-arg value="${facebook.clientId}" />
-                <constructor-arg value="${facebook.clientSecret}" />				
-            </bean>
-        </list>
-    </property>
-</bean>
-	
+
+	<mvc:resources mapping="/resources/**" location="/resources/theme/" />
 
 
 </beans>

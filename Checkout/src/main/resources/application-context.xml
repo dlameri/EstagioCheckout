@@ -11,11 +11,51 @@
 
 
 
-    <context:property-placeholder location="classpath:config.properties"/>
+    <context:property-placeholder location="classpath:config.properties, classpath:integration.properties, classpath:store.properties"/>    
     
     <context:annotation-config/>
     
     <context:component-scan base-package="com.ideais.spring" />
+    
+   	<bean id="cookiePath" class="java.lang.String">  
+    	<constructor-arg value="${cookie.path}"/>  
+	</bean>  
+
+	<bean id="stockIntegrationUrl" class="java.lang.String">  
+    	<constructor-arg value="${stock.integration}"/>  
+	</bean>  
+	
+	<bean id="freightIntegrationUrl" class="java.lang.String">  
+    	<constructor-arg value="${freight.integration}"/>  
+	</bean>  
+	
+	<bean id="storeZipCode" class="java.lang.String">  
+    	<constructor-arg value="${zip.code}"/>  
+	</bean> 
+	
+	<bean id="defaultCdStore" class="java.lang.String">  
+    	<constructor-arg value="${defaultCdStore}"/>  
+	</bean> 
+	
+	<bean id="defaultPassword" class="java.lang.String">  
+    	<constructor-arg value="${defaultPassword}"/>  
+	</bean> 
+	
+	<bean id="defaultServiceType" class="java.lang.String">  
+    	<constructor-arg value="${defaultServiceType}"/>  
+	</bean> 
+	
+	<bean id="handDeliver" class="java.lang.String">  
+    	<constructor-arg value="${handDeliver}"/>  
+	</bean> 
+	
+	<bean id="declaredValue" class="java.lang.String">  
+    	<constructor-arg value="${declaredValue}"/>  
+	</bean> 
+	
+	<bean id="receivedNotification" class="java.lang.String">  
+    	<constructor-arg value="${receivedNotification}"/>  
+	</bean> 
 
     <tx:annotation-driven transaction-manager="transactionManager" />
 
@@ -30,7 +70,7 @@
         </property>
     </bean>
 
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="hibernateProperties">
             <props>
@@ -42,15 +82,6 @@
                 </prop>
                 <prop key="hibernate.hbm2ddl.auto">
                     ${dataSource.test.hbm2ddl.auto}
-                </prop>
-                <prop key="hibernate.cache.use_query_cache">
-                    true
-                </prop>
-                <prop key="hibernate.cache.use_second_level_cache">
-                    true
-                </prop>
-                <prop key="hibernate.cache.provider_class">
-                    net.sf.ehcache.hibernate.SingletonEhCacheProvider
                 </prop>
                 <prop key="hibernate.default_batch_fetch_size">
                     100
@@ -64,7 +95,7 @@
 
 
     <bean id="transactionManager"
-          class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="dataSource" ref="dataSource" />
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
