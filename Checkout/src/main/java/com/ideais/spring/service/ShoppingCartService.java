@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.ideais.spring.api.domain.json.Cart;
 import com.ideais.spring.api.domain.json.CartItem;
 import com.ideais.spring.dao.ShoppingCartJsonDao;
+import com.ideais.spring.dao.domain.checkout.FreightDetails;
 import com.ideais.spring.dao.domain.checkout.ShoppingCart;
 import com.ideais.spring.dao.domain.checkout.ShoppingCartLine;
 import com.ideais.spring.dao.domain.checkout.stock.Item;
@@ -27,6 +28,8 @@ public class ShoppingCartService {
     private ShoppingCartJsonDao shoppingCartJsonDao;
     @Autowired
     private String cookiePath;
+    private static final String CART_KEY = "cart";
+    private static final String CART_COOKIE_KEY = "CartItems";
 	
 	public Cart getCartFromJson(String jsonCart) throws IOException {		
 		return shoppingCartJsonDao.getCartFromJson(jsonCart);
@@ -37,11 +40,11 @@ public class ShoppingCartService {
 	}
 	
 	public ShoppingCart getShoppingCart(String cartCookie, HttpServletRequest request) throws Exception {
-    	if (request.getSession().getAttribute("cart") == null) {		
+    	if (request.getSession().getAttribute(CART_KEY) == null) {		
 			return getShoppingCartFromCookie(cartCookie);
     	}
 
-    	return (ShoppingCart) request.getSession().getAttribute("cart");
+    	return (ShoppingCart) request.getSession().getAttribute(CART_KEY);
     }
 
 	private ShoppingCart getShoppingCartFromCookie(String cartCookie) throws Exception, IOException {
@@ -55,7 +58,7 @@ public class ShoppingCartService {
     public Cookie createCartCookie(ShoppingCart shoppingCart) throws JsonGenerationException, JsonMappingException, IOException {
     	String jsonCart = getJsonCart(shoppingCart);
 
-    	Cookie cartCookie = new Cookie("CartItems", jsonCart);
+    	Cookie cartCookie = new Cookie(CART_COOKIE_KEY, jsonCart);
     	cartCookie.setMaxAge(60 * 60 * 1000);
     	cartCookie.setPath(cookiePath);
     	
@@ -91,5 +94,9 @@ public class ShoppingCartService {
     	Item item = itemService.getItem(id);	
 		shoppingCart.removeItem(item);	
     }
+    
+    public void setShoppingCartInSession(ShoppingCart shoppingCart, HttpServletRequest request) {
+        request.getSession().setAttribute(CART_KEY, shoppingCart);
+	}
  
 }

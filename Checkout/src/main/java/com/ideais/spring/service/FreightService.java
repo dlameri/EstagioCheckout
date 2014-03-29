@@ -16,14 +16,15 @@ public class FreightService {
 	
 	@Autowired
     private FreightXmlDao freightXmlDao;
+    private static final String FREIGHT_KEY = "freightDetails";
 	
-	public FreightDetails getFreightDetails(ShoppingCart shoppingCart, String zipCode) throws Exception {
+	public FreightDetails calculateFreightDetails(ShoppingCart shoppingCart, String zipCode) throws Exception {
 		return freightXmlDao.getFreight(new ItemsPackage(shoppingCart.getShoppingCartLines()), zipCode);
 	}
 	
     public void recalculateFreight(ShoppingCart shoppingCart, HttpServletRequest request) {
 		try {
-	    	FreightDetails freightDetails = (FreightDetails) request.getSession().getAttribute("freightDetails");
+	    	FreightDetails freightDetails = (FreightDetails) request.getSession().getAttribute(FREIGHT_KEY);
 			
 			if (freightDetails != null && freightDetails.wasCalculated()) {
 				freightDetails = updateFreightDetails(shoppingCart, freightDetails);
@@ -40,7 +41,7 @@ public class FreightService {
 			shoppingCart.setFreight(BigDecimal.ZERO);
 			freightDetails = new FreightDetails();
 		} else {
-			freightDetails = getFreightDetails(shoppingCart, freightDetails.getDestinationZipCode());
+			freightDetails = calculateFreightDetails(shoppingCart, freightDetails.getDestinationZipCode());
 		}
 		
 		return freightDetails;
@@ -48,7 +49,11 @@ public class FreightService {
     
     public void setFreightInSession(FreightDetails freightDetails, ShoppingCart shoppingCart, HttpServletRequest request) {
 		shoppingCart.setFreight(freightDetails.getFreightValue());
-		request.getSession().setAttribute("freightDetails", freightDetails);
+		request.getSession().setAttribute(FREIGHT_KEY, freightDetails);
+	}
+
+	public FreightDetails getFreightDetails(HttpServletRequest request) {
+		return (FreightDetails) request.getSession().getAttribute(FREIGHT_KEY);
 	}
 	
 }
