@@ -70,5 +70,9 @@ public class FreightDetails {
 	public void setDeliveryDays(String deliveryDays) {
 		this.deliveryDays = deliveryDays;
 	}
+
+	public boolean wasCalculated() {
+		return deliveryDays != null && storeZipCode != null && serviceType != null && destinationZipCode != null;
+	}
 	
 }

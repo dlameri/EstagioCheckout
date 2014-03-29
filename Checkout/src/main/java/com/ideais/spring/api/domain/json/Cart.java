@@ -1,4 +1,4 @@
-package com.ideais.spring.api.service.model.json;
+package com.ideais.spring.api.domain.json;
 
 import java.util.ArrayList;
 import java.util.List;

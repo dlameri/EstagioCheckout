@@ -1,4 +1,4 @@
-package com.ideais.spring.api.service.model.json;
+package com.ideais.spring.api.domain.json;
 
 import com.ideais.spring.dao.domain.checkout.stock.Item;
 
