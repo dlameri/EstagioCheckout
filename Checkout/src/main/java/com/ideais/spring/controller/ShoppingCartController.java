@@ -130,12 +130,12 @@ public class ShoppingCartController {
     		
     		if (DigitsValidator.validate(quantity)) {
     			shoppingCart.editQuantity(id, Integer.parseInt(quantity));	    		
+    		
+	    		freightService.recalculateFreight(shoppingCart, request);
+	    		
+		        shoppingCartService.setShoppingCartInSession(shoppingCart, request);
+		    	response.addCookie(shoppingCartService.createCartCookie(shoppingCart));
     		}
-    		
-    		freightService.recalculateFreight(shoppingCart, request);
-    		
-	        shoppingCartService.setShoppingCartInSession(shoppingCart, request);
-	    	response.addCookie(shoppingCartService.createCartCookie(shoppingCart));
     		
 	    	return "redirect:../list";
     	} catch (Exception e) {
@@ -158,11 +158,11 @@ public class ShoppingCartController {
     		if (DigitsValidator.validate(postalCodeID1) && DigitsValidator.validate(postalCodeID2)) {
     			FreightDetails freightDetails = freightService.calculateFreightDetails(shoppingCart, postalCodeID1 + postalCodeID2);   
     			freightService.setFreightInSession(freightDetails, shoppingCart, request);
-    		}
 
-	        shoppingCartService.setShoppingCartInSession(shoppingCart, request);
-	    	response.addCookie(shoppingCartService.createCartCookie(shoppingCart));
-	   	    	
+    	        shoppingCartService.setShoppingCartInSession(shoppingCart, request);
+    	    	response.addCookie(shoppingCartService.createCartCookie(shoppingCart));
+    		}
+   	    	
 	    	return "redirect:list";
     	} catch (Exception e) {
     		e.printStackTrace();

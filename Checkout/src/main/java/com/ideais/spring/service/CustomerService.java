@@ -2,11 +2,12 @@ package com.ideais.spring.service;
 
 import com.ideais.spring.dao.GenericDao;
 import com.ideais.spring.dao.domain.checkout.Customer;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component("customerService")
+@Service("customerService")
 public class CustomerService implements GenericService<Customer> {
 
 	@Autowired

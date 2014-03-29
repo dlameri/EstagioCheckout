@@ -5,13 +5,13 @@ import java.math.BigDecimal;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.httpclient.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import com.ideais.spring.dao.FreightXmlDao;
 import com.ideais.spring.dao.domain.checkout.FreightDetails;
 import com.ideais.spring.dao.domain.checkout.ItemsPackage;
 import com.ideais.spring.dao.domain.checkout.ShoppingCart;
 
-@Component("freightService")
+@Service("freightService")
 public class FreightService {
 	
 	@Autowired

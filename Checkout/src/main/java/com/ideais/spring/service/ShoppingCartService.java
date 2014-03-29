@@ -9,16 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import com.ideais.spring.api.domain.json.Cart;
 import com.ideais.spring.api.domain.json.CartItem;
 import com.ideais.spring.dao.ShoppingCartJsonDao;
-import com.ideais.spring.dao.domain.checkout.FreightDetails;
 import com.ideais.spring.dao.domain.checkout.ShoppingCart;
 import com.ideais.spring.dao.domain.checkout.ShoppingCartLine;
 import com.ideais.spring.dao.domain.checkout.stock.Item;
 
-@Component("shoppingCartService")
+@Service("shoppingCartService")
 public class ShoppingCartService {
 	
     private static final String EMPTY_STRING = "";

@@ -33,18 +33,11 @@ public class ShoppingCartJsonDao {
     	
     	if (shoppingCart != null) {
 	    	for (int i = 0; i < shoppingCart.getShoppingCartLines().size(); i++) {
-	    		cart.addStockItem(createCartItem(shoppingCart.getShoppingCartLines().get(i)));
+	    		cart.addStockItem(new CartItem(shoppingCart.getShoppingCartLines().get(i)));
 	    	}
     	}
     	
     	return mapper.writeValueAsString(cart);
-    }
-    
-    private CartItem createCartItem(ShoppingCartLine shoppingCartLine) {
-    	Item item = shoppingCartLine.getItem();
-		Integer quantity = shoppingCartLine.getQuantity();
-		
-		return new CartItem(item, quantity);
     }
     
 }
