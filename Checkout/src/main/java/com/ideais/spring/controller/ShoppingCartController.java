@@ -36,7 +36,7 @@ public class ShoppingCartController {
     private static final String CART_COOKIE_KEY = "CartItems";
 	    
     @RequestMapping(value = "/codItem/{id}", method = RequestMethod.GET)
-    public String edit(@CookieValue(value=CART_COOKIE_KEY, required=false) String cartCookie, 
+    public String addItemToCart(@CookieValue(value=CART_COOKIE_KEY, required=false) String cartCookie, 
     		           @PathVariable Long id, 
     		           HttpServletResponse response,
     		           HttpServletRequest request) {
@@ -66,7 +66,7 @@ public class ShoppingCartController {
     		FreightDetails freightDetails = freightService.getFreightDetails(request);
     		
     		if (freightDetails == null) {
-    			freightService.setFreightInSession(freightDetails, shoppingCart, request);
+    			freightService.setFreightInSession(new FreightDetails(), shoppingCart, request);
     		}
     	    		
 	    	return new ModelAndView("shoppingcart/list", "cart", shoppingCart);
@@ -77,7 +77,7 @@ public class ShoppingCartController {
     }
     
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
-    public String removeItem(@CookieValue(value=CART_COOKIE_KEY, required=false) String cartCookie, 
+    public String removeItemFromCart(@CookieValue(value=CART_COOKIE_KEY, required=false) String cartCookie, 
     						 @PathVariable Long id, 
     						 HttpServletResponse response,
     						 HttpServletRequest request) {
@@ -118,7 +118,7 @@ public class ShoppingCartController {
     }
     
     @RequestMapping(value = "/editQuantity/{id}", method = RequestMethod.POST)
-    public String edit(@CookieValue(value=CART_COOKIE_KEY, required=false) String cartCookie,
+    public String editItemQuantity(@CookieValue(value=CART_COOKIE_KEY, required=false) String cartCookie,
     				   @PathVariable Long id, 
     				   @RequestParam(value="quantity", required=false) String quantity, 
     				   HttpServletResponse response,
