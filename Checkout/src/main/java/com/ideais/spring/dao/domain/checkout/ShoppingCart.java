@@ -176,6 +176,16 @@ public class ShoppingCart {
 		
 		return null;
 	}
+	
+	public boolean hasItemWithId(Long itemId) {
+		for (int i = 0; i < shoppingCartLines.size(); i++) {
+			if (shoppingCartLines.get(i).getItem().getId() == itemId) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 
 	public PurchaseOrder getPurchaseOrder() {
 		return purchaseOrder;

@@ -21,12 +21,12 @@ public class PurchaseOrderController {
     
     @RequestMapping("/list")
     public ModelAndView list(){
-        return new ModelAndView("purchaseOrder/list", "list", purchaseOrderService.listObjects());
+        return new ModelAndView("purchaseorder/list", "list", purchaseOrderService.listObjects());
     }
 
     @RequestMapping(value = "/new",method = RequestMethod.GET)
     public ModelAndView newPurchaseHistory(){
-        return new ModelAndView("purchaseHistory/new", "purchaseHistory", new PurchaseOrder());
+        return new ModelAndView("purchaseorder/new", "purchaseHistory", new PurchaseOrder());
     }
 
     @RequestMapping(value = "/new",method = RequestMethod.POST)
@@ -38,7 +38,7 @@ public class PurchaseOrderController {
     @RequestMapping(value = "/edit/{id}",method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable Long id){
         PurchaseOrder purchaseHistory = purchaseOrderService.find(id);
-        return new ModelAndView("purchaseOrder/edit", "purchaseHistory", purchaseHistory);
+        return new ModelAndView("purchaseorder/edit", "purchaseHistory", purchaseHistory);
     }
 
     @RequestMapping(value = "/edit",method = RequestMethod.POST)
@@ -50,17 +50,13 @@ public class PurchaseOrderController {
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.GET)
     public ModelAndView delete(@PathVariable Long id){
         PurchaseOrder purchaseHistory = purchaseOrderService.find(id);
-        return new ModelAndView("purchaseOrder/delete", "purchaseHistory", purchaseHistory);
+        return new ModelAndView("purchaseorder/delete", "purchaseHistory", purchaseHistory);
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public String delete(PurchaseOrder purchaseHistory){
     	purchaseOrderService.remove(purchaseHistory);
         return "redirect:list";
-    }
-
-    public void setCustomerService(GenericService<PurchaseOrder> purchaseHistoryService) {
-        this.purchaseOrderService = purchaseHistoryService;
     }
 
 }

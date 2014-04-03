@@ -31,8 +31,8 @@ public class ItemJsonDao {
 	@Autowired
 	private String stockIntegrationUrl;
 	private final String itemUrl = "item/";
-	private final String updateStockUrl = "product/updatestock";
-	private final Integer SUCCESS_RESPONSE_CODE = 200;
+	private final String updateStockUrl = "item/updatestock";
+	private final Integer SUCCESS_RESPONSE_CODE = 201;
 	
 	public Item getItemFromStock(Long id) throws IOException, JSONException {		
 		String jsonItem = JsonReaderUtil.readJsonFromUrl(buildRequestItemString(id));

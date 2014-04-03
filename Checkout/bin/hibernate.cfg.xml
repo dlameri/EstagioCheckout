@@ -2,7 +2,17 @@
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
+
+
     <session-factory>
+    
+    	<property name="c3p0.acquire_increment">1</property>   
+		<property name="c3p0.idle_test_period">100</property>
+		<property name="c3p0.max_size">200</property>   
+		<property name="c3p0.max_statements">20</property>   
+		<property name="c3p0.min_size">1</property>   
+		<property name="c3p0.timeout">100</property>
+    
 		<!-- Checkout -->
 		<mapping class="com.ideais.spring.dao.domain.checkout.Address"/>
 		<mapping class="com.ideais.spring.dao.domain.checkout.Customer"/>

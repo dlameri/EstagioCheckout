@@ -25,6 +25,11 @@ public class CustomerDao implements GenericDao<Customer> {
     public Customer findById(Long id) {
         return (Customer) sessionFactory.getCurrentSession().get(Customer.class, id);
     }
+    
+    @Transactional(readOnly = true)
+    public Customer findByName(String name) {
+        return (Customer) sessionFactory.getCurrentSession().get(Customer.class, name);
+    }
 
     @Override
     @Transactional

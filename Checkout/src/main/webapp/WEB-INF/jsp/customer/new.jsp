@@ -7,7 +7,7 @@
 <html>
     <head>
 		<title>Loja Virtual - Login</title>
-		<link rel="stylesheet" href="<c:url value="/resources/css/style.css" />">
+		<link rel="stylesheet" href="<c:url value="/resources/css/main.css" />">
 		<meta charset="utf-8">
 	</head>
 	<body>

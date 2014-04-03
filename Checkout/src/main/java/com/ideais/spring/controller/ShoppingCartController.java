@@ -128,7 +128,7 @@ public class ShoppingCartController {
     	try {    		    
     		shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);
     		
-    		if (DigitsValidator.validate(quantity)) {
+    		if (DigitsValidator.validateQuantityInput(quantity)) {
     			shoppingCart.editQuantity(id, Integer.parseInt(quantity));	    		
     		
 	    		freightService.recalculateFreight(shoppingCart, request);
@@ -155,7 +155,7 @@ public class ShoppingCartController {
     	try {    		    
     		shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);
     		
-    		if (DigitsValidator.validate(postalCodeID1) && DigitsValidator.validate(postalCodeID2)) {
+    		if (DigitsValidator.validateZipCodeInput(postalCodeID1) && DigitsValidator.validateZipCodeInput(postalCodeID2)) {
     			FreightDetails freightDetails = freightService.calculateFreightDetails(shoppingCart, postalCodeID1 + postalCodeID2);   
     			freightService.setFreightInSession(freightDetails, shoppingCart, request);
 
@@ -179,7 +179,7 @@ public class ShoppingCartController {
 	    	shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);	    			
 	        shoppingCartService.setShoppingCartInSession(shoppingCart, request);
 	    	
-	    	return "redirect:../customer/list";
+	    	return "redirect:../purchaseorder/list";
     	} catch (Exception e) {
     		e.printStackTrace();
     		return null;

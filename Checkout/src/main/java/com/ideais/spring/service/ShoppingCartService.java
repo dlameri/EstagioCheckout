@@ -39,11 +39,13 @@ public class ShoppingCartService {
 	}
 	
 	public ShoppingCart getShoppingCart(String cartCookie, HttpServletRequest request) throws Exception {
-    	if (request.getSession().getAttribute(CART_KEY) == null) {		
+		ShoppingCart shoppingCart = (ShoppingCart) request.getSession().getAttribute(CART_KEY);
+		
+    	if (shoppingCart == null) {		
 			return getShoppingCartFromCookie(cartCookie);
     	}
 
-    	return (ShoppingCart) request.getSession().getAttribute(CART_KEY);
+    	return shoppingCart;
     }
 
 	private ShoppingCart getShoppingCartFromCookie(String cartCookie) throws Exception, IOException {
@@ -85,13 +87,17 @@ public class ShoppingCartService {
     }
     
     public void addItemToShoppingCart(Long id, ShoppingCart shoppingCart) throws Exception {
-    	Item item = itemService.getItem(id);	
-		shoppingCart.addItem(item);	   
+    	if (!shoppingCart.hasItemWithId(id)) {
+    		Item item = itemService.getItem(id);	
+			shoppingCart.addItem(item);	   		
+    	}
     }
     
     public void removeItemToShoppingCart(Long id, ShoppingCart shoppingCart) throws Exception {
-    	Item item = itemService.getItem(id);	
-		shoppingCart.removeItem(item);	
+    	if (!shoppingCart.hasItemWithId(id)) {
+	    	Item item = itemService.getItem(id);	
+			shoppingCart.removeItem(item);	
+    	}
     }
     
     public void setShoppingCartInSession(ShoppingCart shoppingCart, HttpServletRequest request) {
