@@ -84,6 +84,8 @@ public class ShoppingCartController {
     	
     	ShoppingCart shoppingCart;
     	try {	    	
+    		System.out.println("AQUI");
+    		
     		shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);   		
     		shoppingCartService.removeItemToShoppingCart(id, shoppingCart);
     		
