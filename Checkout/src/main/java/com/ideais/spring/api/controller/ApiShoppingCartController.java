@@ -1,10 +1,12 @@
 package com.ideais.spring.api.controller;
 
 import java.io.IOException;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
+
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.ideais.spring.dao.domain.checkout.ShoppingCart;
 import com.ideais.spring.service.ShoppingCartService;
 
@@ -25,6 +28,8 @@ public class ApiShoppingCartController {
     
 	@Autowired
     private ShoppingCartService shoppingCartService;
+    private static final String EMPTY_STRING = "";
+    private static final String EMPTY_CART = "0";
     private static final String CART_COOKIE_KEY = "CartItems";
 	private final Integer SUCCESS_RESPONSE_CODE = 200;
 	private final Integer ERROR_RESPONSE_CODE = 500; //mandar Bad Request
@@ -37,7 +42,11 @@ public class ApiShoppingCartController {
     @RequestMapping(value = "/totalQuantity", method = RequestMethod.GET, produces="application/json")
     public @ResponseBody String getCartItensQuantity(@CookieValue(value=CART_COOKIE_KEY, required=false) String cartCookie) {
     	try {
-			return shoppingCartService.getCartFromJson(cartCookie).getTotalQuantity().toString();
+    		if (cartCookie != null && EMPTY_STRING.equals(cartCookie)) {
+    			return shoppingCartService.getCartFromJson(cartCookie).getTotalQuantity().toString();
+    		}
+    		
+    		return EMPTY_CART;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return "ERROR";
