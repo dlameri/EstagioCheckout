@@ -34,6 +34,16 @@ public class ApiShoppingCartController {
 		return cartCookie;
     }
     
+    @RequestMapping(value = "/totalQuantity", method = RequestMethod.GET, produces="application/json")
+    public @ResponseBody String getCartItensQuantity(@CookieValue(value=CART_COOKIE_KEY, required=false) String cartCookie) {
+    	try {
+			return shoppingCartService.getCartFromJson(cartCookie).getTotalQuantity().toString();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "ERROR";
+		}
+    }
+    
     @RequestMapping(value = "/addItemToCart", method = RequestMethod.POST, consumes="application/json")
 	public Response addItemToCart(@CookieValue(value=CART_COOKIE_KEY, required=false) String cartCookie, 
 	           Long id, 
