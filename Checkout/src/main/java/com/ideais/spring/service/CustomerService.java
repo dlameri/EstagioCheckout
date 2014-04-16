@@ -1,40 +1,32 @@
 package com.ideais.spring.service;
 
-import com.ideais.spring.dao.GenericDao;
+import com.ideais.spring.dao.CustomerDao;
 import com.ideais.spring.dao.domain.checkout.Customer;
-
-import java.util.List;
+import com.ideais.spring.dao.interfaces.CustomerDaoInterface;
+import com.ideais.spring.service.interfaces.CustomerServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("customerService")
-public class CustomerService implements GenericService<Customer> {
+public class CustomerService implements CustomerServiceInterface {
 
 	@Autowired
-    private GenericDao<Customer> customerDao;
+    private CustomerDaoInterface customerDao;
 
-    @Override
-    public List<Customer> listObjects() {
-        return customerDao.findAll();
-    }
-
-    @Override
     public Customer find(Long id) {
         return customerDao.findById(id);
     }
 
-    @Override
     public void save(Customer object) {
     	customerDao.saveOrUpdate(object);
     }
 
-    public void setCustomerDao(GenericDao<Customer> customerDao) {
-        this.customerDao = customerDao;
-    }
-
-    @Override
     public void remove(Customer object) {
     	customerDao.remove(object);
+    }
+    
+    public void setCustomerDaoInterface(CustomerDao customerDao) {
+    	this.customerDao = customerDao;
     }
 
 }

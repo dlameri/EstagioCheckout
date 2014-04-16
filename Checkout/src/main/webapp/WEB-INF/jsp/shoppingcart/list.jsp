@@ -40,9 +40,11 @@
 			
 			<div id="content">
 				<div id="content-container">
+					
+					<p> ${error}</p>
 			        
 			        <div class="freightBox">
-						<p class="shTx"><span class="ico shIco"></span>consulte o prazo de entrega do seu pedido</p>
+						<p class="freight-calcule">consulte o prazo de entrega do seu pedido</p>
 						<div class="calc">
 							
 							<form method="post" action="calculateFreight" name="calculateFreight">

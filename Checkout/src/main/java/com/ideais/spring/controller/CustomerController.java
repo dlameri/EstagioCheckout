@@ -3,7 +3,9 @@ package com.ideais.spring.controller;
 import javax.servlet.http.HttpServletRequest;
 import com.ideais.spring.dao.domain.checkout.Customer;
 import com.ideais.spring.dao.domain.checkout.ShoppingCart;
+import com.ideais.spring.service.CustomerService;
 import com.ideais.spring.service.GenericService;
+import com.ideais.spring.service.interfaces.CustomerServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -15,20 +17,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller("CustomerController")
 @RequestMapping("/customer")
-@Scope(BeanDefinition.SCOPE_PROTOTYPE)
+@Scope(BeanDefinition.SCOPE_SINGLETON)
 public class CustomerController {
+	
+	//TODO: criar list de addresses
+	//TODO: implementar login sem facebook e cadastro com e sem facebook
 
     @Autowired
-    private GenericService<Customer> customerService;
-    
-    @RequestMapping("/list")
-    public ModelAndView list(HttpServletRequest request){
-    	
-    	ShoppingCart shoppingCart = (ShoppingCart) request.getSession().getAttribute("cart");
-    	System.out.println(shoppingCart.getFormattedSubTotalAmount());
-    	
-        return new ModelAndView("customer/list", "list", customerService.listObjects());
-    }
+    private CustomerServiceInterface customerService;
 
     @RequestMapping(value = "/new",method = RequestMethod.GET)
     public ModelAndView newCustomer(){
@@ -53,20 +49,7 @@ public class CustomerController {
         return "redirect:list";
     }
 
-    @RequestMapping(value = "/delete/{id}",method = RequestMethod.GET)
-    public ModelAndView delete(@PathVariable Long id){
-        Customer customer = customerService.find(id);
-        return new ModelAndView("customer/delete", "custmer", customer);
+    public void setCustomerService(CustomerService customerService) {
+    	this.customerService = customerService;
     }
-
-    @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public String delete(Customer customer){
-        customerService.remove(customer);
-        return "redirect:list";
-    }
-
-    public void setCustomerService(GenericService<Customer> customerService) {
-        this.customerService = customerService;
-    }
-
 }

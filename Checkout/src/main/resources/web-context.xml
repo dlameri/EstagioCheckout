@@ -11,7 +11,7 @@
     
     <mvc:annotation-driven />
 
-    <context:component-scan base-package="com.ideais.spring.web"/>
+    <context:component-scan base-package="com.ideais.spring"/>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/" />

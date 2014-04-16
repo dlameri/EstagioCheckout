@@ -1,29 +1,31 @@
 package com.ideais.spring.dao;
 
 import com.ideais.spring.dao.domain.checkout.PurchaseOrder;
+import com.ideais.spring.dao.interfaces.PurchaseOrderDaoInterface;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Component("purchaseOrderDao")
-public class PurchaseOrderDao implements GenericDao<PurchaseOrder> {
+public class PurchaseOrderDao implements PurchaseOrderDaoInterface {
 
 	@Autowired
     private SessionFactory sessionFactory;
 
     @SuppressWarnings("unchecked")
-	@Override
     @Transactional(readOnly = true)
-    public List<PurchaseOrder> findAll() {
-        return sessionFactory.getCurrentSession().createQuery("from PurchaseOrder").list();
+    public List<PurchaseOrder> findAll(Long customerId) {
+        return sessionFactory.getCurrentSession().createCriteria(PurchaseOrder.class).
+        		add(Restrictions.eq("customer.id", customerId)).list();
     }
 
-    @Override
     @Transactional(readOnly = true)
-    public PurchaseOrder findById(Long id) {
-        return (PurchaseOrder) sessionFactory.getCurrentSession().get(PurchaseOrder.class, id);
+    public PurchaseOrder findById(Long id, Long customerId) {
+        return (PurchaseOrder) sessionFactory.getCurrentSession().createCriteria(PurchaseOrder.class).
+        		add(Restrictions.eq("customer.id", customerId)).add(Restrictions.eq("id", id)).uniqueResult();
     }
 
     @Override
@@ -31,10 +33,6 @@ public class PurchaseOrderDao implements GenericDao<PurchaseOrder> {
     public void saveOrUpdate(PurchaseOrder object) {
     	PurchaseOrder purchaseHistory = (PurchaseOrder) sessionFactory.getCurrentSession().merge((PurchaseOrder) object);
         sessionFactory.getCurrentSession().save(purchaseHistory);
-    }
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
     }
 
     @Override

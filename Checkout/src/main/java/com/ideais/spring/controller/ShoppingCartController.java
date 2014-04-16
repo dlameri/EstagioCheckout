@@ -179,7 +179,7 @@ public class ShoppingCartController {
 	    	shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);	    			
 	        shoppingCartService.setShoppingCartInSession(shoppingCart, request);
 	    	
-	    	return "redirect:../purchaseorder/list";
+	    	return "redirect:../purchaseorder/paymentDetails";
     	} catch (Exception e) {
     		e.printStackTrace();
     		return null;

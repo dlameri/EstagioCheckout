@@ -1,31 +1,25 @@
 package com.ideais.spring.dao;
 
 import com.ideais.spring.dao.domain.checkout.Customer;
+import com.ideais.spring.dao.interfaces.CustomerDaoInterface;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
 
 @Component("customerDao")
-public class CustomerDao implements GenericDao<Customer> {
+public class CustomerDao implements CustomerDaoInterface {
 
 	@Autowired
     private SessionFactory sessionFactory;
 
-    @SuppressWarnings("unchecked")
-	@Override
-    @Transactional(readOnly = true)
-    public List<Customer> findAll() {
-        return sessionFactory.getCurrentSession().createQuery("from Customer").list();
-    }
-
     @Override
-    @Transactional(readOnly = true)
+	@Transactional(readOnly = true)
     public Customer findById(Long id) {
         return (Customer) sessionFactory.getCurrentSession().get(Customer.class, id);
     }
     
+    @Override
     @Transactional(readOnly = true)
     public Customer findByName(String name) {
         return (Customer) sessionFactory.getCurrentSession().get(Customer.class, name);
@@ -38,14 +32,14 @@ public class CustomerDao implements GenericDao<Customer> {
         sessionFactory.getCurrentSession().save(c);
     }
 
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
     @Override
     @Transactional
     public void remove(Object object) {
         sessionFactory.getCurrentSession().delete((Customer) object);
+    }
+    
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
 }

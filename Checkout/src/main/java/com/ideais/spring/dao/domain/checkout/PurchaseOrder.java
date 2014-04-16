@@ -33,7 +33,7 @@ public class PurchaseOrder {
 	private Date purchaseDate;	
 	
 	@Column(name="DT_PREVISAO_CHEGADA")
-	private Date scheduledDelivery;
+	private String scheduledDelivery;
 	
 	@Column(name="NR_FRETE")
 	private BigDecimal freight; 
@@ -127,11 +127,11 @@ public class PurchaseOrder {
 		return shoppingCart.getTotalAmount();
 	}
 
-	public Date getScheduledDelivery() {
+	public String getScheduledDelivery() {
 		return scheduledDelivery;
 	}
 
-	public void setScheduledDelivery(Date scheduledDelivery) {
+	public void setScheduledDelivery(String scheduledDelivery) {
 		this.scheduledDelivery = scheduledDelivery;
 	}
 

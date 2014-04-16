@@ -1,7 +1,6 @@
 package com.ideais.spring.dao.domain.checkout;
 
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,12 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "CLIENTE")
@@ -25,6 +21,9 @@ public class Customer {
 	@SequenceGenerator(name = "customer_id", sequenceName = "customer_id")
 	@GeneratedValue(generator = "customer_id", strategy = GenerationType.AUTO)
 	@Column(name = "CD_CLIENTE", nullable = false)
+	private Long id;
+	
+	@Column(name = "CD_CLIENTE_FB", nullable = false)
 	private Long customerFbId;
 	
 	@Column(name = "NM_NOME")
@@ -53,6 +52,14 @@ public class Customer {
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private List<PurchaseOrder> purchaseOrders;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public Long getCustomerFbId() {
 		return customerFbId;
 	}
