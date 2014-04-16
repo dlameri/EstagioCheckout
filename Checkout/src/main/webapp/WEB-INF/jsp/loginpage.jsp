@@ -63,6 +63,12 @@
 								<input type="text" class="form-control" name="username" placeholder="email address">
 							</div>
 							<span class="help-block"></span>
+							
+							<form:form action="emptyCart" method="post" commandName="cart">
+					            <span>esvaziar carrinho de compras</span>
+								<input class="cartItemInput" value="esvaziar" type="submit">
+					        </form:form>
+							
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fa fa-lock"></i></span>
 								<input  type="password" class="form-control" name="password" placeholder="Password">
