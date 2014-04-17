@@ -12,29 +12,46 @@
 	</head>
 	<body>
 		<div id="wrapper">	
-			<div id="header">
-				<div id="line"></div>
-				<div id="header-content">
-					<figure>
-						<a href="#"><img src="<c:url value="/resources/images/logo.png" />" alt="imagem do produto x"/></a> 
-					</figure>
-					<h2 class="logo-title">Loja Virtual</h2>
-					<h5 class="logo-subtitle">Breve descrição da loja</h5> 
-					<ul>
-						<li><a href="#">Home</a></li>
-						<li><a href="#">Categorias</a>
-							<ul>
-								<li><a href="#">Categoria 1</a></li>
-								<li><a href="#">Categoria 2</a></li>
-								<li><a href="#">Categoria 3</a></li>
-								<li><a href="#">Categoria 4</a></li>
-							</ul> 
-						</li>
-						<li><a href="#">Sobre</a></li>
-						<li><a href="#">Fale Conosco</a></li>
-					</ul>		
-				</div>			
-			</div><!-- #header -->		
+			<header id="main-header">
+				<div class="container-header">
+					<h1 class="logo"><a href="${pageContext.request.contextPath}">Ideais Electronics</a></h1>
+					
+					<div id="search-area">
+						<form method="get" action="${pageContext.request.contextPath}/product/search" name="searchProduct">
+							<div class="search-box">
+								<input type="text" name="name" id="input-search-text">
+								<input type="submit" value="Pesquisar" id="input-search-submit" class="search-icon">
+							</div>
+						</form>
+					</div>
+					
+					<div class="login-or-register">
+						<span>Olá, visitante!</span>
+						<a href="">Cadastre-se</a>
+						<a href="">Entre</a>
+					</div>
+		
+					<div class="cart">
+						<span class="shopping-cart">Carrinho</span>
+						<span class="qtCart">0</span>
+					</div>
+		
+					<nav id="main-nav" class="main-menu">
+						<ul class="menu">
+							<c:forEach items="${categories}"  var="category">
+								<li class="menu-item"><a href="${pageContext.request.contextPath}/category/${category.id}/product">${category.name}</a>
+									<ul class="sub-menu">
+										<c:forEach items="${category.subcategories}" var="subcategory">
+											<li class="submenu-item"><a href="${pageContext.request.contextPath}/category/subcategory/${subcategory.id}/product">${subcategory.name}</a></li>
+										</c:forEach>
+									</ul>
+								</li>
+							</c:forEach>
+						</ul>
+					</nav>		
+				</div>
+			</header>
+	
 			<div id="content">
 				<div id="content-container">
 					<section class="login">
