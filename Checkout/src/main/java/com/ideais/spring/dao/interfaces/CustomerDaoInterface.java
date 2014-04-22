@@ -7,6 +7,8 @@ public interface CustomerDaoInterface {
     public Customer findById(Long id);
     
     public Customer findByName(String name);
+    
+    public Customer findByLogin(String username, String password);
    
     public void saveOrUpdate(Customer object);
 

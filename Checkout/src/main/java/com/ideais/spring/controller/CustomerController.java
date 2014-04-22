@@ -1,11 +1,5 @@
 package com.ideais.spring.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import com.ideais.spring.dao.domain.checkout.Customer;
-import com.ideais.spring.dao.domain.checkout.ShoppingCart;
-import com.ideais.spring.service.CustomerService;
-import com.ideais.spring.service.GenericService;
-import com.ideais.spring.service.interfaces.CustomerServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -14,6 +8,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.ideais.spring.dao.domain.checkout.Address;
+import com.ideais.spring.dao.domain.checkout.Customer;
+import com.ideais.spring.dao.domain.checkout.RegisterWrapper;
+import com.ideais.spring.service.AddressServiceInterface;
+import com.ideais.spring.service.CustomerService;
+import com.ideais.spring.service.interfaces.CustomerServiceInterface;
 
 @Controller("CustomerController")
 @RequestMapping("/customer")
@@ -25,16 +26,34 @@ public class CustomerController {
 
     @Autowired
     private CustomerServiceInterface customerService;
-
+    
+//    @Autowired
+//    private AddressServiceInterface addressService;
+    
     @RequestMapping(value = "/new",method = RequestMethod.GET)
     public ModelAndView newCustomer(){
-        return new ModelAndView("customer/new", "customer", new Customer());
+    	ModelAndView view = new ModelAndView("customer/new");
+    	RegisterWrapper rw = new RegisterWrapper();
+        rw.setAddress(new Address());
+        rw.setCustomer(new Customer());   	
+        	
+    	view.addObject("register", rw);
+    	
+    	//view.addObject("address", new Address());
+        return view;
     }
 
     @RequestMapping(value = "/new",method = RequestMethod.POST)
-    public String newCustomer(Customer customer){
+    public String newCustomer(RegisterWrapper rw){
+        Address address = rw.getAddress();
+        Customer customer = rw.getCustomer();
+    	address.setCustomer(customer);
+        customer.setMainAddress(address);
         customerService.save(customer);
-        return "redirect:list";
+      
+        //addressService.save(address);                
+    	
+        return "redirect:";
     }
 
     @RequestMapping(value = "/edit/{id}",method = RequestMethod.GET)

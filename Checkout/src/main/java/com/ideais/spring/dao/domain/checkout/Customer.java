@@ -1,14 +1,17 @@
 package com.ideais.spring.dao.domain.checkout;
 
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -22,30 +25,40 @@ public class Customer {
 	@GeneratedValue(generator = "customer_id", strategy = GenerationType.AUTO)
 	@Column(name = "CD_CLIENTE", nullable = false)
 	private Long id;
-	
-	@Column(name = "CD_CLIENTE_FB", nullable = false)
-	private Long customerFbId;
-	
+
 	@Column(name = "NM_NOME")
 	private String name;
-	
+
 	@Column(name = "NM_SOBRENOME")
 	private String surname;
-	
+
 	@Column(name = "NM_TELEFONE")
 	private String phoneNumber;
-	
+
 	@Column(name = "NM_CPF")
 	private String cpf;
+
+	@Column(name = "NM_EMAIL")
+	private String email;
+
+	@Column(name = "NM_LOGIN")
+	private String username;
+
+	@Column(name = "NM_SENHA")
+	private String password;
+
+	@OneToOne(mappedBy = "customer")
+	@Cascade(CascadeType.ALL)
+	private Address mainAddress;
 
 	@JsonBackReference
 	@OneToMany(mappedBy = "customer")
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private List<ShoppingCart> shoppingCarts;
-	
+
 	@OneToMany(mappedBy = "customer")
 	@Cascade(CascadeType.ALL)
-	private List<Address> addresses;
+	private List<Address> DeliveryAddresses;
 
 	@JsonBackReference
 	@OneToMany(mappedBy = "customer")
@@ -58,14 +71,6 @@ public class Customer {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-	
-	public Long getCustomerFbId() {
-		return customerFbId;
-	}
-
-	public void setCustomerFbId(Long userFbId) {
-		this.customerFbId = userFbId;
 	}
 
 	public String getName() {
@@ -82,14 +87,6 @@ public class Customer {
 
 	public void setSurname(String surname) {
 		this.surname = surname;
-	}
-
-	public List<Address> getAddresses() {
-		return addresses;
-	}
-
-	public void setAddresses(List<Address> addresses) {
-		this.addresses = addresses;
 	}
 
 	public String getPhoneNumber() {
@@ -122,6 +119,46 @@ public class Customer {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public List<Address> getDeliveryAddresses() {
+		return DeliveryAddresses;
+	}
+
+	public void setDeliveryAddresses(List<Address> deliveryAddresses) {
+		DeliveryAddresses = deliveryAddresses;
+	}
+
+	public Address getMainAddress() {
+		return mainAddress;
+	}
+
+	public void setMainAddress(Address mainAddress) {
+		this.mainAddress = mainAddress;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }

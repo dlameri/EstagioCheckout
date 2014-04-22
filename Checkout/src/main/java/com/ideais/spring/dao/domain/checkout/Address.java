@@ -46,9 +46,9 @@ public class Address {
 	private String zipCode;
 	
 	@JsonBackReference
-	@ManyToOne(targetEntity=Customer.class)
+	@OneToOne//(targetEntity=Customer.class)
 	@JoinColumn(name="CD_CLIENTE", referencedColumnName="CD_CLIENTE", nullable=false)
-	@Cascade(CascadeType.MERGE)
+	//@Cascade(CascadeType.MERGE)
 	private Customer customer;
 	
 	@JsonBackReference
