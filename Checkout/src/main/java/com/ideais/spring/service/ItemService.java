@@ -4,30 +4,46 @@ import java.io.IOException;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ideais.spring.dao.ItemJsonDao;
-import com.ideais.spring.dao.ProductJsonDao;
-import com.ideais.spring.dao.domain.checkout.stock.Item;
+import com.ideais.spring.dao.interfaces.ItemDaoBehavior;
+import com.ideais.spring.dao.interfaces.ProductDaoBehavior;
+import com.ideais.spring.domain.Item;
+import com.ideais.spring.domain.catalog.Product;
+import com.ideais.spring.domain.stock.json.ItemJSON;
+import com.ideais.spring.domain.stock.json.ProductJSON;
+import com.ideais.spring.service.interfaces.ItemServiceBehavior;
 
 @Service("itemService")
-public class ItemService {
+public class ItemService implements ItemServiceBehavior {
 	
 	@Autowired
-    private ItemJsonDao itemJsonDao;
+    private ItemDaoBehavior itemDao;
 	@Autowired
-    private ProductJsonDao productJsonDao;
+    private ProductDaoBehavior productDao;
 	
+	@Override
 	public Item getItem(Long id) throws IOException, JSONException {		
-		Item item = itemJsonDao.getItemFromStock(id); 
+		ItemJSON itemJSON = itemDao.findById(id); 
+		Item item = new Item(itemJSON);
 		
-		if (item != null) {
-			item.setProduct(productJsonDao.getProductFromStock(item.getProductId()));
+		if (itemJSON != null) {
+			ProductJSON productJSON = productDao.findById(itemJSON.getURI("product"));
+			Product product = new Product(productJSON);
+			
+			if (productJSON != null) {
+				item.setProductName(product.getName());
+				item.setProductId(product.getId());
+			}
+			
+			//pegar imagem e dimensão das urls
+
 		}
 		
 		return item;
 	}
 	
-	public Integer refreshItemQuantity(String cartJson) {
-		return itemJsonDao.updateStock(cartJson);
+	@Override
+	public Boolean refreshItemQuantity(String cartJson) {
+		return itemDao.updateStock(cartJson);
 	}
 	
 }

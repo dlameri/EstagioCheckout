@@ -1,16 +1,18 @@
 package com.ideais.spring.dao;
 
-import com.ideais.spring.dao.domain.checkout.PurchaseOrder;
-import com.ideais.spring.dao.interfaces.PurchaseOrderDaoInterface;
+import com.ideais.spring.dao.interfaces.PurchaseOrderDaoBehavior;
+import com.ideais.spring.domain.PurchaseOrder;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Component("purchaseOrderDao")
-public class PurchaseOrderDao implements PurchaseOrderDaoInterface {
+public class PurchaseOrderDao implements PurchaseOrderDaoBehavior {
 
 	@Autowired
     private SessionFactory sessionFactory;

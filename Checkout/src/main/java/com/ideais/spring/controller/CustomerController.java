@@ -1,5 +1,10 @@
 package com.ideais.spring.controller;
 
+import com.ideais.spring.domain.Address;
+import com.ideais.spring.domain.Customer;
+import com.ideais.spring.domain.RegisterWrapper;
+import com.ideais.spring.service.CustomerService;
+import com.ideais.spring.service.interfaces.CustomerServiceBehavior;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -8,13 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.ideais.spring.dao.domain.checkout.Address;
-import com.ideais.spring.dao.domain.checkout.Customer;
-import com.ideais.spring.dao.domain.checkout.RegisterWrapper;
-import com.ideais.spring.service.AddressServiceInterface;
-import com.ideais.spring.service.CustomerService;
-import com.ideais.spring.service.interfaces.CustomerServiceInterface;
 
 @Controller("CustomerController")
 @RequestMapping("/customer")
@@ -25,10 +23,7 @@ public class CustomerController {
 	//TODO: implementar login sem facebook e cadastro com e sem facebook
 
     @Autowired
-    private CustomerServiceInterface customerService;
-    
-//    @Autowired
-//    private AddressServiceInterface addressService;
+    private CustomerServiceBehavior customerService;
     
     @RequestMapping(value = "/new",method = RequestMethod.GET)
     public ModelAndView newCustomer(){
@@ -39,7 +34,6 @@ public class CustomerController {
         	
     	view.addObject("register", rw);
     	
-    	//view.addObject("address", new Address());
         return view;
     }
 
@@ -50,9 +44,7 @@ public class CustomerController {
     	address.setCustomer(customer);
         customer.setMainAddress(address);
         customerService.save(customer);
-      
-        //addressService.save(address);                
-    	
+          	
         return "redirect:";
     }
 
@@ -67,8 +59,5 @@ public class CustomerController {
         customerService.save(customer);
         return "redirect:list";
     }
-
-    public void setCustomerService(CustomerService customerService) {
-    	this.customerService = customerService;
-    }
+    
 }

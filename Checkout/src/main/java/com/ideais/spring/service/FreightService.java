@@ -6,22 +6,26 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.httpclient.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ideais.spring.dao.FreightXmlDao;
-import com.ideais.spring.dao.domain.checkout.FreightDetails;
-import com.ideais.spring.dao.domain.checkout.ItemsPackage;
-import com.ideais.spring.dao.domain.checkout.ShoppingCart;
+import com.ideais.spring.dao.interfaces.FreightDaoBehavior;
+import com.ideais.spring.domain.FreightDetails;
+import com.ideais.spring.domain.ItemsPackage;
+import com.ideais.spring.domain.PurchaseOrder;
+import com.ideais.spring.domain.ShoppingCart;
+import com.ideais.spring.service.interfaces.FreightServiceBehavior;
 
 @Service("freightService")
-public class FreightService {
+public class FreightService implements FreightServiceBehavior{
 	
 	@Autowired
-    private FreightXmlDao freightXmlDao;
+    private FreightDaoBehavior freightDao;
     private static final String FREIGHT_KEY = "freightDetails";
 	
+    @Override
 	public FreightDetails calculateFreightDetails(ShoppingCart shoppingCart, String zipCode) throws Exception {
-		return freightXmlDao.getFreight(new ItemsPackage(shoppingCart.getShoppingCartLines()), zipCode);
+		return freightDao.getFreight(new ItemsPackage(shoppingCart.getShoppingCartLines()), zipCode);
 	}
 	
+    @Override
     public void recalculateFreight(ShoppingCart shoppingCart, HttpServletRequest request) {
 		try {
 	    	FreightDetails freightDetails = (FreightDetails) request.getSession().getAttribute(FREIGHT_KEY);
@@ -36,6 +40,7 @@ public class FreightService {
 		}
 	}
     
+    @Override
     public FreightDetails updateFreightDetails(ShoppingCart shoppingCart, FreightDetails freightDetails) throws Exception {
 		if (shoppingCart.getShoppingCartLines().size() <= 0) {
 			shoppingCart.setFreight(BigDecimal.ZERO);
@@ -47,13 +52,24 @@ public class FreightService {
 		return freightDetails;
 	}
     
+    @Override
     public void setFreightInSession(FreightDetails freightDetails, ShoppingCart shoppingCart, HttpServletRequest request) {
 		shoppingCart.setFreight(freightDetails.getFreightValue());
 		request.getSession().setAttribute(FREIGHT_KEY, freightDetails);
 	}
 
+    @Override
 	public FreightDetails getFreightDetails(HttpServletRequest request) {
 		return (FreightDetails) request.getSession().getAttribute(FREIGHT_KEY);
+	}
+	
+    @Override
+	public void setFreightDeliverInPurchaseOrder(HttpServletRequest request, PurchaseOrder order) {
+		FreightDetails freightDetails = getFreightDetails(request);
+		
+		if (freightDetails != null) {
+			order.setScheduledDelivery(freightDetails.getDeliveryDays());
+		}
 	}
 	
 }

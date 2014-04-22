@@ -1,8 +1,7 @@
 package com.ideais.spring.dao;
 
-import com.ideais.spring.dao.domain.checkout.Customer;
-import com.ideais.spring.dao.interfaces.CustomerDaoInterface;
-
+import com.ideais.spring.dao.interfaces.CustomerDaoBehavior;
+import com.ideais.spring.domain.Customer;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component("customerDao")
-public class CustomerDao implements CustomerDaoInterface {
+public class CustomerDao implements CustomerDaoBehavior {
 
 	@Autowired
     private SessionFactory sessionFactory;
@@ -45,10 +44,6 @@ public class CustomerDao implements CustomerDaoInterface {
     public void remove(Object object) {
         session().delete((Customer) object);
     }
-    
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
 	@Override
 	@Transactional
@@ -58,6 +53,7 @@ public class CustomerDao implements CustomerDaoInterface {
 				.add(Restrictions.eq("username", username))
 				.add(Restrictions.eq("password", password)).uniqueResult();
 		tx.commit();
+		
 		return customer;
 	}
 

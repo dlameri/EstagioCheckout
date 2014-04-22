@@ -5,10 +5,11 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import org.springframework.web.bind.annotation.CookieValue;
 import javax.servlet.http.HttpServletResponse;
-import com.ideais.spring.dao.domain.checkout.FreightDetails;
-import com.ideais.spring.dao.domain.checkout.ShoppingCart;
-import com.ideais.spring.service.FreightService;
-import com.ideais.spring.service.ShoppingCartService;
+import com.ideais.spring.controller.catalog.BaseController;
+import com.ideais.spring.domain.FreightDetails;
+import com.ideais.spring.domain.ShoppingCart;
+import com.ideais.spring.service.interfaces.FreightServiceBehavior;
+import com.ideais.spring.service.interfaces.ShoppingCartServiceBehavior;
 import com.ideais.spring.util.DigitsValidator;
 import org.apache.axis.AxisFault;
 import org.codehaus.jackson.JsonGenerationException;
@@ -27,12 +28,12 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller("ShoppingCartController")
 @RequestMapping("/shoppingcart")
 @Scope(BeanDefinition.SCOPE_SINGLETON)
-public class ShoppingCartController {
-	
+public class ShoppingCartController extends BaseController {
+		
 	@Autowired
-    private ShoppingCartService shoppingCartService;
+    private ShoppingCartServiceBehavior shoppingCartService;
     @Autowired
-    private FreightService freightService;
+    private FreightServiceBehavior freightService;
     private static final String CART_COOKIE_KEY = "CartItems";
 	    
     @RequestMapping(value = "/codItem/{id}", method = RequestMethod.GET)
@@ -43,7 +44,6 @@ public class ShoppingCartController {
     	
     	ShoppingCart shoppingCart;
     	try {    		
-	    	
 	    	shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);
 	    	shoppingCartService.addItemToShoppingCart(id, shoppingCart);
 	    	
@@ -51,6 +51,7 @@ public class ShoppingCartController {
     		
 	        shoppingCartService.setShoppingCartInSession(shoppingCart, request);
 	    	response.addCookie(shoppingCartService.createCartCookie(shoppingCart));
+	    	response.addCookie(shoppingCartService.createCartTopCookie(shoppingCart));
 	    	
 	    	return "redirect:../list";
     	} catch (Exception e) {
@@ -61,15 +62,19 @@ public class ShoppingCartController {
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
     public ModelAndView listCartItems(@CookieValue(value=CART_COOKIE_KEY, required=false) String cartCookie, HttpServletRequest request) {
-    	try {    		    	    		
+    	try {    		
+    		ModelAndView view = getBaseView("shoppingcart/list", request);
+    		
     		ShoppingCart shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);
     		FreightDetails freightDetails = freightService.getFreightDetails(request);
     		
     		if (freightDetails == null) {
     			freightService.setFreightInSession(new FreightDetails(), shoppingCart, request);
     		}
-    	    		
-	    	return new ModelAndView("shoppingcart/list", "cart", shoppingCart);
+    	    
+    		view.addObject("cart", shoppingCart);
+    		
+	    	return view;
     	} catch (Exception e) {
     		e.printStackTrace();
     		return null;
@@ -83,16 +88,15 @@ public class ShoppingCartController {
     						 HttpServletRequest request) {
     	
     	ShoppingCart shoppingCart;
-    	try {	    	
-    		System.out.println("AQUI");
-    		
+    	try {	    	    		
     		shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);   		
     		shoppingCartService.removeItemToShoppingCart(id, shoppingCart);
     		
     		freightService.recalculateFreight(shoppingCart, request);
 	    	
 	        shoppingCartService.setShoppingCartInSession(shoppingCart, request);
-    		response.addCookie(shoppingCartService.createCartCookie(shoppingCart));
+    		response.addCookie(shoppingCartService.createCartCookie(shoppingCart));		
+	    	response.addCookie(shoppingCartService.createCartTopCookie(shoppingCart));
 	        
 	    	return "redirect:../list";
 		} catch (Exception e) {
@@ -110,6 +114,7 @@ public class ShoppingCartController {
     		
 	        shoppingCartService.setShoppingCartInSession(shoppingCart, request);
 	    	response.addCookie(shoppingCartService.createCartCookie(shoppingCart));
+	    	response.addCookie(shoppingCartService.createCartTopCookie(shoppingCart));
     		
         	return "redirect:list";
     	} catch(IOException e) {
@@ -137,6 +142,7 @@ public class ShoppingCartController {
 	    		
 		        shoppingCartService.setShoppingCartInSession(shoppingCart, request);
 		    	response.addCookie(shoppingCartService.createCartCookie(shoppingCart));
+		    	response.addCookie(shoppingCartService.createCartTopCookie(shoppingCart));
     		}
     		
 	    	return "redirect:../list";
@@ -163,6 +169,7 @@ public class ShoppingCartController {
 
     	        shoppingCartService.setShoppingCartInSession(shoppingCart, request);
     	    	response.addCookie(shoppingCartService.createCartCookie(shoppingCart));
+    	    	response.addCookie(shoppingCartService.createCartTopCookie(shoppingCart));
     		}
    	    	
 	    	return "redirect:list";

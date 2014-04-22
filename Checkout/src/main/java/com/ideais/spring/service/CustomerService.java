@@ -1,17 +1,16 @@
 package com.ideais.spring.service;
 
-import com.ideais.spring.dao.CustomerDao;
-import com.ideais.spring.dao.domain.checkout.Customer;
-import com.ideais.spring.dao.interfaces.CustomerDaoInterface;
-import com.ideais.spring.service.interfaces.CustomerServiceInterface;
+import com.ideais.spring.dao.interfaces.CustomerDaoBehavior;
+import com.ideais.spring.domain.Customer;
+import com.ideais.spring.service.interfaces.CustomerServiceBehavior;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("customerService")
-public class CustomerService implements CustomerServiceInterface {
+public class CustomerService implements CustomerServiceBehavior {
 
 	@Autowired
-    private CustomerDaoInterface customerDao;
+    private CustomerDaoBehavior customerDao;
 
     public Customer find(Long id) {
         return customerDao.findById(id);
@@ -23,10 +22,6 @@ public class CustomerService implements CustomerServiceInterface {
 
     public void remove(Customer object) {
     	customerDao.remove(object);
-    }
-    
-    public void setCustomerDaoInterface(CustomerDao customerDao) {
-    	this.customerDao = customerDao;
     }
 
 }

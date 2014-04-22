@@ -11,15 +11,35 @@
 		
 
 
-    <context:property-placeholder location="classpath:config.properties, classpath:integration.properties, classpath:store.properties"/>    
+    <context:property-placeholder location="classpath:config.properties, classpath:integration.properties, classpath:store.properties, classpath:restIntegration/stock-integration.properties, classpath:restIntegration/checkout-integration.properties"/>    
     
     <context:annotation-config/>
     
     <context:component-scan base-package="com.ideais.spring" />
     
+    <bean id="stockUrlCategory" class="java.lang.String">  
+    	<constructor-arg value="${stock.category}"/>
+	</bean>
+	<bean id="stockUrlItem" class="java.lang.String">  
+    	<constructor-arg value="${stock.item}"/>  
+	</bean>
+	<bean id="stockUrlProduct" class="java.lang.String">  
+    	<constructor-arg value="${stock.product}"/>  
+	</bean>
+	<bean id="stockUrlSubcategory" class="java.lang.String">  
+    	<constructor-arg value="${stock.subcategory}"/>  
+	</bean>
+	<bean id="checkoutUrlCart" class="java.lang.String">  
+    	<constructor-arg value="${checkout.cart}"/>  
+	</bean>
+    
    	<bean id="cookiePath" class="java.lang.String">  
     	<constructor-arg value="${cookie.path}"/>  
-	</bean>  
+	</bean> 
+	
+   	<bean id="cookieDomain" class="java.lang.String">  
+    	<constructor-arg value="${cookie.domain}"/>  
+	</bean>   
 
 	<bean id="stockIntegrationUrl" class="java.lang.String">  
     	<constructor-arg value="${stock.integration}"/>  
@@ -86,6 +106,9 @@
                 <prop key="hibernate.default_batch_fetch_size">
                     100
                 </prop>
+                <prop key="hibernate.temp.use_jdbc_metadata_defaults">
+                    ${dataSource.hibernate.temp.use_jdbc_metadata_defaults}
+                </prop>
             </props>
         </property>
         <property name="configLocations">
@@ -94,12 +117,11 @@
     </bean>
 
 
-    <bean id="transactionManager"
-          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="dataSource" ref="dataSource" />
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
-
+    
 
 
 </beans>

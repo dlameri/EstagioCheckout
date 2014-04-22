@@ -18,7 +18,6 @@
         <property name="suffix" value=".jsp" />
     </bean>
 
-	<mvc:resources mapping="/resources/**" location="/resources/theme/" />
-
+	<mvc:resources mapping="/resources/**" location="/WEB-INF/" />
 
 </beans>

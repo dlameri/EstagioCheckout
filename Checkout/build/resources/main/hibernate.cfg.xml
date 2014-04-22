@@ -14,20 +14,15 @@
 		<property name="c3p0.timeout">100</property>
     
 		<!-- Checkout -->
-		<mapping class="com.ideais.spring.dao.domain.checkout.Address"/>
-		<mapping class="com.ideais.spring.dao.domain.checkout.Customer"/>
-		<mapping class="com.ideais.spring.dao.domain.checkout.PurchaseOrder"/>
-		<mapping class="com.ideais.spring.dao.domain.checkout.ShoppingCart"/>
-		<mapping class="com.ideais.spring.dao.domain.checkout.ShoppingCartLine"/>
-		<mapping class="com.ideais.spring.dao.domain.checkout.Payment"/>
-		
-		<!-- Stock -->
-		<mapping class="com.ideais.spring.dao.domain.checkout.stock.Image"/>
-		<mapping class="com.ideais.spring.dao.domain.checkout.stock.Item"/>
-		<mapping class="com.ideais.spring.dao.domain.checkout.stock.Product"/>
-		<mapping class="com.ideais.spring.dao.domain.checkout.stock.Dimensions"/>
-		<mapping class="com.ideais.spring.dao.domain.checkout.stock.Category"/>
-		<mapping class="com.ideais.spring.dao.domain.checkout.stock.Subcategory"/>		
+		<mapping class="com.ideais.spring.domain.Address"/>
+		<mapping class="com.ideais.spring.domain.Customer"/>
+		<mapping class="com.ideais.spring.domain.PurchaseOrder"/>
+		<mapping class="com.ideais.spring.domain.ShoppingCart"/>
+		<mapping class="com.ideais.spring.domain.ShoppingCartLine"/>
+		<mapping class="com.ideais.spring.domain.Payment"/>
+		<mapping class="com.ideais.spring.domain.Item"/>
+		<mapping class="com.ideais.spring.domain.Dimensions"/>
+
 
     </session-factory>
 </hibernate-configuration>
