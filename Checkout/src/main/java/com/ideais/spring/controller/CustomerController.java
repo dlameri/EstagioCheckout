@@ -42,9 +42,10 @@ public class CustomerController {
         Address address = rw.getAddress();
         Customer customer = rw.getCustomer();
     	address.setCustomer(customer);
+        customer.addAddressToDeliveryAddresses(address);
+//    	customerService.save(customer);        
         customer.setMainAddress(address);
         customerService.save(customer);
-          	
         return "redirect:";
     }
 

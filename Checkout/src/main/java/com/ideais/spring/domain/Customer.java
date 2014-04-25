@@ -1,15 +1,19 @@
 package com.ideais.spring.domain;
 
+import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -45,7 +49,8 @@ public class Customer {
 	@Column(name = "NM_SENHA")
 	private String password;
 
-	@OneToOne(mappedBy = "customer")
+	@OneToOne//(mappedBy = "customer")
+	@JoinColumn(name="CD_ENDERECO_PRINCIPAL", referencedColumnName ="CD_ENDERECO", nullable=true)
 	@Cascade(CascadeType.ALL)
 	private Address mainAddress;
 
@@ -56,12 +61,12 @@ public class Customer {
 
 	@OneToMany(mappedBy = "customer")
 	@Cascade(CascadeType.ALL)
-	private List<Address> DeliveryAddresses;
+	private List<Address> deliveryAddresses = new ArrayList<Address>();
 
 	@JsonBackReference
 	@OneToMany(mappedBy = "customer")
 	@Cascade(CascadeType.SAVE_UPDATE)
-	private List<PurchaseOrder> purchaseOrders;
+	private List<PurchaseOrder> purchaseOrders = new ArrayList<PurchaseOrder>();
 
 	public Long getId() {
 		return id;
@@ -120,11 +125,11 @@ public class Customer {
 	}
 
 	public List<Address> getDeliveryAddresses() {
-		return DeliveryAddresses;
+		return deliveryAddresses;
 	}
 
 	public void setDeliveryAddresses(List<Address> deliveryAddresses) {
-		DeliveryAddresses = deliveryAddresses;
+		this.deliveryAddresses = deliveryAddresses;
 	}
 
 	public Address getMainAddress() {
@@ -158,5 +163,8 @@ public class Customer {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	
+	public void addAddressToDeliveryAddresses(Address address){
+		deliveryAddresses.add(address);
+	}
 }

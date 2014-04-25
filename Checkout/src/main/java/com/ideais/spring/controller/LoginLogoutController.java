@@ -8,6 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import com.ideais.spring.domain.Customer;
 
 @Controller
 @RequestMapping("/auth")
@@ -27,12 +28,18 @@ public class LoginLogoutController {
 		return filterLoggedCustomer(request);
 	}
 	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(HttpServletRequest rquest){
+		
+		return "";
+	}
+	
 	private String filterLoggedCustomer(HttpServletRequest request) {
 		if (request.getSession().getAttribute(CUSTOMER_KEY) != null) {
 			return "";
 		}
 		
-		return "loginpage";
+		return "/customer/login";
 	}
 
 	private void hadleError(ModelMap model, boolean error) {
