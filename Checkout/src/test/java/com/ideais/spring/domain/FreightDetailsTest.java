@@ -24,11 +24,6 @@ public class FreightDetailsTest {
 		freight.setDeliveryDays("2");
 		assertEquals("2 dias úteis.", freight.getDeliveryDays());
 	}
-//
-//	public boolean wasCalculated() {
-//		return deliveryDays != null && storeZipCode != null && serviceType != null && destinationZipCode != null;
-//	}
-//	
 	
 	@Test
 	public void check_if_freight_was_not_calculated_with_delivery_days_equals_null() {
