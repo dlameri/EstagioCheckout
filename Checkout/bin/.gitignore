@@ -1,0 +1,9 @@
+/application-context.xml
+/com
+/config.properties
+/hibernate.cfg.xml
+/integration.properties
+/restIntegration
+/spring-security.xml
+/store.properties
+/web-context.xml

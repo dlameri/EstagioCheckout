@@ -1,127 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-		
 
 
-    <context:property-placeholder location="classpath:config.properties, classpath:integration.properties, classpath:store.properties, classpath:restIntegration/stock-integration.properties, classpath:restIntegration/checkout-integration.properties"/>    
-    
-    <context:annotation-config/>
-    
-    <context:component-scan base-package="com.ideais.spring" />
-    
-    <bean id="stockUrlCategory" class="java.lang.String">  
-    	<constructor-arg value="${stock.category}"/>
+
+	<context:property-placeholder
+		location="classpath:config.properties, classpath:integration.properties, classpath:store.properties, classpath:restIntegration/stock-integration.properties, classpath:restIntegration/checkout-integration.properties" />
+
+	<context:annotation-config />
+
+	<context:component-scan base-package="com.ideais.spring" />
+
+	<bean id="stockUrlCategory" class="java.lang.String">
+		<constructor-arg value="${stock.category}" />
 	</bean>
-	<bean id="stockUrlItem" class="java.lang.String">  
-    	<constructor-arg value="${stock.item}"/>  
+	<bean id="stockUrlItem" class="java.lang.String">
+		<constructor-arg value="${stock.item}" />
 	</bean>
-	<bean id="stockUrlProduct" class="java.lang.String">  
-    	<constructor-arg value="${stock.product}"/>  
+	<bean id="stockUrlProduct" class="java.lang.String">
+		<constructor-arg value="${stock.product}" />
 	</bean>
-	<bean id="stockUrlSubcategory" class="java.lang.String">  
-    	<constructor-arg value="${stock.subcategory}"/>  
+	<bean id="stockUrlSubcategory" class="java.lang.String">
+		<constructor-arg value="${stock.subcategory}" />
 	</bean>
-	<bean id="checkoutUrlCart" class="java.lang.String">  
-    	<constructor-arg value="${checkout.cart}"/>  
+	<bean id="checkoutUrlCart" class="java.lang.String">
+		<constructor-arg value="${checkout.cart}" />
 	</bean>
-    
-   	<bean id="cookiePath" class="java.lang.String">  
-    	<constructor-arg value="${cookie.path}"/>  
-	</bean> 
-	
-   	<bean id="cookieDomain" class="java.lang.String">  
-    	<constructor-arg value="${cookie.domain}"/>  
-	</bean>   
 
-	<bean id="stockIntegrationUrl" class="java.lang.String">  
-    	<constructor-arg value="${stock.integration}"/>  
-	</bean>  
-	
-	<bean id="freightIntegrationUrl" class="java.lang.String">  
-    	<constructor-arg value="${freight.integration}"/>  
-	</bean>  
-	
-	<bean id="storeZipCode" class="java.lang.String">  
-    	<constructor-arg value="${zip.code}"/>  
-	</bean> 
-	
-	<bean id="defaultCdStore" class="java.lang.String">  
-    	<constructor-arg value="${defaultCdStore}"/>  
-	</bean> 
-	
-	<bean id="defaultPassword" class="java.lang.String">  
-    	<constructor-arg value="${defaultPassword}"/>  
-	</bean> 
-	
-	<bean id="defaultServiceType" class="java.lang.String">  
-    	<constructor-arg value="${defaultServiceType}"/>  
-	</bean> 
-	
-	<bean id="handDeliver" class="java.lang.String">  
-    	<constructor-arg value="${handDeliver}"/>  
-	</bean> 
-	
-	<bean id="declaredValue" class="java.lang.String">  
-    	<constructor-arg value="${declaredValue}"/>  
-	</bean> 
-	
-	<bean id="receivedNotification" class="java.lang.String">  
-    	<constructor-arg value="${receivedNotification}"/>  
-	</bean> 
+	<bean id="cookiePath" class="java.lang.String">
+		<constructor-arg value="${cookie.path}" />
+	</bean>
 
-    <tx:annotation-driven transaction-manager="transactionManager" />
+	<bean id="cookieDomain" class="java.lang.String">
+		<constructor-arg value="${cookie.domain}" />
+	</bean>
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
-        <property name="targetDataSource">
-            <bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" >
-                <property name="driverClassName" value="${dataSource.driver}" />
-                <property name="url" value="${dataSource.url}" />
-                <property name="username" value="${dataSource.username}" />
-                <property name="password" value="${dataSource.password}" />
-            </bean>
-        </property>
-    </bean>
+	<bean id="stockIntegrationUrl" class="java.lang.String">
+		<constructor-arg value="${stock.integration}" />
+	</bean>
 
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.dialect">
-                    ${dataSource.dialect}
-                </prop>
-                <prop key="hibernate.show_sql">
-                    true
-                </prop>
-                <prop key="hibernate.hbm2ddl.auto">
-                    ${dataSource.strategy}
-                </prop>
-                <prop key="hibernate.default_batch_fetch_size">
-                    100
-                </prop>
-                <prop key="hibernate.temp.use_jdbc_metadata_defaults">
-                    ${dataSource.hibernate.temp.use_jdbc_metadata_defaults}
-                </prop>
-            </props>
-        </property>
-        <property name="configLocations">
-            <value>classpath*:hibernate.cfg.xml</value>
-        </property>
-    </bean>
+	<bean id="freightIntegrationUrl" class="java.lang.String">
+		<constructor-arg value="${freight.integration}" />
+	</bean>
+
+	<bean id="storeZipCode" class="java.lang.String">
+		<constructor-arg value="${zip.code}" />
+	</bean>
+
+	<bean id="defaultCdStore" class="java.lang.String">
+		<constructor-arg value="${defaultCdStore}" />
+	</bean>
+
+	<bean id="defaultPassword" class="java.lang.String">
+		<constructor-arg value="${defaultPassword}" />
+	</bean>
+
+	<bean id="defaultServiceType" class="java.lang.String">
+		<constructor-arg value="${defaultServiceType}" />
+	</bean>
+
+	<bean id="handDeliver" class="java.lang.String">
+		<constructor-arg value="${handDeliver}" />
+	</bean>
+
+	<bean id="declaredValue" class="java.lang.String">
+		<constructor-arg value="${declaredValue}" />
+	</bean>
+
+	<bean id="receivedNotification" class="java.lang.String">
+		<constructor-arg value="${receivedNotification}" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
+		<property name="targetDataSource">
+			<bean class="org.apache.commons.dbcp.BasicDataSource"
+				destroy-method="close">
+				<property name="driverClassName" value="${dataSource.driver}" />
+				<property name="url" value="${dataSource.url}" />
+				<property name="username" value="${dataSource.username}" />
+				<property name="password" value="${dataSource.password}" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					${dataSource.dialect}
+				</prop>
+				<prop key="hibernate.show_sql">
+					true
+				</prop>
+				<prop key="hibernate.hbm2ddl.auto">
+					${dataSource.strategy}
+				</prop>
+				<prop key="hibernate.default_batch_fetch_size">
+					100
+				</prop>
+				<prop key="hibernate.temp.use_jdbc_metadata_defaults">
+					${dataSource.hibernate.temp.use_jdbc_metadata_defaults}
+				</prop>
+			</props>
+		</property>
+		<property name="configLocations">
+			<value>classpath*:hibernate.cfg.xml</value>
+		</property>
+	</bean>
 
 
-    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="dataSource" ref="dataSource" />
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
-    
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 
+	
+
+	
 
 </beans>

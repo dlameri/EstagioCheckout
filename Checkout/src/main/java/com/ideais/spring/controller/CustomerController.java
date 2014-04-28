@@ -18,10 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/customer")
 @Scope(BeanDefinition.SCOPE_SINGLETON)
 public class CustomerController {
-	
-	//TODO: criar list de addresses
-	//TODO: implementar login sem facebook e cadastro com e sem facebook
 
+	
     @Autowired
     private CustomerServiceBehavior customerService;
     
@@ -44,7 +42,7 @@ public class CustomerController {
     	address.setCustomer(customer);
         customer.setMainAddress(address);
         customerService.save(customer);
-          	
+        
         return "redirect:";
     }
 
