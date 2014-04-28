@@ -1,21 +1,26 @@
 package com.ideais.spring.domain;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
-
-import static org.mockito.Mockito.*;
 
 public class ItemsPackageTest {	
 
 	ShoppingCartLine shoppingCartLine = mock(ShoppingCartLine.class);
+	List<ShoppingCartLine> shoppingCartlines = new ArrayList<ShoppingCartLine>();
 	Dimensions dimensions = mock(Dimensions.class);
 	Item item = mock(Item.class);
-	
-	List<ShoppingCartLine> shoppingCartlines = new ArrayList<ShoppingCartLine>();
+		
+	@Before
+	public void setUp() {
+		
+	}
 	
 	@Test
 	public void check_if_volumetric_weight_equals_0_when_shopping_cart_line_list_is_empty() {
@@ -30,7 +35,6 @@ public class ItemsPackageTest {
 		when(dimensions.getHeight()).thenReturn(60.0);
 		when(dimensions.getWidth()).thenReturn(60.0);
 		
-		Item item = mock(Item.class);
 		when(item.getWeight()).thenReturn(8);
 		when(item.getDimensions()).thenReturn(dimensions);
 
