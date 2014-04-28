@@ -1,7 +1,6 @@
 package com.ideais.spring.domain;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.hibernate.annotations.Cascade;
@@ -46,8 +44,6 @@ public class ShoppingCartLine {
 	@Cascade(CascadeType.ALL)
 	private ShoppingCart shoppingCart;
 	
-	public ShoppingCartLine() {}
-	
 	public ShoppingCartLine(Item item) {
 		this.item = item;
 		quantity = 1;
@@ -71,7 +67,7 @@ public class ShoppingCartLine {
 	}
 
 	public void setQuantity(Integer quantity) throws Exception {
-		if (quantity >= 1) {
+		if (quantity >= 1) {	
 			processEditQuantity(quantity);
 		} else {
 			throw new Exception("Number not supported!");
@@ -98,19 +94,12 @@ public class ShoppingCartLine {
 	public void setPrice() {
 		calculatePrice();
 	}
-	
+
 	public void increaseByOne() {
 		quantity++;
 		calculatePrice();
 	}
 	
-	public void decreaseByOne() {
-		if (quantity > 0) {
-			quantity--;
-			calculatePrice();
-		}
-	}
-
 	public Long getId() {
 		return id;
 	}

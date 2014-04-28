@@ -117,7 +117,7 @@ public class ShoppingCart {
 		freight = BigDecimal.ZERO;
 	}
 	
-	public ShoppingCartLine contains(ShoppingCartLine shoppingCartLine) {
+	private ShoppingCartLine contains(ShoppingCartLine shoppingCartLine) {
 		for (int i = 0; i < shoppingCartLines.size(); i++) {
 			if (shoppingCartLine.equals(shoppingCartLines.get(i))) {
 				return shoppingCartLines.get(i);
@@ -171,7 +171,7 @@ public class ShoppingCart {
 		} 
 		
 		recalculateShoppingCartProperties();
-	}
+	}	
 	
 	private void processAddItem(ShoppingCartLine shoppingCartLine, Item item) throws Exception {
 		if (item.getStock() > 0) {

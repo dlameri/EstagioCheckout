@@ -46,13 +46,12 @@ public class CustomerDao implements CustomerDaoBehavior {
     }
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	public Customer findByLogin(String username, String password) {
-		Transaction tx =  session().beginTransaction();
+		
 		Customer customer = (Customer) session().createCriteria(Customer.class)
 				.add(Restrictions.eq("username", username))
 				.add(Restrictions.eq("password", password)).uniqueResult();
-		tx.commit();
 		
 		return customer;
 	}
