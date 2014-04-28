@@ -44,13 +44,8 @@ public class LoginLogoutController {
 		if(customerService.findByLogin(loginForm.getUserName(), loginForm.getPassword())!=null){
 			return true;
 		}
-		return false;
-	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(HttpServletRequest rquest){
-		
-		return "";
+		return false;
 	}
 	
 	private String filterLoggedCustomer(HttpServletRequest request) {

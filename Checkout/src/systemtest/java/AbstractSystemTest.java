@@ -23,7 +23,7 @@ public class AbstractSystemTest extends AbstractTransactionalJUnit4SpringContext
 	
 	@Before
 	public void setUpEnviroment() {
-		prepareDatabase();
+		executeSqlScript("sql/systemTestPrepareDatabase.sql", false);
 		driver = new FirefoxDriver();
 	}
 	
@@ -32,12 +32,12 @@ public class AbstractSystemTest extends AbstractTransactionalJUnit4SpringContext
 		driver.close();
 	}
 	
-	private void prepareDatabase() {
-		executeSqlScript("sql/systemTestPrepareDatabase.sql", false);
-	}
-
 	private WebElement findElement( By by ) {
 		return driver.findElement(by);
+	}
+	
+	protected WebElement findElementById( String id ) {
+		return findElement(By.id(id));
 	}
 	
 	protected String getTextByCss(String cssSelector) {
