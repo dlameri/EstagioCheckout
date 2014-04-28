@@ -49,8 +49,8 @@ public class Customer {
 	@Column(name = "NM_SENHA")
 	private String password;
 
-	@OneToOne//(mappedBy = "customer")
-	@JoinColumn(name="CD_ENDERECO_PRINCIPAL", referencedColumnName ="CD_ENDERECO", nullable=true)
+	@OneToOne
+	@JoinColumn(name="CD_ENDERECO_PRINCIPAL", referencedColumnName="CD_ENDERECO", nullable=true)
 	@Cascade(CascadeType.ALL)
 	private Address mainAddress;
 
