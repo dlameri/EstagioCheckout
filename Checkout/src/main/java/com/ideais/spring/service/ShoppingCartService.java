@@ -53,7 +53,7 @@ public class ShoppingCartService implements ShoppingCartServiceBehavior {
 		ShoppingCart shoppingCart = (ShoppingCart) request.getSession().getAttribute(CART_KEY);
 		
     	if (shoppingCart == null) {
-			return getShoppingCartFromCookie(cartCookie);
+    		return getShoppingCartFromCookie(cartCookie);
     	}
 
     	return shoppingCart;

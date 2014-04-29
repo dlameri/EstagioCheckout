@@ -1,7 +1,6 @@
 package com.ideais.spring.domain.catalog;
 
 import java.util.List;
-
 import com.ideais.spring.domain.checkout.Dimensions;
 import com.ideais.spring.domain.checkout.Item;
 import com.ideais.spring.domain.stock.json.ProductJSON;

@@ -2,7 +2,9 @@ package com.ideais.spring.domain.stock.json;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class SubcategoryJSON  {
 
 	private Long id;
