@@ -396,6 +396,67 @@ ul {
 	color: #7F7570;
 }
 
+div.simpleTabs { 
+	width: 100%;
+	height: 100%;
+	padding:10px; 
+}
+
+div.simpleTabs a { 
+	font-weight: bold;
+	color:#fff; 
+}
+
+ul.simpleTabsNavigation { 
+	width: 100%;
+	padding:0; 
+	text-align:left; 
+}
+
+ul.simpleTabsNavigation li a { 
+	font-size:14px; 
+	text-decoration:none; 
+}
+
+.tab {
+	text-align: center;
+	width: 497px;
+	margin-left: 1px;
+	border:1px solid #E0E0E0; 
+	background:#fff; 
+	display: inline-block;
+	height: 160px;
+}
+
+.tab img {
+	text-align: center;
+	padding: 5px;
+	clear: both;
+}
+
+div.simpleTabsContent { 
+	border:1px solid #E0E0E0; 
+	padding: 20px;
+	width: 962px; 
+	margin-top:3px; 
+	display:none; 
+}
+
+.selectPayment {
+	cursor: pointer;
+	padding: 8px;
+	height: 30px;
+	width: 150px;
+	background-color: #D20808;
+	border-color: #CBCBCB;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.selectPayment:hover {
+	background-color: #FF4747;
+}
+
 /* -----------PRODUCT DETAILS----------- */
 .container > .details {
 	display: inline-block;
@@ -464,21 +525,6 @@ ul.installments li{
 
 .input a:hover {
     color: #353535;
-}
-
-
-.cartEmpty {
-	font-size:1em;
-	background: none;
-    border: none;
-    color: #ffffff;
-    text-decoration: underline;
-    cursor: pointer;
-    padding: 5px 0 5px 0;
-}
-
-.cartEmpty:hover {
-    color: #E6E6E6;
 }
 
 .cartTableTitles {
@@ -582,6 +628,7 @@ ul.installments li{
 }
 
 .calculateFreight {
+	cursor: pointer;
 	background-color: #ffffff;
 	border-color: #B5B5B5;
 	border-style: solid;
@@ -590,5 +637,375 @@ ul.installments li{
 }
 
 .calculateFreight:hover {
+	color: #000;
 	background-color: #F4F4F4;
+}
+
+.shipping-address {
+	color: #5A5A5A;
+	font-size: 0.9em;
+	padding: 15px;
+	height: 100px;
+	width: 480px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #D2D2D2;
+}
+
+.payment-data {
+	color: #5A5A5A;
+	font-size: 0.9em;
+	padding: 15px;
+	width: 450px;
+	height: 100px;
+	border-style: solid;
+	border-color: #D2D2D2;
+	border-width: 1px;
+}
+
+.box1 {
+	width: 100%;
+	margin-bottom: 25px;
+}
+
+.box1 a {
+	color: #404040;
+}
+
+.sub-box1 {
+	width:49%;
+	height: 180px;
+	float: right;
+}
+
+.payment-subtitle {	
+	font-weight: bold;
+	margin-bottom: 5px;
+	font-size: 1.3em;
+	color: #404040;
+}
+
+.space {
+	margin-bottom: 15px;
+	clear: both;
+	width: 100%;
+}
+
+.payment-options {
+	margin-bottom: 25px;
+	clear: both;
+	width: 100%;
+	height: 100%;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #D2D2D2;
+}
+
+.payment-font, .title-font {
+	color: #404040;
+}
+
+.payment-options {	
+	padding: 5px;
+	margin-top: 5px;
+}
+
+.right-values {
+	float: right;
+}
+
+.total-order-price {
+	position: relative;
+	top: 5px;
+	font-size: 1em;
+	font-weight: bold;
+	color: #E61616;
+}
+
+
+.editAddressShipping {
+	cursor: pointer;
+	padding: 5px;
+	height: 30px;
+	width: 150px;
+	position: relative;
+	top: 45px;
+	background-color: #E7E7E7;
+	border-color: #CBCBCB;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.editAddressShipping:hover {
+	background-color: #D5D5D5;
+}
+
+.parcelamentos {
+	padding: 15px;
+}
+
+.container {
+	margin-left: 0px;
+	width: 1024px;
+	padding:20px;
+	margin-bottom: 50px;
+	border-style: solid;
+	border-color: #D2D2D2;
+	border-width: 1px;
+}
+
+.form {
+	width: 1024px;
+	display: inline-block;
+}
+
+.formNew td {
+	color: #6C6C6C;
+	font-size: 1.1em;
+	border-width: 0px;
+}
+
+.formNew input {
+	color: #6C6C6C;
+	font-weight: bold;
+	font-size: 0.9em;
+	width: 300px;
+}
+
+.form td {
+	color: #6C6C6C;
+	font-size: 1.1em;
+	border-width: 0px;
+}
+
+.form input {
+	color: #6C6C6C;
+	font-weight: bold;
+	font-size: 0.9em;
+	width: 450px;
+}
+
+.editAddressButton {
+	margin-top: 20px;
+	font-size: 0.9em;
+	cursor: pointer;
+	background-color: #ffffff;
+	border-color: #B5B5B5;
+	border-style: solid;
+	border-width: 1px;
+	color: #3C3C3C;
+}
+
+.editAddressButton:hover {
+	color: #000;
+	background-color: #F4F4F4;
+}
+
+.voltar, .edit, .exclude {
+	color: #404040;
+	font-weight: bold;
+}
+
+.container a, .containerNewAddress a {
+	color: #404040;
+	text-decoration: underline;
+	
+}
+
+.container a:hover, .containerNewAddress a:hover {
+	color: #676767;
+}
+
+.label-input {
+	width: 180px;
+}
+
+.shippingAddressList {
+	display: table-cell;
+	width: 480px;
+	padding:43px;;
+	margin-bottom: 50px;
+}
+
+.containerNewAddress, .containerEditCustomer, .containerLogin {
+	display: table-cell;
+	margin-left: 0px;
+	margin-right: 20ṕx;
+	width: 457px;
+	padding:20px;;
+	margin-bottom: 50px;
+	border-style: solid;
+	border-color: #D2D2D2;
+	border-width:0 1px 0 0;
+}
+
+.addressForm {
+	width: 1024px;
+	margin-bottom:50px;;
+}
+
+.shippingAddressListUnit {
+	color: #5A5A5A;
+	font-size: 0.9em;
+	padding: 15px;
+	margin-bottom: 15px;
+	height: 120px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #D2D2D2;
+}
+
+.managedAddress a {
+	color: #404040;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.selectAddress {
+	cursor: pointer;
+	padding: 5px;
+	height: 20px;
+	width: 150px;
+	background-color: #D20808;
+	border-color: #CBCBCB;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.selectAddress:hover {
+	background-color: #FF4747;
+}
+
+.managedAddress a {
+	color: #404040;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.managedAddress a:hover {
+	color: #676767;
+}
+
+.login {
+	height: 500px;
+	width: 100%;
+}
+
+#customerDetails {
+	margin-left: 0px;
+	min-height: 500px;;
+	width: 1024px;
+	padding:20px;
+	margin-bottom: 50px;
+	border-style: solid;
+	border-color: #D2D2D2;
+	border-width: 1px;
+}
+
+.formLogin td {
+	width: 200px;
+	color: #6C6C6C;
+	font-size: 1em;
+	border-width: 0px;
+}
+
+.formNew input {
+	color: #6C6C6C;
+	font-weight: bold;
+	font-size: 0.9em;
+	width: 250px;
+}
+
+.loginButton {
+	padding: 5px 10px 5px 10px;
+	font-size: 1em;
+	cursor: pointer;
+	background-color: #ffffff;
+	border-color: #B5B5B5;
+	border-style: solid;
+	border-width: 1px;
+	color: #3C3C3C;
+}
+
+.loginButton:hover {
+	color: #000;
+	background-color: #F4F4F4;
+}
+
+.proccessCartBuy {
+	font-weight: bold;
+	cursor: pointer;
+	font-size: 1.2em;
+	padding: 10px 25px;
+	height: 20px;
+	width: 150px;
+	background-color: #D20808;
+	border-color: #CBCBCB;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.proccessCartBuy:hover {
+	background-color: #FF4747;
+}
+
+.buyToOrder {
+	text-align: right;
+	margin: 30px 0
+}
+
+.cartEmpty {
+	padding: 5px;
+	font-size: 0.7em;
+	cursor: pointer;
+	background-color: #ffffff;
+	border-color: #B5B5B5;
+	border-style: solid;
+	border-width: 1px;
+	color: #3C3C3C;
+}
+
+.cartEmpty:hover {
+    color: #000;
+	background-color: #F4F4F4;
+}
+
+.registerLogin {
+	display: table-cell;
+	width: 480px;
+	padding:43px;;
+	margin-bottom: 50px;
+}
+
+.registerLogin a {
+	font-weight: bold;
+	font-size: 1.1em;
+	text-decoration: none;
+}
+
+.registerLoginButton {
+	padding: 5px;
+	font-size: 0.7em;
+	cursor: pointer;
+	background-color: #D20808;
+	border-color: #CBCBCB;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.registerLoginButton:hover {
+ 	background-color: #FF4747;
+} 
+
+.login {
+	padding: 0;
+	margin: 0;
+}
+
+.container-login {
+	padding-top: 50px;
+}
+
+.registerButtonContainer {
+	margin-left: 60px;
 }

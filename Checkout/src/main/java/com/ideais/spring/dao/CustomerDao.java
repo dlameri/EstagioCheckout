@@ -1,7 +1,9 @@
 package com.ideais.spring.dao;
 
 import com.ideais.spring.dao.interfaces.CustomerDaoBehavior;
-import com.ideais.spring.domain.Customer;
+import com.ideais.spring.domain.checkout.Address;
+import com.ideais.spring.domain.checkout.Customer;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -47,14 +49,29 @@ public class CustomerDao implements CustomerDaoBehavior {
 
 	@Override
 	@Transactional
-	public Customer findByLogin(String username, String password) {
-		Transaction tx =  session().beginTransaction();
+	public Customer findByLoginOrEmail(String username, String password) {
 		Customer customer = (Customer) session().createCriteria(Customer.class)
 				.add(Restrictions.eq("username", username))
 				.add(Restrictions.eq("password", password)).uniqueResult();
-		tx.commit();
 		
 		return customer;
+	}
+
+	@Override
+	@Transactional
+	public void removeAddress(Customer customer, Long id) {
+		for (int i = 0; i < customer.getDeliveryAddresses().size(); i++) {
+			if (customer.getDeliveryAddresses().get(i).getId() == id) {
+				Address addressToBeRemoved = customer.getDeliveryAddresses().get(i);
+				
+				addressToBeRemoved.setCustomer(null);
+				customer.getDeliveryAddresses().remove(i);
+				
+				session().delete((Address) addressToBeRemoved);
+			}
+		}
+		
+		saveOrUpdate(customer);
 	}
 
 }

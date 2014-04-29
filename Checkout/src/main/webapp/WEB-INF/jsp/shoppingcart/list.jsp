@@ -1,9 +1,10 @@
+<%@page pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <html>
     <head>
-		<title>Loja Virtual - carrinho de compras</title>
+		<title>Loja Virtual - Carrinho de Compras</title>
 	</head>
 	<body>
 	
@@ -40,7 +41,7 @@
 						<th class="col01" scope="col" colspan="2">Produto</th>
 						<th class="col02" scope="col">Quantidade</th>
 						<th class="col03" scope="col">Entrega</th>
-						<th class="col04" scope="col">Valor Unit·rio</th>
+						<th class="col04" scope="col">Valor Unit√°rio</th>
 						<th class="col05" scope="col">Valor Total</th>
 					</tr>
 				</thead>
@@ -52,7 +53,7 @@
 							<tr class="gridProducts">
 								<th rowspan="1">
 									<a href="#" class="image">
-										<img class="photo" src="#" />
+										<img class="photo" src="<!--${line.item.imageUrl}-->" />
 									</a>
 								</th>
 								
@@ -146,8 +147,9 @@
 				</tfoot>
 			</table>
 			
-	        
-      		 	<h2><a href="proccessShoppingCart">Comprar</a></h2>
+	        <div class="buyToOrder">
+      			<a class="proccessCartBuy" href="proccessShoppingCart">Comprar</a>
+	        </div>
 	        
 		</div><!-- #content -->
 		

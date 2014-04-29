@@ -19,10 +19,11 @@ public class RestClient implements Methods {
 	@Override
 	public <T> Object get(String url, GenericType<T> type) {
 		Response response = client.target(url).request().get();
+		
 		if (response.getStatus() == STATUS_OK) {
 			return response.readEntity(type);
 		}
-
+			
 		return null;
 	}
 
@@ -32,6 +33,7 @@ public class RestClient implements Methods {
 		if (response.getStatus() == STATUS_OK) {
 			return true;
 		}
+		
 		return false;
 	}
 

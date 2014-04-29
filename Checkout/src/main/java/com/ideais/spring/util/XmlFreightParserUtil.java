@@ -10,7 +10,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
 import org.jdom2.input.SAXBuilder;
 
-import com.ideais.spring.domain.FreightDetails;
+import com.ideais.spring.domain.checkout.FreightDetails;
 
 public class XmlFreightParserUtil {
 	
