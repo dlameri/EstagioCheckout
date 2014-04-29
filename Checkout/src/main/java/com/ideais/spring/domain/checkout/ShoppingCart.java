@@ -107,7 +107,7 @@ public class ShoppingCart {
 	
 	public ShoppingCartLine contains(ShoppingCartLine shoppingCartLine) {
 		for (int i = 0; i < shoppingCartLines.size(); i++) {
-			if (shoppingCartLine.getItem().getId() == shoppingCartLines.get(i).getItem().getId()) {
+			if (shoppingCartLine.getItem().getId().equals(shoppingCartLines.get(i).getItem().getId())) {
 				return shoppingCartLines.get(i);
 			}
 		}
@@ -118,7 +118,7 @@ public class ShoppingCart {
 	public void removeItem(Item item) {
 		if (item != null) {
 			for (int i = 0; i < shoppingCartLines.size(); i++) {
-				if (shoppingCartLines.get(i).getItem().getId() == item.getId()) {
+				if (shoppingCartLines.get(i).getItem().getId().equals(item.getId())) {
 					shoppingCartLines.remove(shoppingCartLines.get(i));
 					break;
 				}
@@ -131,7 +131,7 @@ public class ShoppingCart {
 	public void removeItemFromId(Long id) {
 		if (id != null) {
 			for (int i = 0; i < shoppingCartLines.size(); i++) {
-				if (shoppingCartLines.get(i).getItem().getId() == id) {
+				if (shoppingCartLines.get(i).getItem().getId().equals(id)) {
 					shoppingCartLines.remove(shoppingCartLines.get(i));
 					break;
 				}
@@ -143,7 +143,7 @@ public class ShoppingCart {
 	
 	public Item getItem(Long id) {
 		for (int i = 0; i < shoppingCartLines.size(); i++) {
-			if (shoppingCartLines.get(i).getItem().getId() == id) {
+			if (shoppingCartLines.get(i).getItem().getId().equals(id)) {
 				return shoppingCartLines.get(i).getItem();
 			}
 		}
@@ -175,7 +175,7 @@ public class ShoppingCart {
 	private ShoppingCartLine hasItem(Item item) {
 		if (item != null) {
 			for (int i = 0; i < shoppingCartLines.size(); i++) {
-				if (shoppingCartLines.get(i).getItem().getId() == item.getId()) {
+				if (shoppingCartLines.get(i).getItem().getId().equals(item.getId())) {
 					return shoppingCartLines.get(i);
 				}
 			}
@@ -186,7 +186,7 @@ public class ShoppingCart {
 	
 	public boolean hasItemWithId(Long itemId) {
 		for (int i = 0; i < shoppingCartLines.size(); i++) {
-			if (shoppingCartLines.get(i).getItem().getId() == itemId) {
+			if (shoppingCartLines.get(i).getItem().getId().equals(itemId)) {
 				return true;
 			}
 		}
@@ -257,7 +257,7 @@ public class ShoppingCart {
 	public void editQuantity(Long itemId, Integer quantity) throws Exception {
 		Item item = getItem(itemId);
 		ShoppingCartLine shoppingCartLine = hasItem(item);
-		
+				
 		if (shoppingCartLine != null && item != null) {	
 			shoppingCartLine.setQuantity(quantity);		
 		} 

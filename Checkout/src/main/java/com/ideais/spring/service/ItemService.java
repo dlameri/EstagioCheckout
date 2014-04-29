@@ -56,7 +56,7 @@ public class ItemService implements ItemServiceBehavior {
 		
 		if (productJSON != null) {
 			getDImensionsFromStock(item, productJSON);
-			
+						
 			item.setProductName(product.getName());
 			item.setProductId(product.getId());
 			item.setWeight(product.getWeight());

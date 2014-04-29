@@ -64,7 +64,7 @@ public class ShoppingCartLine {
 	}
 
 	public void setQuantity(Integer quantity) throws Exception {
-		if (quantity >= 1) {
+		if (quantity.compareTo(new Integer(1)) >= 0) {
 			processEditQuantity(quantity);
 		} else {
 			throw new Exception("Number not supported!");
@@ -72,7 +72,7 @@ public class ShoppingCartLine {
 	}
 
 	private void processEditQuantity(Integer quantity) throws Exception {
-		if (item.getStock() >= quantity) {
+		if (item.getStock().compareTo(quantity) >= 0) {
 			this.quantity = quantity;
 			calculatePrice();
 		} else {

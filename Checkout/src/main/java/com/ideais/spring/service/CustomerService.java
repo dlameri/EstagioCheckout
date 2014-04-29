@@ -2,6 +2,7 @@ package com.ideais.spring.service;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.ideais.spring.dao.interfaces.CustomerDaoBehavior;
 import com.ideais.spring.domain.checkout.Customer;
@@ -64,6 +65,14 @@ public class CustomerService implements CustomerServiceBehavior {
 	@Override
 	public void removeAddress(Customer customer, Long id) {
 		customerDao.removeAddress(customer, id);
+	}
+
+	@Override
+	public void removeCustomerCookie(HttpServletResponse response) {
+    	Cookie customerCookie = new Cookie(CUSTOMER_KEY, "");
+    	customerCookie.setMaxAge(-1); 
+    	customerCookie.setDomain(cookieDomain);
+    	customerCookie.setPath(cookiePath);		
 	}
 
 }

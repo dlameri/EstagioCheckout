@@ -94,7 +94,7 @@ public class ShoppingCartController extends BaseController {
     						 HttpServletRequest request) {
     	
     	ShoppingCart shoppingCart;
-    	try {	    	    		
+    	try {	    	    	    		
     		shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);   		
     		shoppingCartService.removeItemToShoppingCart(id, shoppingCart);
     		
