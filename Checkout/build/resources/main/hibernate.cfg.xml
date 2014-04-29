@@ -12,7 +12,7 @@
 		<property name="c3p0.max_statements">20</property>   
 		<property name="c3p0.min_size">1</property>   
 		<property name="c3p0.timeout">100</property>
-    
+    	
 		<!-- Checkout -->
 		<mapping class="com.ideais.spring.domain.Address"/>
 		<mapping class="com.ideais.spring.domain.Customer"/>

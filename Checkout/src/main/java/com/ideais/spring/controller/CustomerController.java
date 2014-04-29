@@ -1,10 +1,5 @@
 package com.ideais.spring.controller;
 
-import com.ideais.spring.domain.Address;
-import com.ideais.spring.domain.Customer;
-import com.ideais.spring.domain.RegisterWrapper;
-import com.ideais.spring.service.CustomerService;
-import com.ideais.spring.service.interfaces.CustomerServiceBehavior;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -13,6 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.ideais.spring.domain.Address;
+import com.ideais.spring.domain.Customer;
+import com.ideais.spring.domain.RegisterWrapper;
+import com.ideais.spring.service.interfaces.CustomerServiceBehavior;
 
 @Controller("CustomerController")
 @RequestMapping("/customer")
@@ -41,13 +41,9 @@ public class CustomerController {
         Customer customer = rw.getCustomer();
     	address.setCustomer(customer);
         customer.addAddressToDeliveryAddresses(address);
-//    	customerService.save(customer);        
         customer.setMainAddress(address);
         customerService.save(customer);
-<<<<<<< HEAD
-=======
-        
->>>>>>> 5c139a612973a0d107791798564899a4d228ab6e
+
         return "redirect:";
     }
 
