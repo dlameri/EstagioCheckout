@@ -1,8 +1,10 @@
 package com.ideais.spring.service.interfaces;
 
 import java.io.IOException;
+
 import org.json.JSONException;
-import com.ideais.spring.domain.Item;
+
+import com.ideais.spring.domain.checkout.Item;
 
 public interface ItemServiceBehavior {
 	

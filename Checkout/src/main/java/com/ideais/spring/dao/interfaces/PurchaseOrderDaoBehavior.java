@@ -2,7 +2,7 @@ package com.ideais.spring.dao.interfaces;
 
 import java.util.List;
 
-import com.ideais.spring.domain.PurchaseOrder;
+import com.ideais.spring.domain.checkout.PurchaseOrder;
 
 public interface PurchaseOrderDaoBehavior {
 

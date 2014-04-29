@@ -1,7 +1,7 @@
 package com.ideais.spring.dao.interfaces;
 
-import com.ideais.spring.domain.FreightDetails;
-import com.ideais.spring.domain.ItemsPackage;
+import com.ideais.spring.domain.checkout.FreightDetails;
+import com.ideais.spring.domain.checkout.ItemsPackage;
 
 public interface FreightDaoBehavior {
 	

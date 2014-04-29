@@ -3,7 +3,9 @@ package com.ideais.spring.domain.stock.json;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class ItemJSON {
 	
 	private Long id;

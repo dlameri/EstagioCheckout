@@ -9,8 +9,8 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.json.JSONException;
 
-import com.ideais.spring.domain.ShoppingCart;
-import com.ideais.spring.domain.json.Cart;
+import com.ideais.spring.domain.checkout.ShoppingCart;
+import com.ideais.spring.domain.checkout.json.Cart;
 
 public interface ShoppingCartDaoBehavior {
 			

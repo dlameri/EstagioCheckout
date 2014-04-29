@@ -1,10 +1,14 @@
 package com.ideais.spring.service;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import com.ideais.spring.dao.interfaces.PurchaseOrderDaoBehavior;
-import com.ideais.spring.domain.PurchaseOrder;
+import com.ideais.spring.domain.checkout.PurchaseOrder;
 import com.ideais.spring.service.interfaces.PurchaseOrderServiceBehavior;
+
 import org.springframework.stereotype.Service;
 
 @Service("purchaseOrderService")
