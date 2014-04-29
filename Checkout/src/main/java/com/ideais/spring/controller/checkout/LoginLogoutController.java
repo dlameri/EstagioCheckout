@@ -74,9 +74,10 @@ public class LoginLogoutController extends BaseController{
 	}
 	
 	@RequestMapping("logout")
-	public String logout(HttpSession session) {
+	public String logout(HttpSession session, HttpServletResponse response) {
 	  session.setAttribute(CUSTOMER_KEY, null);
-		
+	  customerService.removeCustomerCookie(response);
+	  
 	  return "redirect:http://ideaiselectronics.com:8081/Catalogo/";
 	}
 

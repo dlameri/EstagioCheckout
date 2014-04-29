@@ -2,8 +2,7 @@ package com.ideais.spring.service.interfaces;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-
-import com.ideais.spring.domain.checkout.Address;
+import javax.servlet.http.HttpServletResponse;
 import com.ideais.spring.domain.checkout.Customer;
 
 public interface CustomerServiceBehavior {
@@ -23,5 +22,7 @@ public interface CustomerServiceBehavior {
     public void removeAddress(Customer customer, Long id);
 
 	public void setCustomerInSessionAfterUpdate(HttpServletRequest request, Long id);
+	
+	public void removeCustomerCookie(HttpServletResponse response);
 	
 } 
