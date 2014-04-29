@@ -2,15 +2,18 @@ package com.ideais.spring.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.httpclient.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.ideais.spring.dao.interfaces.FreightDaoBehavior;
-import com.ideais.spring.domain.FreightDetails;
-import com.ideais.spring.domain.ItemsPackage;
-import com.ideais.spring.domain.PurchaseOrder;
-import com.ideais.spring.domain.ShoppingCart;
+import com.ideais.spring.domain.checkout.FreightDetails;
+import com.ideais.spring.domain.checkout.ItemsPackage;
+import com.ideais.spring.domain.checkout.PurchaseOrder;
+import com.ideais.spring.domain.checkout.ShoppingCart;
 import com.ideais.spring.service.interfaces.FreightServiceBehavior;
 
 @Service("freightService")

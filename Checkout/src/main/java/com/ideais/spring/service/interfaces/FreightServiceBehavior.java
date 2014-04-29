@@ -1,11 +1,14 @@
 package com.ideais.spring.service.interfaces;
 
 import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.json.JSONException;
-import com.ideais.spring.domain.FreightDetails;
-import com.ideais.spring.domain.PurchaseOrder;
-import com.ideais.spring.domain.ShoppingCart;
+
+import com.ideais.spring.domain.checkout.FreightDetails;
+import com.ideais.spring.domain.checkout.PurchaseOrder;
+import com.ideais.spring.domain.checkout.ShoppingCart;
 
 public interface FreightServiceBehavior {
 	

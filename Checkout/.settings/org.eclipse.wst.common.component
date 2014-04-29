@@ -3,10 +3,8 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resources"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/systemtest/java"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/systemtest/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/systemtest"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/test"/>
         <property name="context-root" value="spring-web"/>
         <property name="java-output-path" value="/spring-web/bin"/>
     </wb-module>

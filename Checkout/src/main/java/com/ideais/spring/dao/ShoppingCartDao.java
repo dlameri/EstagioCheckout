@@ -13,9 +13,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.ideais.spring.dao.interfaces.ShoppingCartDaoBehavior;
-import com.ideais.spring.domain.ShoppingCart;
-import com.ideais.spring.domain.json.Cart;
-import com.ideais.spring.domain.json.CartItem;
+import com.ideais.spring.domain.checkout.ShoppingCart;
+import com.ideais.spring.domain.checkout.json.Cart;
+import com.ideais.spring.domain.checkout.json.CartItem;
 import com.ideais.spring.util.JsonUtil;
 
 @Service

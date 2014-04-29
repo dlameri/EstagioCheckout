@@ -2,7 +2,7 @@ package com.ideais.spring.service.interfaces;
 
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import com.ideais.spring.domain.PurchaseOrder;
+import com.ideais.spring.domain.checkout.PurchaseOrder;
 
 public interface PurchaseOrderServiceBehavior {
 

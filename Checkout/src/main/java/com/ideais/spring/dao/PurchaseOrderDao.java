@@ -1,7 +1,7 @@
 package com.ideais.spring.dao;
 
 import com.ideais.spring.dao.interfaces.PurchaseOrderDaoBehavior;
-import com.ideais.spring.domain.PurchaseOrder;
+import com.ideais.spring.domain.checkout.PurchaseOrder;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;

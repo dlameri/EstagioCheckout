@@ -5,6 +5,8 @@
 
 
     <session-factory>
+    	<property name="hibernate.connection.useUnicode">true</property> 
+		<property name="hibernate.connection.characterEncoding">UTF-8</property> 
     
     	<property name="c3p0.acquire_increment">1</property>   
 		<property name="c3p0.idle_test_period">100</property>
@@ -14,14 +16,14 @@
 		<property name="c3p0.timeout">100</property>
     
 		<!-- Checkout -->
-		<mapping class="com.ideais.spring.domain.Address"/>
-		<mapping class="com.ideais.spring.domain.Customer"/>
-		<mapping class="com.ideais.spring.domain.PurchaseOrder"/>
-		<mapping class="com.ideais.spring.domain.ShoppingCart"/>
-		<mapping class="com.ideais.spring.domain.ShoppingCartLine"/>
-		<mapping class="com.ideais.spring.domain.Payment"/>
-		<mapping class="com.ideais.spring.domain.Item"/>
-		<mapping class="com.ideais.spring.domain.Dimensions"/>
+		<mapping class="com.ideais.spring.domain.checkout.Address"/>
+		<mapping class="com.ideais.spring.domain.checkout.Customer"/>
+		<mapping class="com.ideais.spring.domain.checkout.PurchaseOrder"/>
+		<mapping class="com.ideais.spring.domain.checkout.ShoppingCart"/>
+		<mapping class="com.ideais.spring.domain.checkout.ShoppingCartLine"/>
+		<mapping class="com.ideais.spring.domain.checkout.Payment"/>
+		<mapping class="com.ideais.spring.domain.checkout.Item"/>
+		<mapping class="com.ideais.spring.domain.checkout.Dimensions"/>
 
 
     </session-factory>

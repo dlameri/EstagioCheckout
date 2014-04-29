@@ -1,12 +1,16 @@
 package com.ideais.spring.dao;
 
+import java.math.BigDecimal;
+
 import javax.ws.rs.core.GenericType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import com.ideais.spring.dao.interfaces.FreightDaoBehavior;
-import com.ideais.spring.domain.CorreiosCodes;
-import com.ideais.spring.domain.FreightDetails;
-import com.ideais.spring.domain.ItemsPackage;
+import com.ideais.spring.domain.checkout.CorreiosCodes;
+import com.ideais.spring.domain.checkout.FreightDetails;
+import com.ideais.spring.domain.checkout.ItemsPackage;
 import com.ideais.spring.util.XmlFreightParserUtil;
 
 @Component("freightDao")
@@ -53,10 +57,26 @@ public class FreightDao extends BasicSoapClientDao implements FreightDaoBehavior
 	}
 	
 	@Override
-	public FreightDetails getFreight(ItemsPackage itemsPackage, String serviceType, String destinationZipCode) throws Exception {              
-        FreightDetails freightDetails = makeFreightValueRequestFromCorreios(serviceType, destinationZipCode, itemsPackage);
-        freightDetails.setDeliveryDays(makeFreightDeiveryDaysRequestFromCorreios(serviceType, destinationZipCode));
-               
+	public FreightDetails getFreight(ItemsPackage itemsPackage, String serviceType, String destinationZipCode) throws Exception {   
+		FreightDetails freightDetails;		
+	
+		if (EMPTY_STRING.equals(serviceType) && itemsPackage.getVolumetricWeight() > CorreiosCodes.valueOf(defaultServiceType).getMaximumWeight()) {
+			
+			freightDetails = new FreightDetails(defaultServiceType, destinationZipCode, storeZipCode);
+			freightDetails.setFreightValue(CorreiosCodes.valueOf(defaultServiceType).getMaximumFreight());
+		
+		} else if (!EMPTY_STRING.equals(serviceType) && itemsPackage.getVolumetricWeight() > CorreiosCodes.valueOf(serviceType).getMaximumWeight()) {
+			
+			freightDetails = new FreightDetails(serviceType, destinationZipCode, storeZipCode);
+			freightDetails.setFreightValue(CorreiosCodes.valueOf(serviceType).getMaximumFreight());
+		
+		} else {
+		   
+			freightDetails = makeFreightValueRequestFromCorreios(serviceType, destinationZipCode, itemsPackage);
+		}
+		
+	    freightDetails.setDeliveryDays(makeFreightDeiveryDaysRequestFromCorreios(serviceType, destinationZipCode));
+		
         return freightDetails;
 	}
 	

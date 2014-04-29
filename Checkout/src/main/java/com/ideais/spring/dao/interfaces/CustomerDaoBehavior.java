@@ -1,6 +1,6 @@
 package com.ideais.spring.dao.interfaces;
 
-import com.ideais.spring.domain.Customer;
+import com.ideais.spring.domain.checkout.Customer;
 
 public interface CustomerDaoBehavior {
 	
@@ -8,10 +8,12 @@ public interface CustomerDaoBehavior {
     
     public Customer findByName(String name);
     
-    public Customer findByLogin(String username, String password);
+    public Customer findByLoginOrEmail(String username, String password);
    
     public void saveOrUpdate(Customer object);
 
     public void remove(Object object);
+
+	public void removeAddress(Customer customer, Long id);
 
 }
