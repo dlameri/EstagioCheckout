@@ -1,3 +1,6 @@
 *.db
 *.class
 .classpath
+.settings/
+bin/
+build/
