@@ -10,7 +10,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title><decorator:title default="Ideais Electronics"/></title>
-
+	
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 	<script type="text/javascript" src="<c:url value="/resources/js/jquery.bxslider/jquery.bxslider.js"/>"/>
@@ -21,6 +21,12 @@
 	<link rel="stylesheet" href="<c:url value="/resources/css/simpletabs.css"/>" />
 	<script type="text/javascript" src="<c:url value="/resources/js/simpletabs.js" />"></script>
 	<script type="text/javascript" src="<c:url value="/resources/js/jquery-2.1.0.js" />"></script>
+	<script src="<c:url value="/resources/js/jquery.validationEngine-pt_BR.js"/>" type="text/javascript" charset="utf-8"></script>
+	<script src="<c:url value="/resources/js/jquery.validationEngine.js" />" type="text/javascript" charset="utf-8"></script>
+	<script src="<c:url value="/resources/js/validateForm.js" />"type="text/javascript"></script>
+	<script src="<c:url value="/resources/js/jquery.mask.min.js" />"type="text/javascript"></script>
+	
+	<link rel="stylesheet" href="<c:url value="/resources/css/validationEngine.jquery.css"/>"/>
 	
 </head>
 <body>

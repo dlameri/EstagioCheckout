@@ -61,7 +61,7 @@ public class CustomerController extends BaseController{
     	}
     	
     	view = getBaseView("customer/nossesion", request);
-		view.addObject("Sua sessão expirou, faça o login para proceguir.");
+		view.addObject("Sua sessão expirou, faça o login para prosseguir.");
     	
         return view;
     }
@@ -77,7 +77,7 @@ public class CustomerController extends BaseController{
     	}
     	
     	view = getBaseView("customer/nossesion", request);
-		view.addObject("Sua sessão expirou, faça o login para proceguir.");
+		view.addObject("Sua sessão expirou, faça o login para prosseguir.");
     	
         return view;
 

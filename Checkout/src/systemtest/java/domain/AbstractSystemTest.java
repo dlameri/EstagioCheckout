@@ -1,4 +1,4 @@
-package java;
+package domain;
 
 import org.junit.After;
 import org.junit.Before;
@@ -48,4 +48,7 @@ public class AbstractSystemTest extends AbstractTransactionalJUnit4SpringContext
 		return findElement( By.id(id) ).getText();
 	}
 
+	protected void type(String id, String value) {
+		findElementById(id).sendKeys(value);
+	}
 }
