@@ -1,17 +1,12 @@
 package com.ideais.spring.domain;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import com.ideais.spring.domain.checkout.Item;
 import com.ideais.spring.domain.checkout.ShoppingCart;
 import com.ideais.spring.domain.checkout.ShoppingCartLine;
@@ -20,9 +15,7 @@ public class ShoppingCartTest {
 	
 	ShoppingCartLine shoppingCartLine = mock(ShoppingCartLine.class);
 	Item item = mock(Item.class);
-	Item item2 = mock(Item.class);
 
-	
 	ShoppingCart shoppingCart;
 			
 	@Before
@@ -31,10 +24,6 @@ public class ShoppingCartTest {
 		
 		when(item.getStock()).thenReturn(10);
 		when(item.getPriceFor()).thenReturn(new BigDecimal(100));
-		when(item.getId()).thenReturn(1L);
-
-		when(item2.getStock()).thenReturn(10);
-		when(item2.getPriceFor()).thenReturn(new BigDecimal(100));
 	}
 	
 	@Test
@@ -98,8 +87,9 @@ public class ShoppingCartTest {
 	}
 
 	@Test
-	public void check_adding_not_yet_existing_item_to_cart() {
+	public void check_adding_not_yet_existing_shopping_cart_line() {
 		try {
+			shoppingCart.addItem(item);
 			shoppingCart.addItem(item);
 		} catch (NullPointerException e) {
 			fail("NullPointer inesperado!");
@@ -108,12 +98,15 @@ public class ShoppingCartTest {
 			fail(e.getMessage());
 		}
 
-		assertEquals(new Integer(1), shoppingCart.getShoppingCartLines().get(0).getQuantity());
+		assertEquals(new Integer(2), shoppingCart.getShoppingCartLines().get(0).getQuantity());
 	}	
 	
 	@Test
 	public void check_adding_existing_item_to_cart() {
+		when(item.getId()).thenReturn(1L);
+		
 		try {
+			shoppingCart.addItem(item);
 			shoppingCart.addItem(item);
 		} catch (NullPointerException e) {
 			fail("NullPointer inesperado!");
@@ -122,75 +115,16 @@ public class ShoppingCartTest {
 			fail(e.getMessage());
 		}
 
-		assertEquals(new Integer(1), shoppingCart.getShoppingCartLines().get(0).getQuantity());
+		assertEquals(new Integer(2), shoppingCart.getShoppingCartLines().get(0).getQuantity());
 	}
-	
+
 	@Test
 	public void check_if_shopping_cart_line_is_removed_from_shopping_cart() {
-		try {
-			shoppingCart.addItem(item);
-		} catch (NullPointerException e) {
-			fail("NullPointer inesperado!");
-		}
-		catch (Exception e) {
-			fail(e.getMessage());
-		}
-		shoppingCart.removeItem(item);
-
-		assertTrue(shoppingCart.getShoppingCartLines().isEmpty());
-	}
-
-	@Test
-	public void check_if_cart_is_empty_after_removing_all_shopping_cart_lines() throws Exception {
-		shoppingCart.addItem(item);
-		shoppingCart.addItem(item2);
-		shoppingCart.emptyShoppingCart();
 		
-		assertTrue(shoppingCart.getShoppingCartLines().isEmpty());
+		when(shoppingCartLine.getItem()).thenReturn(item);
+		shoppingCart.remove(shoppingCartLine);
+
+		assertEquals(null, shoppingCart.getShoppingCartLines());
 	}
 
-	@Test
-	public void check_if_item_is_removed_by_id() throws Exception {
-		shoppingCart.addItem(item);
-		shoppingCart.removeItemFromId(item.getId());
-
-		assertTrue(shoppingCart.getShoppingCartLines().isEmpty());
-	}
-	
-	@Test
-	public void check_if_cart_has_item_with_id() throws Exception {
-		shoppingCart.addItem(item);
-		
-		assertTrue(shoppingCart.hasItemWithId(item.getId()));
-	}
-	
-	@Test
-	public void check_if_get_item_return_is_correct() throws Exception {
-		shoppingCart.addItem(item);
-		
-		assertEquals(item, shoppingCart.getItem(item.getId()));
-	}
-	
-	@Test
-	public void check_if_quantity_of_shopping_cart_line_is_edited_write() throws Exception {
-		shoppingCart.addItem(item);
-		shoppingCart.editQuantity(item.getId(), 5);
-
-		assertEquals(new Integer(5), shoppingCart.getShoppingCartLines().get(0).getQuantity());
-	}
-
-	@Test
-	public void check_if_quantity_of_item_is_formatted_with_quantity_equals_1() throws Exception {
-		shoppingCart.addItem(item);
-
-		assertEquals("1 item", shoppingCart.getFormattedQuantityOfItems());
-	}
-	
-	@Test
-	public void check_if_quantity_of_item_is_formatted_with_quantity_equals_2() throws Exception {
-		shoppingCart.addItem(item);
-		shoppingCart.editQuantity(item.getId(), 2);
-		
-		assertEquals("2 items", shoppingCart.getFormattedQuantityOfItems());
-	}	
 }

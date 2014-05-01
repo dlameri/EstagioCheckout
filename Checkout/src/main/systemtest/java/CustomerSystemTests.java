@@ -1,3 +1,5 @@
+package java;
+
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -20,9 +22,5 @@ public class CustomerSystemTests extends AbstractSystemTest {
 		assertTrue( driver.getPageSource().contains("Like a Régua #1 - Brasileirismo - YouTube") );
 	}
 
-	@Test
-	public void register(){
-		dri
-	}
 	
 }

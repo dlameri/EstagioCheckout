@@ -11,11 +11,9 @@ import com.ideais.spring.domain.stock.json.ProductJSON;
 
 public class ProductTest {
 
-	ProductJSON productJSON = mock(ProductJSON.class);
-	Product product;
-	
 	@Test
 	public void check_if_product_is_created_correctly() {
+		ProductJSON productJSON = mock(ProductJSON.class);
 		
 		when(productJSON.getId()).thenReturn(1L);
 		when(productJSON.getName()).thenReturn("iPod");
@@ -28,7 +26,7 @@ public class ProductTest {
 		when(productJSON.getActive()).thenReturn(true);
 		when(productJSON.getRank()).thenReturn(1);
 		
-		product = new Product(productJSON);
+		Product product = new Product(productJSON);
 	
 		assertEquals(product.getId(),productJSON.getId());
 		assertEquals(product.getName(),productJSON.getName());
