@@ -15,20 +15,13 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object controller) throws Exception {
 		String uri = request.getRequestURI();
 		
-		
-		if(!uri.contains("purchase") && !uri.contains("address")) {
+		if((!uri.contains("purchase") && !uri.contains("edit") && !uri.contains("Details") && !uri.contains("address") &&
+			!uri.contains("shipping")) || request.getSession().getAttribute(CUSTOMER_KEY) != null){
 			return true;
 		}
-  
-		if(request.getSession().getAttribute(CUSTOMER_KEY) != null) {
-			return true;
-		}
-		
-		if (uri.contains("purchase")) {
-			response.sendRedirect("http://ideaiselectronics.com:9082/Checkout/customer/authenticate/loginOrderForm");
-		} else {
-			response.sendRedirect("http://ideaiselectronics.com:9082/Checkout/customer/authenticate/loginForm");
-		}
+				
+		request.getSession().setAttribute("loginTarget", uri);
+		response.sendRedirect("http://ideaiselectronics.com:9082/Checkout/customer/authenticate/loginForm");
 		
 		return false;
 	}

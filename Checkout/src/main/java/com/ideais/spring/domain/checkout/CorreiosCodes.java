@@ -4,20 +4,28 @@ import java.math.BigDecimal;
 
 public enum CorreiosCodes {
 	
-	PAC("41106", 30, new BigDecimal(130.00)), 
-	SEDEX("40010", 30, new BigDecimal(130.00)), 
-	SEDEX_10("40215", 10, new BigDecimal(130.00)), 
-	E_SEDEX("81019", 15, new BigDecimal(130.00));
+	PAC("41106", 30, new BigDecimal(130.00), new BigDecimal(20.0), "3 dias úteis."), 
+	SEDEX("40010", 30, new BigDecimal(130.00), new BigDecimal(20.0), "3 dias úteis."), 
+	SEDEX_10("40215", 10, new BigDecimal(130.00), new BigDecimal(20.0), "3 dias úteis."), 
+	E_SEDEX("81019", 15, new BigDecimal(130.00), new BigDecimal(20.0), "3 dias úteis.");
 	
     private final String freightServiceCode;
     private final Integer maximumWeight;
     private final BigDecimal maximumFreight;
-    
-    CorreiosCodes(String freightServiceCode, Integer maximumWeight, BigDecimal maximumFreight) {
+    private final BigDecimal defaultFreight;
+    private final String defaultDays;
+
+	CorreiosCodes(String freightServiceCode, Integer maximumWeight, BigDecimal maximumFreight, BigDecimal defaultFreight, String defaultDays) {
         this.freightServiceCode = freightServiceCode; 
         this.maximumWeight = maximumWeight;
         this.maximumFreight = maximumFreight;
+        this.defaultFreight = defaultFreight;
+        this.defaultDays = defaultDays;
     }
+
+	public String getDefaultDays() {
+		return defaultDays;
+	}
 
 	public String getFreightServiceCode() {
 		return freightServiceCode;
@@ -29,6 +37,10 @@ public enum CorreiosCodes {
 
 	public BigDecimal getMaximumFreight() {
 		return maximumFreight;
+	}
+	
+    public BigDecimal getDefaultFreight() {
+		return defaultFreight;
 	}
 	
 }

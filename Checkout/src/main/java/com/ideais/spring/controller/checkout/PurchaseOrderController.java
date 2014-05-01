@@ -8,6 +8,7 @@ import com.ideais.spring.domain.checkout.Address;
 import com.ideais.spring.domain.checkout.Customer;
 import com.ideais.spring.domain.checkout.PurchaseOrder;
 import com.ideais.spring.domain.checkout.ShoppingCart;
+import com.ideais.spring.service.MailService;
 import com.ideais.spring.service.interfaces.CustomerServiceBehavior;
 import com.ideais.spring.service.interfaces.FreightServiceBehavior;
 import com.ideais.spring.service.interfaces.PurchaseOrderServiceBehavior;
@@ -40,13 +41,16 @@ public class PurchaseOrderController extends BaseController{
     private CustomerServiceBehavior customerService; 
     @Autowired
     private FreightServiceBehavior freightService;
+    @Autowired
+    private MailService mailService;
     private static final String CART_COOKIE_KEY = "CartItems";
     private static final String CUSTOMER_KEY = "customer";
     private static final String ORDER_KEY = "order";
 	private static final Logger logger = Logger.getLogger("purchaseOrderController");
     
     @RequestMapping("/processOrder")
-    public ModelAndView showPaymentDetails() {
+    public synchronized ModelAndView showPaymentDetails() {
+    	mailService.sendMail();
         return new ModelAndView();
     }
     

@@ -30,7 +30,6 @@ public class SoapClient implements Methods {
 	@Override
 	public boolean post(String url, String json) {
 		// TODO Auto-generated method stub
-		
 		return false;
 
 	}

@@ -1,16 +1,13 @@
 package com.ideais.spring.dao;
 
-import java.math.BigDecimal;
-
 import javax.ws.rs.core.GenericType;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import com.ideais.spring.dao.interfaces.FreightDaoBehavior;
 import com.ideais.spring.domain.checkout.CorreiosCodes;
 import com.ideais.spring.domain.checkout.FreightDetails;
 import com.ideais.spring.domain.checkout.ItemsPackage;
+import com.ideais.spring.exceptions.FreightException;
 import com.ideais.spring.util.XmlFreightParserUtil;
 
 @Component("freightDao")
@@ -85,10 +82,10 @@ public class FreightDao extends BasicSoapClientDao implements FreightDaoBehavior
 		String response = (String) client.get(url, new GenericType<String>() {});		
 				
 		if (response == null || EMPTY_STRING.equals(response)) {
-			throw new Exception("erro na request, bad request!"); //criar propria exceção
+			throw new FreightException("erro na request, bad request!"); 
 		}
 		
-		return XmlFreightParserUtil.getFreightDaysFromXmlString(response);
+		return XmlFreightParserUtil.getFreightDaysFromXmlString(serviceType, response);
 	}
 
 	private String buildFreightDaysUrl(String serviceType, String destinationZipCode) {
@@ -105,7 +102,7 @@ public class FreightDao extends BasicSoapClientDao implements FreightDaoBehavior
         String response = (String) client.get(url, new GenericType<String>() {});	
 		
 		if (response == null || EMPTY_STRING.equals(response)) {
-			throw new Exception("erro na request, bad request!"); //criar propria exceção
+			throw new FreightException("erro na request, bad request!");
 		}
         
 		return XmlFreightParserUtil.getFreightFromXmlString(serviceType, destinationZipCode, storeZipCode, response);

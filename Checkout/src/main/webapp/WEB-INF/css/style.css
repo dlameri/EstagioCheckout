@@ -540,7 +540,7 @@ ul.installments li{
 }
 
 .gridProducts {
-	height: 80px;
+	height: 150px;
 }
 
 .input a {
@@ -685,6 +685,14 @@ ul.installments li{
 	color: #404040;
 }
 
+.customer-subtitle {	
+	margin-top:-35px;
+	font-weight: bold;
+	margin-bottom: 5px;
+	font-size: 1.3em;
+	color: #404040;
+}
+
 .space {
 	margin-bottom: 15px;
 	clear: both;
@@ -806,13 +814,13 @@ ul.installments li{
 	font-weight: bold;
 }
 
-.container a, .containerNewAddress a {
+.container a, .containerNewAddress a, .containerEditCustomer a {
 	color: #404040;
 	text-decoration: underline;
 	
 }
 
-.container a:hover, .containerNewAddress a:hover {
+.container a:hover, .containerNewAddress a:hover, .containerEditCustomer a:hover {
 	color: #676767;
 }
 
@@ -825,6 +833,22 @@ ul.installments li{
 	width: 480px;
 	padding:43px;;
 	margin-bottom: 50px;
+}
+
+#orderList {
+	display: none;
+	width: 1024px;
+	margin-bottom: 50px;
+}
+
+.mainAddressCustomer {
+	display: table-cell;
+	width: 480px;
+	display: table-cell;
+	margin-left: 0px;
+	margin-right: 20ṕx;
+	width: 457px;
+	padding:20px;;
 }
 
 .containerNewAddress, .containerEditCustomer, .containerLogin {
@@ -855,7 +879,18 @@ ul.installments li{
 	border-color: #D2D2D2;
 }
 
-.managedAddress a {
+.orderListUnit {
+	color: #5A5A5A;
+	font-size: 0.9em;
+	padding: 15px;
+	margin-bottom: 15px;
+	height: 60px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #D2D2D2;
+}
+
+.managedAddress a, .managedCustomer a {
 	color: #404040;
 	font-weight: bold;
 	text-decoration: underline;
@@ -872,6 +907,21 @@ ul.installments li{
 	border-width: 1px;
 }
 
+.showHideOrders {
+	cursor: pointer;
+	padding: 5px;
+	height: 20px;
+	width: 150px;
+	background-color: #D20808;
+	border-color: #CBCBCB;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.showHideOrders:hover {
+	background-color: #FF4747;
+}
+
 .selectAddress:hover {
 	background-color: #FF4747;
 }
@@ -882,7 +932,7 @@ ul.installments li{
 	text-decoration: underline;
 }
 
-.managedAddress a:hover {
+.managedAddress a:hover, .managedCustomer a:hover {
 	color: #676767;
 }
 
@@ -893,9 +943,9 @@ ul.installments li{
 
 #customerDetails {
 	margin-left: 0px;
-	min-height: 500px;;
-	width: 1024px;
-	padding:20px;
+	min-height: 140px;;
+	width: 982px;
+	padding:20px 20px 30px 20px;;
 	margin-bottom: 50px;
 	border-style: solid;
 	border-color: #D2D2D2;
@@ -939,7 +989,7 @@ ul.installments li{
 	padding: 10px 25px;
 	height: 20px;
 	width: 150px;
-	background-color: #D20808;
+	background-color: #AF1111;
 	border-color: #CBCBCB;
 	border-style: solid;
 	border-width: 1px;
@@ -952,6 +1002,10 @@ ul.installments li{
 .buyToOrder {
 	text-align: right;
 	margin: 30px 0
+}
+
+.finishOrder {
+	margin: 30px 10px
 }
 
 .cartEmpty {
@@ -1008,4 +1062,8 @@ ul.installments li{
 
 .registerButtonContainer {
 	margin-left: 60px;
+}
+
+.optionsCustomer {
+	margin-left: 20px;
 }

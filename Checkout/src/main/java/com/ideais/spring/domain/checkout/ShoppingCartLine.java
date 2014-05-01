@@ -1,6 +1,7 @@
 package com.ideais.spring.domain.checkout;
 
 import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,9 +12,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+
+import com.ideais.spring.exceptions.MissingQuantityStockException;
 import com.ideais.spring.util.ValueFormatter;
 
 @Entity
@@ -63,20 +67,20 @@ public class ShoppingCartLine {
 		return quantity;
 	}
 
-	public void setQuantity(Integer quantity) throws Exception {
+	public void setQuantity(Integer quantity) throws NumberFormatException, MissingQuantityStockException {
 		if (quantity.compareTo(new Integer(1)) >= 0) {
 			processEditQuantity(quantity);
 		} else {
-			throw new Exception("Number not supported!");
+			throw new NumberFormatException("Number not supported!");
 		}
 	}
 
-	private void processEditQuantity(Integer quantity) throws Exception {
+	private void processEditQuantity(Integer quantity) throws MissingQuantityStockException {
 		if (item.getStock().compareTo(quantity) >= 0) {
 			this.quantity = quantity;
 			calculatePrice();
 		} else {
-			throw new Exception("Quantidade indisponível em estoque.");
+			throw new MissingQuantityStockException("Quantidade indisponível em estoque.");
 		}
 	}
 

@@ -10,7 +10,7 @@
 	<body>
 	    <div id="content-container">
 			<section class="addressForm">
-				<h1 class="payment-font">Editar endereço principal</h1>
+				<h1 class="payment-font">Cadastrar novo endereço de entrega</h1>
 				
 				<div class="containerNewAddress">
 					<form:form class="formNew" action="newShippingAddress" autocomplete="off" commandName="address" method="POST" accept-charset="UTF-8">
@@ -49,7 +49,7 @@
 						<form:button class="editAddressButton" type="submit">Cadastrar endereço de entrega</form:button>
 						<br />
 						<br />
-						<a class="voltar" href="../../purchaseOrder/paymentDetails">voltar</a>
+						<a class="voltar" href="http://ideaiselectronics.com:9082/Checkout/purchaseOrder/paymentDetails">voltar para minha compra</a>
 					</form:form>
 				</div>
 			
@@ -62,16 +62,16 @@
 						${order.shippingAddress.neighborhood} ${order.shippingAddress.city},  ${order.shippingAddress.state} - ${order.shippingAddress.zipCode} <br />
 						<br /> 	
 						<div class="managedAddress">
-							<a href="../address/editAddressOrderForm/${order.shippingAddress.id}" class="edit">editar</a>
+							<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/editAddressForm/${order.shippingAddress.id}" class="edit">editar</a>
 														
 							<c:if test="${order.shippingAddress.main != true}">
-								<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/removeOrderAddress/${order.shippingAddress.id}" class="edit">excluir</a>	
+								<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/removeAddress/${order.shippingAddress.id}" class="edit">excluir</a>	
 							</c:if>
 						
 						</div> 
 						<br />	
 							
-						<a href="../address/setShippingAddress/${order.shippingAddress.id}" class="selectAddress">Selecionar endereço</a>
+						<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/setShippingAddress/${order.shippingAddress.id}" class="selectAddress">Selecionar endereço</a>
 					</div>
 					
 					<c:forEach items="${notSelectedShippingAddresses}" var="shippingAddress" varStatus="status">
@@ -81,16 +81,16 @@
 							${shippingAddress.neighborhood} ${shippingAddress.city}, ${shippingAddress.state} - ${shippingAddress.zipCode} <br />
 							<br /> 	
 							<div class="managedAddress">
-								<a href="../address/editAddressOrderForm/${shippingAddress.id}" class="edit">editar</a> 
+								<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/editAddressForm/${shippingAddress.id}" class="edit">editar</a> 
 							
 								<c:if test="${shippingAddress.main != true}">
-									<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/removeOrderAddress/${shippingAddress.id}" class="edit">excluir</a>	
+									<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/removeAddress/${shippingAddress.id}" class="edit">excluir</a>	
 								</c:if>
 							
 							</div> 
 							<br />	
 								
-							<a href="../address/setShippingAddress/${shippingAddress.id}" class="selectAddress">Selecionar endereço</a>
+							<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/setShippingAddress/${shippingAddress.id}" class="selectAddress">Selecionar endereço</a>
 						</div>
 					</c:forEach>				
 				

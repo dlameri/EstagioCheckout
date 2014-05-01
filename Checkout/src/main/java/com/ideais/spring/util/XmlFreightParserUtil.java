@@ -10,7 +10,10 @@ import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
 import org.jdom2.input.SAXBuilder;
 
+import com.ideais.spring.domain.checkout.CorreiosCodes;
 import com.ideais.spring.domain.checkout.FreightDetails;
+import com.ideais.spring.exceptions.FreightException;
+import com.ideais.spring.exceptions.FreightZipCodeException;
 
 public class XmlFreightParserUtil {
 	
@@ -21,10 +24,10 @@ public class XmlFreightParserUtil {
 	private static final String VALUE_NODE = "Valor";
 	private static final String DELIVERY_TIME_NODE = "PrazoEntrega";
 
-	public static FreightDetails getFreightFromXmlString(String serviceType, String destinationZipCode, String storeZipCode, String xml) throws Exception {		
+	public static FreightDetails getFreightFromXmlString(String serviceType, String destinationZipCode, String storeZipCode, String xml) throws FreightZipCodeException {		
 		try {
 			FreightDetails freightDetails = new FreightDetails(serviceType, destinationZipCode, storeZipCode);
-			freightDetails.setFreightValue(new BigDecimal(getFreightValue(xml)));
+			freightDetails.setFreightValue(new BigDecimal(getFreightValue(serviceType, xml)));
 			
 			return freightDetails; 	    
 		} catch (JDOMException e) {
@@ -36,7 +39,7 @@ public class XmlFreightParserUtil {
 		return null;
 	}
 	
-	private static String getFreightValue(String xml) throws Exception {
+	private static String getFreightValue(String serviceType, String xml) throws FreightZipCodeException, JDOMException, IOException {
 		SAXBuilder saxBuilder = new SAXBuilder();
 	    Document doc = saxBuilder.build(new StringReader(xml));
 	    
@@ -44,20 +47,22 @@ public class XmlFreightParserUtil {
 		Namespace ns = rootNode.getNamespace();		
 		Element cService = rootNode.getChild(CHILD_NODE, ns).getChild(GRAND_CHILD_NODE, ns);
 								
-		return getValueFromNode(cService, ns);
+		return getValueFromNode(serviceType, cService, ns);
 	}
 	
-	private static String getValueFromNode(Element cService, Namespace ns) throws Exception {
+	private static String getValueFromNode(String serviceType, Element cService, Namespace ns) throws FreightZipCodeException {
 		String errorMessage = cService.getChildText(ERROR_NODE, ns);
 	    
-		if (!EMPTY_STRING.equals(errorMessage)) {			    	
-	    	throw new Exception(errorMessage); //criar exceção própria
+		if (!EMPTY_STRING.equals(errorMessage) && errorMessage.contains("CEP")) {			    	
+	    	throw new FreightZipCodeException(errorMessage); 
+	    } else if(!EMPTY_STRING.equals(errorMessage)) {
+	    	return CorreiosCodes.valueOf(serviceType).getDefaultFreight().toString();
 	    }
 		
 		return cService.getChildText(VALUE_NODE, ns).replace(',', '.');
 	}
 	
-	public static String getFreightDaysFromXmlString(String xml) throws Exception {
+	public static String getFreightDaysFromXmlString(String serviceType, String xml) throws FreightZipCodeException, JDOMException, IOException {
 		SAXBuilder saxBuilder = new SAXBuilder();
 	    Document doc = saxBuilder.build(new StringReader(xml));
 	    
@@ -65,14 +70,16 @@ public class XmlFreightParserUtil {
 		Namespace ns = rootNode.getNamespace();		
 		Element cService = rootNode.getChild(CHILD_NODE, ns).getChild(GRAND_CHILD_NODE, ns);
 								
-		return getDaysFromNode(cService, ns);
+		return getDaysFromNode(serviceType, cService, ns);
 	}
 	
-	private static String getDaysFromNode(Element cService, Namespace ns) throws Exception {
+	private static String getDaysFromNode(String serviceType, Element cService, Namespace ns) throws FreightZipCodeException {
 		String errorMessage = cService.getChildText(ERROR_NODE, ns);
 	    
-		if (!EMPTY_STRING.equals(errorMessage)) {			    	
-	    	throw new Exception(errorMessage); //criar exceção própria
+		if (!EMPTY_STRING.equals(errorMessage) && errorMessage.contains("CEP")) {			    	
+	    	throw new FreightZipCodeException(errorMessage); 
+	    } else if (!EMPTY_STRING.equals(errorMessage)){
+	    	return CorreiosCodes.valueOf(serviceType).getDefaultDays();
 	    }
 
 		return cService.getChildText(DELIVERY_TIME_NODE, ns);

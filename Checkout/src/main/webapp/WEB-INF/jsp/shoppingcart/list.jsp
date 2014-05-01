@@ -53,20 +53,17 @@
 							<tr class="gridProducts">
 								<th rowspan="1">
 									<a href="#" class="image">
-										<img class="photo" src="<!--${line.item.imageUrl}-->" />
+										<img class="photo" src="${line.item.imageUrl}" height="90px" />
 									</a>
 								</th>
 								
 								<th class="products">
 									<div class="product">
-										<a href="#" class="productName">
-											<span class="cont">
-												<strong class="product-name">
-													${line.item.productName} <br/>
-													${line.item.optionName} ${line.item.optionValue}
-													</strong>
-											</span>
-										</a>
+										<span id="productTextName" class="cont">
+											<strong class="product-name">
+												${line.item.productName} 
+											</strong>
+										</span>
 									</div>
 								</th>
 								

@@ -24,7 +24,7 @@ public class ApiShoppingCartController {
     private ShoppingCartService shoppingCartService;
     private static final String CART_COOKIE_KEY = "CartItems";
 	private final Integer SUCCESS_RESPONSE_CODE = 200;
-	private final Integer ERROR_RESPONSE_CODE = 500; //mandar Bad Request
+	private final Integer ERROR_RESPONSE_CODE = 500; 
     
     @RequestMapping(value = "/addItemToCart", method = RequestMethod.POST, consumes="application/json")
 	public Response addItemToCart(@CookieValue(value=CART_COOKIE_KEY, required=false) String cartCookie, 

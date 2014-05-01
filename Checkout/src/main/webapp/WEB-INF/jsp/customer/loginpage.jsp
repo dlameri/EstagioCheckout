@@ -24,7 +24,7 @@
 									<tr />
 									<tr>	
 										<td class="label-input"><label class="passwordLabel">Senha</label></td>
-										<td><input type="text" name="userPassword" id="userLogin" /></td>
+										<td><input type="password" name="userPassword" id="userLogin" /></td>
 									<tr />
 							
 								</fieldset>
@@ -37,7 +37,7 @@
 					<div class="registerLogin">
 					<h1 class="title-font">Não sou cadastrado</h1>
 						<div class="registerButtonContainer">
-							<a class="registerLoginButton" href="../../customer/new">cadastre-se</a>
+							<a class="registerLoginButton" href="">cadastre-se</a>
 						</div>
 					</div>
 					

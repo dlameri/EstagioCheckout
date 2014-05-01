@@ -56,7 +56,7 @@
 						     		<div class="payment-type">
 						      			<img class="photo" src="<c:url value="/resources/images/boleto_image.jpg" />" />
 									</div>
-									<a id="billetSelect" href="#" class="selectPayment">Selecionar</a>
+									<a id="billetSelect" href=#"" class="selectPayment">Selecionar</a>
 				      			</li>
 			      			</div>
   
@@ -64,27 +64,27 @@
 					    
 					    <div id="formCard" class="simpleTabsContent">
 
-					    	<div class="boxWrap arowBox">
-								<div class="box1-1"><div id="acomForm:validationErrors" class="box01 cData">			
-									<ul class="cardData">							
+					    	<div>
+								<div>
+									<div>			
+									<ul>							
 										
-										<li id="acomForm:holderNameLi">
-											<div id="acomForm:holderNameError" style="display: none;" class="payErCont"></div>
-											<label><span class="lbl">Nome do titular:</span><input id="acomForm:holderName" type="text" name="acomForm:holderName" autocomplete="off" class="tp1" maxlength="100" />
+										<li>
+											<label><span>Nome do titular:</span>
+											<input type="text" name="holderName" autocomplete="off"  maxlength="100" />
 											</label>
-											<span>(Como gravado no cartão)</span>
+											<span class="holderNameAdvise">(Como gravado no cartão)</span>
 										</li>
-										<li id="acomForm:cardNumberLi">
-											<div id="acomForm:cardNumberError" style="display: none;" class="payErCont"></div>
-											<label><span class="lbl">Número do cartão:</span><input id="acomForm:cardNumber" type="text" name="acomForm:cardNumber" autocomplete="off" class="tp1" maxlength="19" onblur="return onlyNumbers(this)" onkeyup="return onlyNumbers(this)" />	
-												<span class="ico lock">-</span>
+										<li>
+											<label><span>Número do cartão:</span>
+												<input type="text" name="cardNumber" autocomplete="off" maxlength="19"  />	
 											</label>
 										</li>
-										<li id="acomForm:errorDateLi">
-											<div id="acomForm:errorDate" style="display: none;" class="payErCont"></div>
+										<li id="errorDateLi">
+											<div id="errorDate" style="display: none;" class="payErCont"></div>
 											
 											<label>						
-												<span class="lbl">Validade:</span><select id="acomForm:month" name="acomForm:month" class="tp2 " size="1">	
+												<span>Validade:</span><select name="month" size="1">	
 												<option value="" selected="selected">Mês</option>
 													<option value="01">01</option>
 													<option value="02">02</option>
@@ -100,7 +100,7 @@
 													<option value="12">12</option>
 												</select>
 											</label>
-										 	<label><select id="acomForm:year" name="acomForm:year" class="tp2" size="1">	<option value="" selected="selected">Ano</option>
+										 	<label><select id="year" name="year" size="1">	<option value="" selected="selected">Ano</option>
 													<option value="2014">2014</option>
 													<option value="2015">2015</option>
 													<option value="2016">2016</option>
@@ -115,19 +115,18 @@
 												</select><span class="validationError"></span>
 											</label>
 										</li>
-										<li id="acomForm:securityCodeLi">
-											<div id="acomForm:securityCodeError" style="display: none;" class="payErCont"></div><span id="acomForm:securityPanel">							
-												<span class="lbl">Código de segurança do Cartão:</span><input id="acomForm:securityCode" type="text" name="acomForm:securityCode" autocomplete="off" class="tp2" maxlength="4" onkeyup="return onlyNumbers(this)" /><a id="acomForm:codigoSeguranca" name="acomForm:codigoSeguranca" href="/checkout/staticContentPopup.xhtml?articleId=215786" class="lightbox">
-											    	O que é código de segurança?
-											   		</a></span>	
+										<li>
+											<div></div><span>							
+												<span>Código de segurança do Cartão:</span>
+												<input id="securityCode" type="text" name="securityCode" autocomplete="off" maxlength="4" />
 										</li>
 										
-										<li id="acomForm:installmentsLi" style="parcel">
-											<div id="acomForm:installmentErrorMessage" style="display: none;" class="payErCont"></div>
+										<li id=installmentsLi">
+											<div id="installmentErrorMessage" style="display: none;" class="payErCont"></div>
 											<label><span class="lbl">Parcelar em:</span><input id="acomForm:installmentQuantity" type="text" name="acomForm:installmentQuantity" autocomplete="off" class="tp3" maxlength="2" />
 											</label>		
-											<label><span id="acomForm:installmentPanel">
-													<select id="acomForm:installmentOptions" class="paymentSelectInstallments">
+											<label><span>
+													<select id="installmentOptions">
 													</select><span id="acomForm:installmentQuantityMessage" class="validationError"></span></span>
 											</label><input id="acomForm:installmentOptionChosen" type="hidden" name="acomForm:installmentOptionChosen" />
 											
@@ -147,6 +146,10 @@
 
 					    </div>
 					 </div>
+					 
+				<div class="finishOrder">
+      				<a class="proccessCartBuy" href="processOrder">Finalizar compra</a>
+	       	 	</div>
 						
 				</div>
 			

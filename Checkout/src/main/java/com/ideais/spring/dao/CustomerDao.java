@@ -1,5 +1,7 @@
 package com.ideais.spring.dao;
 
+import java.util.List;
+
 import com.ideais.spring.dao.interfaces.CustomerDaoBehavior;
 import com.ideais.spring.domain.checkout.Address;
 import com.ideais.spring.domain.checkout.Customer;
@@ -23,12 +25,6 @@ public class CustomerDao implements CustomerDaoBehavior {
     public Customer findById(Long id) {
         return (Customer) session().get(Customer.class, id);
     }
-    
-    @Override
-    @Transactional(readOnly = true)
-    public Customer findByName(String name) {
-        return (Customer) session().get(Customer.class, name);
-    }
 
     @Override
     @Transactional
@@ -49,12 +45,23 @@ public class CustomerDao implements CustomerDaoBehavior {
 
 	@Override
 	@Transactional
-	public Customer findByLoginOrEmail(String username, String password) {
+	public Customer findByLoginOrEmail(String usernameOrEmail, String password) {
 		Customer customer = (Customer) session().createCriteria(Customer.class)
-				.add(Restrictions.eq("username", username))
+				.add(Restrictions.or(Restrictions.eq("username", usernameOrEmail))
+				.add(Restrictions.or(Restrictions.eq("email", usernameOrEmail))))
 				.add(Restrictions.eq("password", password)).uniqueResult();
 		
 		return customer;
+	}
+	
+	@Override
+	@Transactional
+	public String findPasswordByLoginAndEmail(String username, String email) {
+		Customer customer = (Customer) session().createCriteria(Customer.class)
+				.add(Restrictions.eq("username", username))
+				.add(Restrictions.eq("email", email)).uniqueResult();
+		
+		return customer.getPassword();
 	}
 
 	@Override
@@ -72,6 +79,16 @@ public class CustomerDao implements CustomerDaoBehavior {
 		}
 		
 		saveOrUpdate(customer);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Customer> findByEmail(String email) {
+		List<Customer> customers = (List<Customer>) session().createCriteria(Customer.class)
+		.add(Restrictions.ilike("email", email)).list();
+				
+		return customers;
 	}
 
 }

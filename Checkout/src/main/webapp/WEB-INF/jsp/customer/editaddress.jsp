@@ -58,7 +58,7 @@
 						<form:button class="editAddressButton" type="submit">Editar endereço</form:button>
 						<br />
 						<br />
-						<a class="voltar" href="http://ideaiselectronics.com:9082/Checkout/purchaseOrder/paymentDetails">voltar</a>
+						<a class="voltar" href="javascript:history.go(-1)">voltar</a>
 					</form:form>
 				</div>
 			</section>

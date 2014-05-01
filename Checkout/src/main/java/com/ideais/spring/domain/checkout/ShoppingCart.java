@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,8 +17,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+
+import com.ideais.spring.exceptions.MissingQuantityStockException;
 import com.ideais.spring.util.ValueFormatter;
 
 @Entity
@@ -161,13 +165,13 @@ public class ShoppingCart {
 		recalculateShoppingCartProperties();
 	}
 	
-	private void processAddItem(ShoppingCartLine shoppingCartLine, Item item) throws Exception {
+	private void processAddItem(ShoppingCartLine shoppingCartLine, Item item) throws MissingQuantityStockException {
 		if (item.getStock() > 0) {
 			shoppingCartLine = new ShoppingCartLine(item);
 			shoppingCartLine.setShoppingCart(this);
 			add(shoppingCartLine);	
 		} else {
-			throw new Exception("Produto se encontra em falta no estoque!");
+			throw new MissingQuantityStockException("Produto se encontra em falta no estoque!");
 		}
 		
 	}

@@ -21,6 +21,32 @@
   		<bean class="com.ideais.spring.controller.checkout.interceptor.AuthenticatorInterceptor" />	
 	</mvc:interceptors>
     
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+       <property name="host"><value>smtp.gmail.com</value></property>
+        <property name="port"><value>587</value></property>
+        <property name="protocol"><value>smtp</value></property>
+        <property name="username"><value>ideaiseletronics@gmail.com</value></property>
+        <property name="password"><value>123ideais</value></property>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.smtp.quitwait">false</prop>
+            </props>
+        </property>
+	</bean>
+	
+	<!-- this is a template message that we can pre-load with default state -->
+	<bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
+	  <property name="from" value="leoSLRamos@gmail.com"/>
+	  <property name="subject" value="Your order"/>
+	</bean>
+	
+	<bean id="orderManager" class="com.ideais.spring.service.MailService">
+	  <property name="mailSender" ref="mailSender"/>
+	  <property name="templateMessage" ref="templateMessage"/>
+	</bean>
+    
     <bean id="stockUrlCategory" class="java.lang.String">  
     	<constructor-arg value="${stock.category}"/>
 	</bean>

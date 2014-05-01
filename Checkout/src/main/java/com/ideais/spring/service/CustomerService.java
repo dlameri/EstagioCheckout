@@ -1,5 +1,7 @@
 package com.ideais.spring.service;
 
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -73,6 +75,16 @@ public class CustomerService implements CustomerServiceBehavior {
     	customerCookie.setMaxAge(-1); 
     	customerCookie.setDomain(cookieDomain);
     	customerCookie.setPath(cookiePath);		
+	}
+
+	@Override
+	public String findPassword(String username, String email) {
+		return customerDao.findPasswordByLoginAndEmail(username, email);
+	}
+
+	@Override
+	public List<Customer> findByEmail(String email) {
+		return customerDao.findByEmail(email);
 	}
 
 }

@@ -24,7 +24,7 @@
 									<tr />
 									<tr>	
 										<td class="label-input"><label class="passwordLabel">Senha</label></td>
-										<td><input type="text" name="userPassword" id="userLogin" /></td>
+										<td><input type="password" name="userPassword" id="userLogin" /></td>
 									<tr />
 							
 								</fieldset>

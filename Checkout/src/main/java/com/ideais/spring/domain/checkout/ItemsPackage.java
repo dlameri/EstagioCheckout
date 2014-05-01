@@ -2,6 +2,10 @@ package com.ideais.spring.domain.checkout;
 
 import java.util.List;
 
+import com.ideais.spring.exceptions.ItemPackageDimensionException;
+import com.ideais.spring.exceptions.ItemPackageVolumeException;
+import com.ideais.spring.exceptions.ItemPackageWeightException;
+
 public class ItemsPackage {
 	
 	private static final int MAXIMUM_SUM_OF_DIMENSIONS = 200;
@@ -16,7 +20,7 @@ public class ItemsPackage {
 	private final Integer MINIMUM_VOLUME = 5;
 	private Integer quantityOfItems = 0;
 		
-	public ItemsPackage(List<ShoppingCartLine> shoppingCartlines) {
+	public ItemsPackage(List<ShoppingCartLine> shoppingCartlines) throws ItemPackageWeightException, ItemPackageVolumeException, ItemPackageDimensionException {
 		calculateVolumetricWeight(shoppingCartlines);
 		this.quantityOfItems = calculateTotalOfItems(shoppingCartlines);
 	}
@@ -32,7 +36,7 @@ public class ItemsPackage {
 		
 	}
 
-	private void calculateVolumetricWeight(List<ShoppingCartLine> shoppingCartLines) {
+	private void calculateVolumetricWeight(List<ShoppingCartLine> shoppingCartLines) throws ItemPackageWeightException, ItemPackageVolumeException, ItemPackageDimensionException {
 		Integer weight = 0;
 		
 		for (int i = 0; i < shoppingCartLines.size(); i++) {
@@ -43,27 +47,27 @@ public class ItemsPackage {
 		volumetricWeight = weight;
 	}
 	
-	private Integer getItemVolumetricWeight(Item item) {
+	private Integer getItemVolumetricWeight(Item item) throws ItemPackageVolumeException, ItemPackageDimensionException {
 		Dimensions dimensions = item.getDimensions();
 		
 		if (dimensions != null && checkDimension(dimensions)) {
 			return (int) ((dimensions.getHeight() * dimensions.getWidth() * dimensions.getDepth()) / WEIGHT_CONSTANT); 
 		}
 		
-		return MINIMUM_VOLUME; //jogar exceção de nulo
+		throw new ItemPackageVolumeException("Volumedo pacote se encontra nulo");
 	}
 	
-	private boolean checkDimension(Dimensions dimensions) {
+	private boolean checkDimension(Dimensions dimensions) throws ItemPackageDimensionException {
 		Integer sumOfDimensions = (int) (dimensions.getHeight() + dimensions.getWidth() + dimensions.getDepth());
 		
 		if (sumOfDimensions >= MINIMUM_SUM_OF_DIMENSIONS && sumOfDimensions <= MAXIMUM_SUM_OF_DIMENSIONS) {
 			return true;
 		}
 		
-		return false; //jogar exceção de dimensão inapropriado
+		throw new ItemPackageDimensionException("Dimensão inapropriada do pacote");
 	}
 
-	private Integer getValueToIncrementWeight(Integer itemVolumetricWeight, ShoppingCartLine shoppingCartLine) {
+	private Integer getValueToIncrementWeight(Integer itemVolumetricWeight, ShoppingCartLine shoppingCartLine) throws ItemPackageWeightException {
 		if (itemVolumetricWeight > MINIMUM_VOLUME) {
 			return (itemVolumetricWeight) * shoppingCartLine.getQuantity();
 		}
@@ -71,9 +75,9 @@ public class ItemsPackage {
 		return calculateShoppingCartLineWeight(shoppingCartLine);
 	}
 	
-	private Integer calculateShoppingCartLineWeight(ShoppingCartLine shoppingCartLine) {
+	private Integer calculateShoppingCartLineWeight(ShoppingCartLine shoppingCartLine) throws ItemPackageWeightException {
 		if (shoppingCartLine.getItem().getWeight() == null) {
-			return 0; //jogar exceção de peso nulo
+			throw new ItemPackageWeightException("Peso do pacote se encontra nulo");
 		}
 		
 		return shoppingCartLine.getItem().getWeight() * shoppingCartLine.getQuantity();

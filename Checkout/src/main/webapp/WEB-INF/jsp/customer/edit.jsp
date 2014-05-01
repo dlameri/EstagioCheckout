@@ -11,7 +11,7 @@
 				<h1 class="payment-font">Editar dados de usuário</h1>
 				
 				<div class="containerEditCustomer">
-					<form:form class="formNew" action="new" autocomplete="off" commandName="customer" method="POST">
+					<form:form class="formNew" action="updateCustomer" autocomplete="off" commandName="customer" method="POST">
 						<table>
 							<tr>
 								<td class="label-input"><label>Nome:</label></td>
@@ -58,16 +58,16 @@
 							${shippingAddress.neighborhood} ${shippingAddress.city}, ${shippingAddress.state} - ${shippingAddress.zipCode} <br />
 							<br /> 	
 							<div class="managedAddress">
-								<a href="address/editAddressOrderForm/${shippingAddress.id}" class="edit">editar</a> 
+								<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/editAddressForm/${shippingAddress.id}" class="edit">editar</a> 
 							
 								<c:if test="${shippingAddress.main != true}">
-									<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/removeOrderAddress/${shippingAddress.id}" class="edit">excluir</a>	
+									<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/removeAddress/${shippingAddress.id}" class="edit">excluir</a>	
 								</c:if>
 							
 							</div> 
 							<br />	
 								
-							<a href="address/setMainAddress/${shippingAddress.id}" class="selectAddress">Tornar como endereço principal</a>
+							<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/setMainAddress/${shippingAddress.id}" class="selectAddress">Tornar como endereço principal</a>
 						</div>
 					</c:forEach>	
 				</div>			

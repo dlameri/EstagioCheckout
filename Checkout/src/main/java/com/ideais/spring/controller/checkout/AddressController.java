@@ -1,6 +1,7 @@
 package com.ideais.spring.controller.checkout;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.ideais.spring.controller.catalog.BaseController;
 import com.ideais.spring.domain.checkout.Address;
 import com.ideais.spring.domain.checkout.Customer;
@@ -47,9 +49,7 @@ public class AddressController extends BaseController {
     }
     
     @RequestMapping(value = "/newShippingAddress", method = RequestMethod.POST)
-    public String newShippingAddress(Address address, HttpServletRequest request) {
-    	//TODO: mandar pra tela de erro avisando que deu treta
-    	
+    public String newShippingAddress(Address address, HttpServletRequest request) {    	
     	Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);
     	
     	if (customer != null) {
@@ -71,89 +71,8 @@ public class AddressController extends BaseController {
     		view.addObject("address", customer.getAddressById(id));	
     		return view;
     	}
-
-    	view.addObject("customerError", "sessão expirou! Logue antes de editar o endereço!");
     	
     	return view;	
-    }
-	
-	@RequestMapping(value = "/editAddressOrderForm/{id}", method = RequestMethod.GET)
-    public ModelAndView editAddressOrder(@PathVariable Long id, HttpServletRequest request) {
-    	ModelAndView view = getBaseView("customer/editaddress", request);
-    	
-    	Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);    	    	
-
-    	if (customer != null) {
-    		view.addObject("address", customer.getAddressById(id));	
-    		return view;
-    	}
-
-    	view.addObject("customerError", "sessão expirou! Logue antes de editar o endereço!");
-    	
-    	return view;	
-    }
-	
-	@RequestMapping(value = "/editAddressForm/{id}/{status}", method = RequestMethod.GET)
-    public ModelAndView editAddressStatus(@PathVariable Long id, @PathVariable String status, HttpServletRequest request) {
-    	ModelAndView view = getBaseView("customer/editaddress", request);
-    	
-    	if ("error".equals(status)) {
-    		view.addObject("customerSuccess", "Endereço editado com sucesso.");
-    	} else {
-        	view.addObject("customerError", "sessão expirou! Logue antes de editar o endereço!");
-    	}
-    		
-    	Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);    	    	
-
-    	if (customer != null) {
-    		view.addObject("address", customer.getAddressById(id));	
-    		return view;
-    	}
-    	
-    	return view;	
-    }
-	
-	@RequestMapping(value = "/editAddressOrderForm/{id}/{status}", method = RequestMethod.GET)
-    public ModelAndView editAddressOrderStatus(@PathVariable Long id, @PathVariable String status, HttpServletRequest request) {
-    	ModelAndView view = getBaseView("customer/editaddress", request);
-    	
-    	if ("error".equals(status)) {
-    		view.addObject("customerMessage", "Endereço editado com sucesso.");
-    	} else {
-        	view.addObject("customerMessage", "sessão expirou! Logue antes de editar o endereço!");
-    	}
-    	
-    	Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);    	    	
-
-    	if (customer != null) {
-    		view.addObject("address", customer.getAddressById(id));	
-    		return view;
-    	}
-
-    	view.addObject("customerMessage", "sessão expirou! Logue antes de editar o endereço!");
-    	
-    	return view;	
-    }
-    
-    @RequestMapping(value = "/editAddressOrder", method = RequestMethod.POST)
-    public String editAddressOrder(Address address, HttpServletRequest request) {
-    	try {
-    		Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);    	    	
-
-        	if (customer != null) {
-	    		address.setCustomer(customer);
-	    		customer.updateAddress(address);
-	    		
-		    	customerService.saveOrUpdate(customer);    	
-	    		customerService.setCustomerInSessionAfterUpdate(request, customer.getId());
-		    	
-		    	return "redirect:editAddressOrderForm/"+ address.getId() +"/success";	
-    		}
-        	
-	    	return "redirect:editAddressOrderForm/"+ address.getId() +"/error";	
-    	} catch (Exception e) {
-	    	return "redirect:editAddressOrderForm/"+ address.getId() +"/error";	
-    	}
     }
     
     @RequestMapping(value = "/editAddress", method = RequestMethod.POST)
@@ -197,23 +116,25 @@ public class AddressController extends BaseController {
     	}
     }
     
-    @RequestMapping(value = "/removeOrderAddress/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/removeAddress/{id}", method = RequestMethod.GET)
     public String removeOrderAddress(@PathVariable Long id, HttpServletRequest request) {
+    	String uri = "";
     	try {
     		Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);    	    	
-
+    		uri = request.getHeader("referer");
+    		    		
         	if (customer != null) {
         		customerService.removeAddress(customer, id);
 	    		customerService.setCustomerInSessionAfterUpdate(request, customer.getId());
 	    	
-		    	return "redirect:../newAddress/";	
+		    	return "redirect:" + uri;	
     		}
         	
-	    	return "redirect:../newAddress/";	
+	    	return "redirect:" + uri;
     	} catch (Exception e) {
     		e.printStackTrace();
 
-	    	return "redirect:../newAddress/";	
+	    	return "redirect:" + uri;	
     	}
     }
     
