@@ -47,12 +47,15 @@ dependencies {
 	compile group: 'org.springframework', name: 'spring-orm', version: '3.2.8.RELEASE'
 	compile group: 'org.springframework', name: 'spring-web', version: '3.2.8.RELEASE'
 	compile group: 'org.springframework', name: 'spring-webmvc', version: '3.2.8.RELEASE'
+	compile group: 'org.springframework', name: 'spring-context-support', version: '3.2.8.RELEASE'	
 	compile group: 'commons-collections', name: 'commons-collections', version: '3.1'
 	compile 'org.springframework:spring-test:3.2.8.RELEASE'
 	testCompile group: 'junit', name: 'junit', version: '4.+'
 	testCompile "org.mockito:mockito-all:1.9.5"
 	
 	compile 'org.jdom:jdom2:2.0.5'
+	
+	compile 'javax.mail:mail:1.4.5';
 	
 	compile 'commons-httpclient:commons-httpclient:2.0.2'
 	
