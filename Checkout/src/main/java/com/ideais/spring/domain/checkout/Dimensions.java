@@ -1,41 +1,15 @@
 package com.ideais.spring.domain.checkout;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-@Entity
-@Table(name = "DIMENSOES")
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Dimensions {
 	
-	@Id
-	@SequenceGenerator(name = "dimensions_id", sequenceName = "dimensions_id")
-	@GeneratedValue(generator = "dimensions_id", strategy = GenerationType.AUTO)
-	@Column(name = "CD_DIMENSOES")
-	private Long id;
-	
-	@Column(name = "NM_ALTURA", nullable = false)
 	private Double height;
-	
-	@Column(name = "NM_LARGURA", nullable = false)
 	private Double width;
-	
-	@Column(name = "NM_COMPRIMENTO", nullable = false)
 	private Double depth;
 	
 	public Dimensions() {}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public Double getHeight() {
 		return height;

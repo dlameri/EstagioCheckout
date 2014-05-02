@@ -14,6 +14,7 @@ import com.ideais.spring.domain.checkout.Item;
 import com.ideais.spring.domain.checkout.Payment;
 import com.ideais.spring.domain.checkout.PurchaseOrder;
 import com.ideais.spring.domain.checkout.ShoppingCart;
+import com.ideais.spring.domain.checkout.StatusOfOrder;
 import com.ideais.spring.exceptions.FreightException;
 import com.ideais.spring.exceptions.FreightZipCodeException;
 import com.ideais.spring.exceptions.ItemPackageDimensionException;
@@ -83,6 +84,7 @@ public class PurchaseOrderController extends BaseController{
 	    	if (items.size() == 0) {
 		    	mailService.sendMail();
 		    	itemService.refreshItemQuantity(shoppingCartService.getJsonCart(order.getShoppingCart()));
+		    	order.setStatusOfOrder(StatusOfOrder.FINISHED.getStatus());
 		    	purchaseOrderService.save(order);
 		    	
 		    	view.addObject("order", order);
@@ -171,7 +173,6 @@ public class PurchaseOrderController extends BaseController{
 	    		
 	    		if (order == null) {	    			
 		    		order = new PurchaseOrder(customer, shoppingCart);
-		    		purchaseOrderService.setPurchaseOrderInSession(request, order);
 		    		logger.debug("Customer de id: " + customer.getId() + "carrinho da sessão setados em uma ordem de compra.");
 	    		} 
 	    		
@@ -180,6 +181,8 @@ public class PurchaseOrderController extends BaseController{
 	
 				freightService.setFreightInSession(freightDetails, shoppingCart, request);
 	    		freightService.setFreightDeliverInPurchaseOrder(request, order);
+	    		
+	    		purchaseOrderService.setPurchaseOrderInSession(request, order);
 	    		
 	    		view.addObject("order", order);
 	    	}

@@ -23,7 +23,7 @@
 				</c:if>
 				
 				<div class="containerEditCustomer">
-					<form:form class="formNew" action="http://ideaiselectronics.com:9082/Checkout/customer/edit/updateCustomer" autocomplete="off" commandName="customer" method="POST">
+					<form:form class="formNew" action="http://ideaiselectronics.com:9082/Checkout/customer/updateCustomer" autocomplete="off" commandName="customer" method="POST">
 						<table>
 							<tr>
 								<td class="label-input"><label>Nome:</label></td>

@@ -21,6 +21,5 @@ public class CustomerSystemTests extends AbstractSystemTest {
 		
 		assertTrue( driver.getPageSource().contains("Like a Régua #1 - Brasileirismo - YouTube") );
 	}
-
 	
 }

@@ -15,7 +15,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object controller) throws Exception {
 		String uri = request.getRequestURI();
 		
-		if((!uri.contains("purchase") && !uri.contains("edit") && !uri.contains("Details") && !uri.contains("address") &&
+		if((!uri.contains("purchase")  && !uri.contains("Details") && !uri.contains("address") &&
 			!uri.contains("shipping")) || request.getSession().getAttribute(CUSTOMER_KEY) != null){
 			return true;
 		}

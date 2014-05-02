@@ -22,7 +22,7 @@
 						<div class="shipping-address">
 							Destinatário: ${order.addressee} <br />
 							${order.shippingAddress.street}, ${order.shippingAddress.number}, ${order.shippingAddress.city}, ${order.shippingAddress.state} - ${order.shippingAddress.zipCode} <br />
-							<a class="editShipAddress" href="../customer/address/newAddress"><span class="editAddressShipping">alterar o endereço de entrega</span></a>
+							<a class="editShipAddress" href="../customer/address/newAddress"><span class="editAddressShipping">Alterar o endereço de entrega</span></a>
 							<a href="../customer/address/editAddressForm/${order.shippingAddress.id}"><span class="editAddressShipping" class="right-values">Editar o endereço atual</span></a>
 						</div>
 					</div>
@@ -60,7 +60,7 @@
 						     		<div class="payment-type">
 						      			<img class="photo" src="<c:url value="/resources/images/boleto_image.jpg" />" />
 									</div>
-									<a id="billetSelect" href=#"" class="selectPayment">Selecionar</a>
+									<a id="billetSelect" href="#" class="selectPayment">Selecionar</a>
 				      			</li>
 			      			</div>
   

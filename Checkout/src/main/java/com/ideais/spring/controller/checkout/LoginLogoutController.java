@@ -32,6 +32,7 @@ public class LoginLogoutController extends BaseController{
     @Autowired
     private MailService mailService;
 	private static final String CUSTOMER_KEY = "customer";
+    private static final String ORDER_KEY = "order";
         
 	@RequestMapping("loginForm")
 	public ModelAndView loginForm(HttpServletRequest request) {
@@ -114,7 +115,8 @@ public class LoginLogoutController extends BaseController{
 	
 	@RequestMapping("logout")
 	public String logout(HttpSession session, HttpServletResponse response) {
-	  session.setAttribute(CUSTOMER_KEY, null);
+	  session.invalidate();
+		
 	  customerService.removeCustomerCookie(response);
 	  
 	  return "redirect:http://ideaiselectronics.com:8081/Catalogo/";

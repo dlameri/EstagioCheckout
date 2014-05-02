@@ -52,7 +52,7 @@ public class CustomerService implements CustomerServiceBehavior {
 	@Override
 	public Cookie createCustomerCookie(Customer customer) {
     	Cookie customerCookie = new Cookie(CUSTOMER_KEY, customer.getUsername());
-    	customerCookie.setMaxAge(60 * 60 * 2); 
+    	customerCookie.setMaxAge(-1); 
     	customerCookie.setDomain(cookieDomain);
     	customerCookie.setPath(cookiePath);
     	

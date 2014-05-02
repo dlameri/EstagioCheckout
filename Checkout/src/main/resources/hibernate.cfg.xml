@@ -5,6 +5,7 @@
 
 
     <session-factory>
+    
     	<property name="hibernate.connection.useUnicode">true</property> 
 		<property name="hibernate.connection.characterEncoding">UTF-8</property> 
     
@@ -22,9 +23,6 @@
 		<mapping class="com.ideais.spring.domain.checkout.ShoppingCart"/>
 		<mapping class="com.ideais.spring.domain.checkout.ShoppingCartLine"/>
 		<mapping class="com.ideais.spring.domain.checkout.Payment"/>
-		<mapping class="com.ideais.spring.domain.checkout.Item"/>
-		<mapping class="com.ideais.spring.domain.checkout.Dimensions"/>
-
 
     </session-factory>
 </hibernate-configuration>

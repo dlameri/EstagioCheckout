@@ -4,6 +4,7 @@ import java.util.List;
 import com.ideais.spring.domain.stock.json.CategoryJSON;
 
 public class Category {
+	
 	private Long id;
 	private String name;
 	private List<Subcategory> subcategories;

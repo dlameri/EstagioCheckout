@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.hibernate.annotations.Cascade;
@@ -36,8 +37,22 @@ public class ShoppingCartLine {
 	@Column(name="NM_PRECO")
 	private BigDecimal price;
 	
-	@OneToOne
-	@Cascade(CascadeType.SAVE_UPDATE)
+	@Column(name="CD_ITEM")
+	private Long itemId;
+	
+	public Long getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(Long itemId) {
+		this.itemId = itemId;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	@Transient
 	private Item item;
 		
 	public ShoppingCartLine() {}
@@ -45,6 +60,7 @@ public class ShoppingCartLine {
 	public ShoppingCartLine(Item item) {
 		if (item != null) {
 			this.item = item;
+			itemId = item.getItemId();
 			quantity = 1;
 			price = item.getPriceFor();
 		}

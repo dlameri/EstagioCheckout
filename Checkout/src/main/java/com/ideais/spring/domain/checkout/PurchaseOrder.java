@@ -35,7 +35,7 @@ public class PurchaseOrder {
 	private Long id;
 	
 	@Column(name="NM_STATUS_COMPRA")
-	private StatusOfOrder statusOfOrder = StatusOfOrder.WAITING_FOR_PAYMENT;
+	private String statusOfOrder = StatusOfOrder.WAITING_FOR_PAYMENT.getStatus();
 	
 	@Column(name="DT_DATA_DA_COMPRA")
 	private Date purchaseDate;	
@@ -131,11 +131,11 @@ public class PurchaseOrder {
 		this.id = id;
 	}
 
-	public StatusOfOrder getStatusOfOrder() {
+	public String getStatusOfOrder() {
 		return statusOfOrder;
 	}
 
-	public void setStatusOfOrder(StatusOfOrder statusOfOrder) {
+	public void setStatusOfOrder(String statusOfOrder) {
 		this.statusOfOrder = statusOfOrder;
 	}
 
