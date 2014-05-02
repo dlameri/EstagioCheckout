@@ -39,11 +39,11 @@
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Login:</label></td>
-								<td><form:input type="text" class="form-control" path="username"  class="validate[required]"/></td>
+								<td><form:input type="text" path="username"  class=" form-control validate[required]"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Senha:</label></td>
-								<td><form:input type="password" class="form-control" path="password"  class="validate[required]"/></td>
+								<td><form:input type="password" path="password"  class="form-control validate[required]"/></td>
 							<tr/>
 						</table>
 						<form:button class="editAddressButton" type="submit">Editar</form:button>
