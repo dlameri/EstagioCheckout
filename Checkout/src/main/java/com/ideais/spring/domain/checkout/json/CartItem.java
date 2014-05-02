@@ -16,12 +16,12 @@ public class CartItem {
 	}
 	
 	public CartItem(ShoppingCartLine shoppingCartLine) {
-    	cartItemId = shoppingCartLine.getItem().getId();
+    	cartItemId = shoppingCartLine.getItem().getItemId();
 		quantity = shoppingCartLine.getQuantity();
 	}
 	
 	public CartItem(Item item, Integer quantity) {
-		cartItemId = item.getId();
+		cartItemId = item.getItemId();
 		this.quantity = quantity;
 	}
 	

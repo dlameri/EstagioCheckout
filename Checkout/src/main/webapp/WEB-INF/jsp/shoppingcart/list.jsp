@@ -49,7 +49,7 @@
 				
 				<tbody>
 					<c:forEach items="${cart.shoppingCartLines}" var="line" varStatus="status">
-						<form method="post" action="editQuantity/${line.item.id}" name="editQuantity">
+						<form method="post" action="http://ideaiselectronics.com:9082/Checkout/shoppingCart/editQuantity/${line.item.itemId}" name="editQuantity">
 					
 							<tr class="gridProducts">
 								<th rowspan="1">
@@ -76,7 +76,7 @@
 											<input class="cartItemInput" type="submit" value="editar quantidade" />
 										</div>
 										<div class="input">
-											<a class="remove-item" class="cartItemInput" href="remove/${line.item.id}" >remover</a>
+											<a class="remove-item" class="cartItemInput" href="remove/${line.item.itemId}" >remover</a>
 							    		</div>
 							   	</td>
 								

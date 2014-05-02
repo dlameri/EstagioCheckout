@@ -43,9 +43,11 @@ public class ShoppingCartLine {
 	public ShoppingCartLine() {}
 	
 	public ShoppingCartLine(Item item) {
-		this.item = item;
-		quantity = 1;
-		price = item.getPriceFor();
+		if (item != null) {
+			this.item = item;
+			quantity = 1;
+			price = item.getPriceFor();
+		}
 	}
 	
 	public void calculatePrice() {

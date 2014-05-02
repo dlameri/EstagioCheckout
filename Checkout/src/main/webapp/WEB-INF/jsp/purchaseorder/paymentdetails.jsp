@@ -23,7 +23,7 @@
 							Destinatário: ${order.addressee} <br />
 							${order.shippingAddress.street}, ${order.shippingAddress.number}, ${order.shippingAddress.city}, ${order.shippingAddress.state} - ${order.shippingAddress.zipCode} <br />
 							<a class="editShipAddress" href="../customer/address/newAddress"><span class="editAddressShipping">alterar o endereço de entrega</span></a>
-							<a href="../customer/address/editAddressOrderForm/${order.shippingAddress.id}"><span class="editAddressShipping" class="right-values">Editar o endereço atual</span></a>
+							<a href="../customer/address/editAddressForm/${order.shippingAddress.id}"><span class="editAddressShipping" class="right-values">Editar o endereço atual</span></a>
 						</div>
 					</div>
 					
@@ -98,6 +98,10 @@
 					    		
 					    	</table>
 					   
+			   				<div class="finishOrder">
+				    				<a class="proccessCartBuy" href="processOrder">Finalizar compra</a>
+				      	 	</div>
+				      	 	
 					    </div>
 					    <div id="formBillet" class="simpleTabsContent">
 							<img class="billetImage" height="100px" alt="ícone de boleto" src="<c:url value="/resources/images/boleto.png" />">
@@ -105,12 +109,13 @@
 								O seu boleto será enviado por email.
 							</span>
 
+
+							<div class="finishOrder">
+			      				<a class="proccessCartBuy" href="processOrder">Finalizar compra</a>
+				       	 	</div>
 					    </div>
 					 </div>
 					 
-				<div class="finishOrder">
-      				<a class="proccessCartBuy" href="processOrder">Finalizar compra</a>
-	       	 	</div>
 						
 				</div>
 			

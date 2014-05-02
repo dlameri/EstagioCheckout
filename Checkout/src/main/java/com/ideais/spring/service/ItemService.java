@@ -81,9 +81,7 @@ public class ItemService implements ItemServiceBehavior {
 
 	private void getDImensionsFromStock(Item item, ProductJSON productJSON) throws HttpException, IOException {
 		Dimensions dimensions = dimensionsDao.findById(productJSON.getURI("dimensions"));
-		
-		System.out.println(dimensions.getHeight() + " " + dimensions.getDepth() + " " + dimensions.getWidth());
-		
+				
 		item.setDimensions(dimensions);
 	}
 	

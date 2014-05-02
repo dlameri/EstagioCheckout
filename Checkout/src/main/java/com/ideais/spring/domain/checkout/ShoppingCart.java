@@ -107,7 +107,7 @@ public class ShoppingCart {
 	
 	public ShoppingCartLine contains(ShoppingCartLine shoppingCartLine) {
 		for (int i = 0; i < shoppingCartLines.size(); i++) {
-			if (shoppingCartLine.getItem().getId().equals(shoppingCartLines.get(i).getItem().getId())) {
+			if (shoppingCartLine.getItem().getItemId().equals(shoppingCartLines.get(i).getItem().getItemId())) {
 				return shoppingCartLines.get(i);
 			}
 		}
@@ -118,7 +118,7 @@ public class ShoppingCart {
 	public void removeItem(Item item) {
 		if (item != null) {
 			for (int i = 0; i < shoppingCartLines.size(); i++) {
-				if (shoppingCartLines.get(i).getItem().getId().equals(item.getId())) {
+				if (shoppingCartLines.get(i).getItem().getItemId().equals(item.getItemId())) {
 					shoppingCartLines.remove(shoppingCartLines.get(i));
 					break;
 				}
@@ -131,7 +131,7 @@ public class ShoppingCart {
 	public void removeItemFromId(Long id) {
 		if (id != null) {
 			for (int i = 0; i < shoppingCartLines.size(); i++) {
-				if (shoppingCartLines.get(i).getItem().getId().equals(id)) {
+				if (shoppingCartLines.get(i).getItem().getItemId().equals(id)) {
 					shoppingCartLines.remove(shoppingCartLines.get(i));
 					break;
 				}
@@ -143,7 +143,7 @@ public class ShoppingCart {
 	
 	public Item getItem(Long id) {
 		for (int i = 0; i < shoppingCartLines.size(); i++) {
-			if (shoppingCartLines.get(i).getItem().getId().equals(id)) {
+			if (shoppingCartLines.get(i).getItem().getItemId().equals(id)) {
 				return shoppingCartLines.get(i).getItem();
 			}
 		}
@@ -174,7 +174,7 @@ public class ShoppingCart {
 	private ShoppingCartLine hasItem(Item item) {
 		if (item != null) {
 			for (int i = 0; i < shoppingCartLines.size(); i++) {
-				if (shoppingCartLines.get(i).getItem().getId().equals(item.getId())) {
+				if (shoppingCartLines.get(i).getItem().getItemId().equals(item.getItemId())) {
 					return shoppingCartLines.get(i);
 				}
 			}
@@ -184,9 +184,13 @@ public class ShoppingCart {
 	}
 	
 	public boolean hasItemWithId(Long itemId) {
-		for (int i = 0; i < shoppingCartLines.size(); i++) {
-			if (shoppingCartLines.get(i).getItem().getId().equals(itemId)) {
-				return true;
+		if (shoppingCartLines != null) {
+			for (int i = 0; i < shoppingCartLines.size(); i++) {
+				if (shoppingCartLines.get(i).getItem() != null) {
+					if (shoppingCartLines.get(i).getItem().getItemId().equals(itemId)) {
+						return true;
+					}
+				}
 			}
 		}
 		
