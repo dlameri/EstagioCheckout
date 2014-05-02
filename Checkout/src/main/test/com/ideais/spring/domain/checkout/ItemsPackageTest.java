@@ -14,6 +14,9 @@ import com.ideais.spring.domain.checkout.Dimensions;
 import com.ideais.spring.domain.checkout.Item;
 import com.ideais.spring.domain.checkout.ItemsPackage;
 import com.ideais.spring.domain.checkout.ShoppingCartLine;
+import com.ideais.spring.exceptions.ItemPackageDimensionException;
+import com.ideais.spring.exceptions.ItemPackageVolumeException;
+import com.ideais.spring.exceptions.ItemPackageWeightException;
 
 public class ItemsPackageTest {	
 
@@ -29,7 +32,20 @@ public class ItemsPackageTest {
 	
 	@Test
 	public void check_if_volumetric_weight_equals_0_when_shopping_cart_line_list_is_empty() {
-		ItemsPackage itemspackage = new ItemsPackage(shoppingCartlines);
+		ItemsPackage itemspackage = null;
+		
+		try {
+			itemspackage = new ItemsPackage(shoppingCartlines);
+		} catch (ItemPackageWeightException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ItemPackageVolumeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ItemPackageDimensionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		assertEquals(new Integer(0),itemspackage.getVolumetricWeight());
 	}
@@ -48,7 +64,20 @@ public class ItemsPackageTest {
 		ShoppingCartLine shoppingCartLine = new ShoppingCartLine(item);
 		shoppingCartlines.add(shoppingCartLine);
 		
-		ItemsPackage itemspackage = new ItemsPackage(shoppingCartlines);
+		ItemsPackage itemspackage = null;
+		
+		try {
+			itemspackage = new ItemsPackage(shoppingCartlines);
+		} catch (ItemPackageWeightException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ItemPackageVolumeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ItemPackageDimensionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		assertEquals(new Integer(36), itemspackage.getVolumetricWeight());
 	}
@@ -67,7 +96,20 @@ public class ItemsPackageTest {
 		ShoppingCartLine shoppingCartLine = new ShoppingCartLine(item);
 		shoppingCartlines.add(shoppingCartLine);
 		
-		ItemsPackage itemspackage = new ItemsPackage(shoppingCartlines);
+		ItemsPackage itemspackage = null;
+		
+		try {
+			itemspackage = new ItemsPackage(shoppingCartlines);
+		} catch (ItemPackageWeightException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ItemPackageVolumeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ItemPackageDimensionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		assertEquals(new Integer(8), itemspackage.getVolumetricWeight());
 	}
@@ -86,7 +128,19 @@ public class ItemsPackageTest {
 		ShoppingCartLine shoppingCartLine = new ShoppingCartLine(item);
 		shoppingCartlines.add(shoppingCartLine);
 		
-		ItemsPackage itemspackage = new ItemsPackage(shoppingCartlines);
+		ItemsPackage itemspackage = null;
+		try {
+			itemspackage = new ItemsPackage(shoppingCartlines);
+		} catch (ItemPackageWeightException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ItemPackageVolumeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ItemPackageDimensionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		assertEquals(new Integer(8), itemspackage.getVolumetricWeight());
 	}
