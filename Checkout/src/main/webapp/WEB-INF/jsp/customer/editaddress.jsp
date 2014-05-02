@@ -16,8 +16,16 @@
 			<section class="cadastro">
 				<h1 class="payment-font">Editar endereço principal</h1>
 				
+				<c:if test="${errorMessage != null}">
+					<div class="errormsgbox">${errorMessage}</div>
+				</c:if>
+				
+				<c:if test="${successMessage != null}">
+					<div class="successbox">${successMessage}</div>
+				</c:if>
+				
 				<div class="container">
-					<form:form class="form" action="http://ideaiselectronics.com:9082/Checkout/customer/address/editAddressOrder" autocomplete="off" commandName="address" method="POST" accept-charset="UTF-8">
+					<form:form class="form" action="http://ideaiselectronics.com:9082/Checkout/customer/address/editAddress" autocomplete="off" commandName="address" method="POST" accept-charset="UTF-8">
 						<form:hidden path="id"/>
 						<form:hidden path="main"/>
 						<table>
@@ -28,6 +36,11 @@
 									<td><form:input type="text" path="name" class="validate[required] text-input" /></td>
 								<tr/>
 							</c:if>
+						
+							<tr>
+								<td class="label-input"><label>Destinatário:</label> </td>
+								<td><form:input type="text" path="addressee" class="validate[required] text-input" /></td>
+							<tr/>
 						
 							<tr>
 								<td class="label-input"><label>Rua:</label> </td>
@@ -44,6 +57,14 @@
 							<tr>
 								<td class="label-input"><label>Cidade</label></td>
 								<td><form:input type="text" path="city" class="validate[required] text-input"/></td>
+							<tr/>
+							<tr>
+								<td class="label-input"><label>Bairro</label></td>
+								<td><form:input type="text" path="neighborhood" class="validate[required] text-input"/></td>
+							<tr/>
+							<tr>
+								<td class="label-input"><label>Referencia</label></td>
+								<td><form:input type="text" path="reference" class="validate[required] text-input"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Estado</label></td>

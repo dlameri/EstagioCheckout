@@ -38,7 +38,7 @@ public class ShoppingCartDao extends BasicRestClientDao implements ShoppingCartD
     	
     	if (shoppingCart != null) {
 	    	for (int i = 0; i < shoppingCart.getShoppingCartLines().size(); i++) {
-	    		cart.addStockItem(new CartItem(shoppingCart.getShoppingCartLines().get(i)));
+	    		cart.addCartItem(new CartItem(shoppingCart.getShoppingCartLines().get(i)));
 	    	}
     	}
 		

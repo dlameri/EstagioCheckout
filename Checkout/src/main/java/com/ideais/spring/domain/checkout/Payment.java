@@ -33,11 +33,6 @@ public class Payment {
 	
 	@Column(name="NR_VALOR_TOTAL")
     private BigDecimal amount;
-	
-	@JsonBackReference
-	@OneToOne(mappedBy = "payment")
-	@Cascade(CascadeType.MERGE)
-	private PurchaseOrder purchaseOrder;
 
 	public Long getId() {
 		return id;
@@ -69,14 +64,6 @@ public class Payment {
 
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
-	}
-
-	public PurchaseOrder getPurchaseOrder() {
-		return purchaseOrder;
-	}
-
-	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
-		this.purchaseOrder = purchaseOrder;
 	}
     
 }

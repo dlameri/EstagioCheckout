@@ -21,12 +21,20 @@
 						<form:hidden path="id"/>
 						<table>
 							<tr>
+								<td class="label-input"><label>Descrição:</label> </td>
+								<td><form:input type="text" path="name" class="validate[required] text-input" /></td>
+							<tr/>						
+							<tr>
+								<td class="label-input"><label>Destinatário:</label> </td>
+								<td><form:input type="text" path="addressee" class="validate[required] text-input" /></td>
+							<tr/>	
+							<tr>
 								<td class="label-input"><label>Rua:</label> </td>
-								<td><form:input type="text" path="street" class="validate[required]" /></td>
+								<td><form:input type="text" path="street" class="validate[required] text-input" /></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Número:</label></td>
-								<td><form:input type="text" path="number" class="validate[required]"/></td>
+								<td><form:input type="text" path="number" class="validate[required] "/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Complemento:</label></td>
@@ -34,19 +42,27 @@
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Cidade</label></td>
-								<td><form:input type="text" path="city" class="validate[required]"/></td>
+								<td><form:input type="text" path="city" class="validate[required] text-input"/></td>
+							<tr/>
+							<tr>
+								<td class="label-input"><label>Bairro</label></td>
+								<td><form:input type="text" path="neighborhood" class="validate[required] text-input"/></td>
+							<tr/>
+							<tr>
+								<td class="label-input"><label>Referencia</label></td>
+								<td><form:input type="text" path="reference" class="validate[required] text-input"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Estado</label></td>
-								<td><form:input type="text" path="state" class="validate[required]"/></td>
+								<td><form:input type="text" path="state" class="validate[required] text-input"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>País</label></td>
-								<td><form:input type="text" path="country" class="validate[required]"/></td>
+								<td><form:input type="text" path="country" class="validate[required] text-input"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>CEP</label></td>
-								<td><form:input type="text" path="zipCode" class="cep validate[required]"/></td>
+								<td><form:input type="text" path="zipCode" class="validate[required] cep"/></td>
 							<tr/>
 						</table>
 						
@@ -67,10 +83,6 @@
 						<br /> 	
 						<div class="managedAddress">
 							<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/editAddressForm/${order.shippingAddress.id}" class="edit">editar</a>
-														
-							<c:if test="${order.shippingAddress.main != true}">
-								<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/removeAddress/${order.shippingAddress.id}" class="edit">excluir</a>	
-							</c:if>
 						
 						</div> 
 						<br />	
@@ -88,13 +100,14 @@
 								<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/editAddressForm/${shippingAddress.id}" class="edit">editar</a> 
 							
 								<c:if test="${shippingAddress.main != true}">
-									<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/removeAddress/${shippingAddress.id}" class="edit">excluir</a>	
+									<a id="openerOrder" href="http://ideaiselectronics.com:9082/Checkout/customer/address/removeAddress/${shippingAddress.id}" class="edit">excluir</a>	
 								</c:if>
 							
 							</div> 
 							<br />	
 								
 							<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/setShippingAddress/${shippingAddress.id}" class="selectAddress">Selecionar endereço</a>
+						
 						</div>
 					</c:forEach>				
 				

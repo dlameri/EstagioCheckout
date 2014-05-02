@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -54,6 +55,9 @@ public class Address {
 	
 	@Column(name="NM_NAME")
 	private String name;
+	
+	@Column(name="NM_DESTINATARIO")
+	private String addressee; 
 	
 	@ManyToOne(targetEntity=Customer.class)
 	@JoinColumn(name="CD_CLIENTE", referencedColumnName="CD_CLIENTE", nullable=false)
@@ -162,6 +166,23 @@ public class Address {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getFormattedZipCode() {
+		if (zipCode.contains("-")) {
+			String[] formattedZipCode = zipCode.split("-"); 
+			return formattedZipCode[0] + formattedZipCode[1];
+		}
+		
+		return zipCode;
+	}
+
+	public String getAddressee() {
+		return addressee;
+	}
+
+	public void setAddressee(String addressee) {
+		this.addressee = addressee;
 	}
 	
 }

@@ -3,22 +3,26 @@ package com.ideais.spring.controller.checkout;
 import javax.servlet.http.HttpServletRequest;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 
 import org.springframework.web.bind.annotation.CookieValue;
 
 import javax.servlet.http.HttpServletResponse;
 
 import com.ideais.spring.controller.catalog.BaseController;
+import com.ideais.spring.controller.checkout.message.ErrorMessageFactory;
 import com.ideais.spring.domain.checkout.FreightDetails;
 import com.ideais.spring.domain.checkout.ShoppingCart;
+import com.ideais.spring.exceptions.FreightException;
+import com.ideais.spring.exceptions.FreightZipCodeException;
+import com.ideais.spring.exceptions.ItemPackageDimensionException;
+import com.ideais.spring.exceptions.ItemPackageVolumeException;
+import com.ideais.spring.exceptions.ItemPackageWeightException;
+import com.ideais.spring.exceptions.MissingQuantityStockException;
 import com.ideais.spring.service.interfaces.FreightServiceBehavior;
 import com.ideais.spring.service.interfaces.ShoppingCartServiceBehavior;
 import com.ideais.spring.util.DigitsValidator;
 
-import org.apache.axis.AxisFault;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
+import org.jdom2.JDOMException;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -48,8 +52,9 @@ public class ShoppingCartController extends BaseController {
     		           HttpServletRequest request) {
     	
     	ShoppingCart shoppingCart;
-    	try {    		
-	    	shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);
+    	try {
+			shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);
+
 	    	shoppingCartService.addItemToShoppingCart(id, shoppingCart);
 	    	
     		freightService.recalculateFreight(shoppingCart, request);
@@ -59,18 +64,24 @@ public class ShoppingCartController extends BaseController {
 	    	response.addCookie(shoppingCartService.createCartTopCookie(shoppingCart));
 	    	
 	    	return "redirect:../";
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    		return null;
-    	}
+		} catch (NumberFormatException e) {
+			return "redirect:../errorNumber";
+		} catch (IOException e) {
+			return "redirect:../error";
+		} catch (MissingQuantityStockException e) {
+			return "redirect:../errorQuantity";
+		} catch (JSONException e) {
+			return "redirect:../error";
+		} 	
     }
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView listCartItems(@CookieValue(value=CART_COOKIE_KEY, required=false) String cartCookie, HttpServletRequest request) {
-    	try {    		
-    		ModelAndView view = getBaseView("shoppingcart/list", request);
-    		
-    		ShoppingCart shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);
+		ModelAndView view = getBaseView("shoppingcart/list", request);
+		ShoppingCart shoppingCart;
+		
+		try {
+			shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);
     		FreightDetails freightDetails = freightService.getFreightDetails(request);
     		
     		if (freightDetails == null) {
@@ -81,35 +92,87 @@ public class ShoppingCartController extends BaseController {
     		view.addObject("cart", shoppingCart);
     		
 	    	return view;
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    		return null;
-    	}
+		} catch (NumberFormatException e) {
+			view.addObject("errorMessage", "Dado de input inválido.");
+			return view;
+		} catch (IOException e) {
+			view.addObject("errorMessage", "Erro, tente novamente!");
+			return view;		
+		} catch (MissingQuantityStockException e) {
+			view.addObject("errorMessage", "Quantidade indisponível no estoque!");
+			return view;
+		} catch (JSONException e) {
+			view.addObject("errorMessage", "Erro, tente novamente!");
+			return view;
+		}			
+    }
+	
+	@RequestMapping(value = "/{status}", method = RequestMethod.GET)
+    public ModelAndView listCartItemsError(@CookieValue(value=CART_COOKIE_KEY, required=false) String cartCookie, 
+    		@PathVariable String status, HttpServletRequest request) {
+		ModelAndView view = getBaseView("shoppingcart/list", request);
+		ShoppingCart shoppingCart;
+		
+		try {
+			shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);
+    		FreightDetails freightDetails = freightService.getFreightDetails(request);
+    		
+    		if (freightDetails == null) {
+    			freightService.setFreightInSession(new FreightDetails(), shoppingCart, request);
+    		}
+    	    
+    		shoppingCartService.setShoppingCartInSession(shoppingCart, request);
+    		view.addObject("cart", shoppingCart);
+    		view.addObject("errorMessage", getErrorMessage(status));
+    		
+	    	return view;
+		} catch (NumberFormatException e) {
+			view.addObject("errorMessage", "Dado de input inválido.");
+			return view;
+		} catch (IOException e) {
+			view.addObject("errorMessage", "Erro, tente novamente!");
+			return view;		
+		} catch (MissingQuantityStockException e) {
+			view.addObject("errorMessage", "Quantidade indisponível no estoque!");
+			return view;
+		} catch (JSONException e) {
+			view.addObject("errorMessage", "Erro, tente novamente!");
+			return view;
+		}			
     }
     
-    @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
+    private Object getErrorMessage(String status) {
+    	return ErrorMessageFactory.buildErrorMessage(status);
+	}
+
+	@RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
     public String removeItemFromCart(@CookieValue(value=CART_COOKIE_KEY, required=false) String cartCookie, 
     						 @PathVariable Long id, 
     						 HttpServletResponse response,
     						 HttpServletRequest request) {
     	
     	ShoppingCart shoppingCart;
-    	try {	    	    	    		
-    		shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);   		
-    		shoppingCartService.removeItemToShoppingCart(id, shoppingCart);
-    		
-    		freightService.recalculateFreight(shoppingCart, request);
+		try {
+			shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);
+	  		
+			shoppingCartService.removeItemToShoppingCart(id, shoppingCart);
+			
+			freightService.recalculateFreight(shoppingCart, request);
 	    	
 	        shoppingCartService.setShoppingCartInSession(shoppingCart, request);
-    		response.addCookie(shoppingCartService.createCartCookie(shoppingCart));		
+			response.addCookie(shoppingCartService.createCartCookie(shoppingCart));		
 	    	response.addCookie(shoppingCartService.createCartTopCookie(shoppingCart));
 	        
 	    	return "redirect:../";
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return null;
+		} catch (NumberFormatException e) {
+			return "redirect:../errorNumber";
+		} catch (IOException e) {
+			return "redirect:../error";
+		} catch (MissingQuantityStockException e) {
+			return "redirect:../errorQuantity";
+		} catch (JSONException e) {
+			return "redirect:../error";
+		} 
 	}
 
 	@RequestMapping(value = "/emptyCart", method = RequestMethod.POST)
@@ -124,10 +187,8 @@ public class ShoppingCartController extends BaseController {
     		
         	return "redirect:";
     	} catch(IOException e) {
-    		e.printStackTrace();
+    		return "redirect:../error";
     	}
-    	
-    	return null;
     }
     
     @RequestMapping(value = "/editQuantity/{id}", method = RequestMethod.POST)
@@ -152,10 +213,15 @@ public class ShoppingCartController extends BaseController {
     		}
     		
 	    	return "redirect:../";
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    		return null;
-    	}
+		} catch (NumberFormatException e) {
+			return "redirect:../errorNumber";
+		} catch (IOException e) {
+			return "redirect:../error";
+		} catch (MissingQuantityStockException e) {
+			return "redirect:../errorQuantity";
+		} catch (JSONException e) {
+			return "redirect:../error";
+		} 
     }
 
     @RequestMapping(value = "/calculateFreight", method = RequestMethod.POST)
@@ -170,7 +236,9 @@ public class ShoppingCartController extends BaseController {
     		shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);
     		
     		if (DigitsValidator.validateZipCodeInput(postalCodeID1) && DigitsValidator.validateZipCodeInput(postalCodeID2)) {
-    			FreightDetails freightDetails = freightService.calculateFreightDetails(shoppingCart, postalCodeID1 + postalCodeID2);   
+    			FreightDetails freightDetails = null;
+				freightDetails = freightService.calculateFreightDetails(shoppingCart, postalCodeID1 + postalCodeID2);
+
     			freightService.setFreightInSession(freightDetails, shoppingCart, request);
 
     	        shoppingCartService.setShoppingCartInSession(shoppingCart, request);
@@ -179,10 +247,27 @@ public class ShoppingCartController extends BaseController {
     		}
    	    	
 	    	return "redirect:";
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    		return null;
-    	}
+		} catch (NumberFormatException e) {
+			return "redirect:/errorNumber";
+		} catch (IOException e) {
+			return "redirect:/error";
+		} catch (MissingQuantityStockException e) {
+			return "redirect:/errorQuantity";
+		} catch (JSONException e) {
+			return "redirect:/error";
+		} catch (FreightException e) {
+			return "redirect:/errorFreight";
+		} catch (FreightZipCodeException e) {
+			return "redirect:/errorCep";
+		} catch (JDOMException e) {
+			return "redirect:/error";
+		} catch (ItemPackageWeightException e) {
+			return "redirect:/errorWeight";
+		} catch (ItemPackageVolumeException e) {
+			return "redirect:/errorVolume";
+		} catch (ItemPackageDimensionException e) {
+			return "redirect:/errorDimension";
+		} 
     }
 
 	@RequestMapping(value = "/proccessShoppingCart", method = RequestMethod.GET)
@@ -190,15 +275,21 @@ public class ShoppingCartController extends BaseController {
     		           HttpServletRequest request) {
     	
     	ShoppingCart shoppingCart;
-    	try {    		
-	    	shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);	    			
-	        shoppingCartService.setShoppingCartInSession(shoppingCart, request);
-	    	
-	    	return "redirect:../purchaseOrder/paymentDetails";
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    		return null;
-    	}
+
+    	try {
+			shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);    			
+		    shoppingCartService.setShoppingCartInSession(shoppingCart, request);
+			
+			return "redirect:../purchaseOrder/paymentDetails";
+		} catch (NumberFormatException e) {
+			return "redirect:/errorNumber";
+		} catch (IOException e) {
+			return "redirect:/error";
+		} catch (MissingQuantityStockException e) {
+			return "redirect:/errorQuantity";
+		} catch (JSONException e) {
+			return "redirect:/error";
+		}
     }
 
 }

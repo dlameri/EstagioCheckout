@@ -439,6 +439,7 @@ div.simpleTabsContent {
 	padding: 20px;
 	width: 962px; 
 	margin-top:3px; 
+	font-size: 1.1em;
 	display:none; 
 }
 
@@ -767,6 +768,11 @@ ul.installments li{
 	display: inline-block;
 }
 
+.formCreditCard {
+	width: 1024px;
+	display: inline-block;
+}
+
 .formNew td {
 	color: #6C6C6C;
 	font-size: 1.1em;
@@ -786,11 +792,32 @@ ul.installments li{
 	border-width: 0px;
 }
 
+.formCreditCard td {
+	width: 320px;
+	color: #6C6C6C;
+	font-size: 1.1em;
+	border-width: 0px;
+}
+
+#securityCode {
+	width: 50px;	
+}
+
+#holderName, #cardNumber {
+	width: 300px;
+}
+
 .form input {
 	color: #6C6C6C;
 	font-weight: bold;
 	font-size: 0.9em;
 	width: 450px;
+}
+
+.formCreditCard input {
+	color: #6C6C6C;
+	font-weight: bold;
+	font-size: 0.9em;
 }
 
 .editAddressButton {
@@ -814,13 +841,13 @@ ul.installments li{
 	font-weight: bold;
 }
 
-.container a, .containerNewAddress a, .containerEditCustomer a {
+.container a, .containerNewAddress a, .containerEditCustomer a, .containerRecover a, #dialog a, #dialogOrder a{
 	color: #404040;
 	text-decoration: underline;
 	
 }
 
-.container a:hover, .containerNewAddress a:hover, .containerEditCustomer a:hover {
+.container a:hover, .containerNewAddress a:hover, .containerEditCustomer a:hover, .containerRecover a:hover, #dialog a:hover, #dialogOrder a:hover {
 	color: #676767;
 }
 
@@ -861,6 +888,16 @@ ul.installments li{
 	border-style: solid;
 	border-color: #D2D2D2;
 	border-width:0 1px 0 0;
+}
+
+.containerRecover {
+	display: table-cell;
+	margin-left: 0px;
+	margin-right: 20ṕx;
+	width: 457px;
+	padding:20px;;
+	margin-bottom: 50px;
+	border-width:0 0 0 0;
 }
 
 .addressForm {
@@ -1039,6 +1076,8 @@ ul.installments li{
 
 .registerLoginButton {
 	padding: 5px;
+	position: relative;
+	top: 20px;
 	font-size: 0.7em;
 	cursor: pointer;
 	background-color: #D20808;
@@ -1066,4 +1105,64 @@ ul.installments li{
 
 .optionsCustomer {
 	margin-left: 20px;
+}
+
+.successbox, .warningbox, .errormsgbox {
+	font-size: 0.9em;
+	border: 2px solid;
+	margin: 20px 0px;
+	padding:10px 5px 10px 5px;
+	background-repeat: no-repeat;
+    background-position: 10px center;
+}
+
+.successbox {
+	color: #4F8A10;
+	background-color:#EDFCED;
+}
+
+.warningbox {
+	color: #FFE222;
+	background-color:#FAF9C9;
+}
+
+.errormsgbox {
+	color: #D8000C;
+	background-color:#FDD5CE;
+}
+
+.billetMessage {
+	position: relative;
+	top: -45px;
+}
+
+.ui-datepicker-div {
+	border-width: 0;
+	display: none;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+	padding: .5em .3em .3em 1em;
+	position: relative;
+	display: none;
+}
+
+#excludeConfirmation {
+	float: left;
+}
+
+#cancelConfirmation {
+	float: right;
+}
+
+#excludeConfirmationOrder {
+	float: left;
+}
+
+#cancelConfirmationOrder {
+	float: right;
+}
+
+.successOrder {
+	font-weight: bold;	
 }

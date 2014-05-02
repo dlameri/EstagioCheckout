@@ -8,18 +8,19 @@ import org.junit.Test;
 
 import com.ideais.spring.domain.stock.json.SubcategoryJSON;
 
-public class SubCategory {
+public class SubCategoryTest {
+
+	SubcategoryJSON subcategoryJSON = mock(SubcategoryJSON.class);
+	Subcategory subcategory;
 
 	@Test
 	public void check_if_subcategory_is_created_correctly() {
-
-		SubcategoryJSON subcategoryJSON = mock(SubcategoryJSON.class);
 		
 		when(subcategoryJSON.getId()).thenReturn(1L);
 		when(subcategoryJSON.getName()).thenReturn("Eletronicos");
 		when(subcategoryJSON.getActive()).thenReturn(true);
 		
-		Subcategory subcategory = new Subcategory(subcategoryJSON);
+		subcategory = new Subcategory(subcategoryJSON);
 
 		assertEquals(subcategory.getId(),subcategoryJSON.getId());
 		assertEquals(subcategory.getName(),subcategoryJSON.getName());
@@ -27,4 +28,3 @@ public class SubCategory {
 	}
 
 }
-

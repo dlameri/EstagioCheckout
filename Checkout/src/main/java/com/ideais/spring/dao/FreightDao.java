@@ -1,13 +1,20 @@
 package com.ideais.spring.dao;
 
+import java.io.IOException;
+
 import javax.ws.rs.core.GenericType;
+
+import org.apache.commons.httpclient.HttpException;
+import org.jdom2.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import com.ideais.spring.dao.interfaces.FreightDaoBehavior;
 import com.ideais.spring.domain.checkout.CorreiosCodes;
 import com.ideais.spring.domain.checkout.FreightDetails;
 import com.ideais.spring.domain.checkout.ItemsPackage;
 import com.ideais.spring.exceptions.FreightException;
+import com.ideais.spring.exceptions.FreightZipCodeException;
 import com.ideais.spring.util.XmlFreightParserUtil;
 
 @Component("freightDao")
@@ -49,12 +56,12 @@ public class FreightDao extends BasicSoapClientDao implements FreightDaoBehavior
 	private String receivedNotification;
 	
 	@Override
-	public FreightDetails getFreight(ItemsPackage itemsPackage, String destinationZipCode) throws Exception {
+	public FreightDetails getFreight(ItemsPackage itemsPackage, String destinationZipCode) throws HttpException, IOException, FreightException, FreightZipCodeException, JDOMException {
 		return getFreight(itemsPackage, EMPTY_STRING, destinationZipCode);
 	}
 	
 	@Override
-	public FreightDetails getFreight(ItemsPackage itemsPackage, String serviceType, String destinationZipCode) throws Exception {   
+	public FreightDetails getFreight(ItemsPackage itemsPackage, String serviceType, String destinationZipCode) throws HttpException, IOException, FreightException, FreightZipCodeException, JDOMException {   
 		FreightDetails freightDetails;		
 	
 		if (EMPTY_STRING.equals(serviceType) && itemsPackage.getVolumetricWeight() > CorreiosCodes.valueOf(defaultServiceType).getMaximumWeight()) {
@@ -77,7 +84,7 @@ public class FreightDao extends BasicSoapClientDao implements FreightDaoBehavior
         return freightDetails;
 	}
 	
-	private String makeFreightDeiveryDaysRequestFromCorreios(String serviceType, String destinationZipCode) throws Exception {
+	private String makeFreightDeiveryDaysRequestFromCorreios(String serviceType, String destinationZipCode) throws HttpException, IOException, FreightException, FreightZipCodeException, JDOMException {
 		String url = buildFreightDaysUrl(serviceType, destinationZipCode);  			
 		String response = (String) client.get(url, new GenericType<String>() {});		
 				
@@ -97,7 +104,7 @@ public class FreightDao extends BasicSoapClientDao implements FreightDaoBehavior
 		return request;
 	}
 
-	private FreightDetails makeFreightValueRequestFromCorreios(String serviceType, String destinationZipCode, ItemsPackage itemsPackage) throws Exception {
+	private FreightDetails makeFreightValueRequestFromCorreios(String serviceType, String destinationZipCode, ItemsPackage itemsPackage) throws HttpException, IOException, FreightException, FreightZipCodeException  {
 		String url = buildFreightValueUrl(itemsPackage, serviceType, destinationZipCode);    			
         String response = (String) client.get(url, new GenericType<String>() {});	
 		

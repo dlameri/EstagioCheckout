@@ -14,8 +14,16 @@
 				<div class="container-login">
 					<div class="containerNewAddress">
 						<h1 class="title-font">Faça Login</h1>
-					
-						<form class="formLogin" method="post" action="loginUser" name="login">
+						
+						<c:if test="${errorMessage != null}">
+							<div class="errormsgbox">${errorMessage}</div>
+						</c:if>
+						
+						<c:if test="${successMessage != null}">
+							<div class="successbox">${successMessage}</div>
+						</c:if>
+						
+						<form class="formLogin" method="post" action="http://ideaiselectronics.com:9082/Checkout/customer/authenticate/loginUser" name="login">
 							<table>
 								<fieldset class="input-freight">
 									<tr>
@@ -32,12 +40,15 @@
 							
 							<input class="loginButton" type="submit" value="logar" />
 						</form>
+						<br />
+						
+						<a href="http://ideaiselectronics.com:9082/Checkout/customer/authenticate/recoverPasswordForm">Esqueci minha senha</a>
 					</div>	
 					
 					<div class="registerLogin">
 					<h1 class="title-font">Não sou cadastrado</h1>
 						<div class="registerButtonContainer">
-							<a class="registerLoginButton" href="idaiselectronics.com:8081/catalogo/">cadastre-se</a>
+							<a class="registerLoginButton" href="http://ideaiselectronics.com:9082/Checkout/customer/new">cadastre-se</a>
 						</div>
 					</div>
 					

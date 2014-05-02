@@ -58,10 +58,14 @@ public class CustomerDao implements CustomerDaoBehavior {
 	@Transactional
 	public String findPasswordByLoginAndEmail(String username, String email) {
 		Customer customer = (Customer) session().createCriteria(Customer.class)
-				.add(Restrictions.eq("username", username))
-				.add(Restrictions.eq("email", email)).uniqueResult();
+				.add(Restrictions.eq("email", email))
+				.add(Restrictions.eq("username", username)).uniqueResult();
 		
-		return customer.getPassword();
+		if (customer != null) {
+			return customer.getPassword();
+		}
+		
+		return null;
 	}
 
 	@Override

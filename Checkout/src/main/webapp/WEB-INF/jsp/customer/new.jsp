@@ -15,8 +15,13 @@
 	<div id="content-container">
 		<section class="cadastro">
 			<h1 class="title-font">Cadastro de usuário</h1>
+			
+			<c:if test="${errorMessage != null}">
+				<div class="errormsgbox">${errorMessage}</div>
+			</c:if>
+			
 			<div class="container">
-				<form:form class="registerForm" action="new" autocomplete="off" commandName="register" method="POST">
+				<form:form class="form" action="http://ideaiselectronics.com:9082/Checkout/customer/new" autocomplete="off" commandName="register" method="POST">
 					<table>
 						<tr>
 							<td class="label-input"><label>Nome:</label></td>
@@ -74,8 +79,16 @@
 							<td><form:input type="text" path="address.state" class="validate[required]"/></td>
 						<tr/>
 						<tr>
+							<td class="label-input"><label>Bairro</label></td>
+							<td><form:input type="text" path="address.neighborhood" class="validate[required]"/></td>
+						<tr/>
+						<tr>
 							<td class="label-input"><label>País</label></td>
 							<td><form:input type="text" path="address.country" class="validate[required]"/></td>
+						<tr/>
+						<tr>
+							<td class="label-input"><label>Referencia</label></td>
+							<td><form:input type="text" path="address.reference" class="validate[required]"/></td>
 						<tr/>
 						<tr>
 							<td class="label-input"><label>CEP</label></td>

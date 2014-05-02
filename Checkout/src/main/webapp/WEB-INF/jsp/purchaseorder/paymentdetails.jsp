@@ -11,6 +11,10 @@
 	    <div id="content-container">
 			<h1 class="payment-font">Pagamento</h1>
 				
+			<c:if test="${errorMessage != null}">
+				<div class="errormsgbox">${errorMessage}</div>
+			</c:if>
+				
 				<div class="box1" class="payment-font">
 					
 					<div class="sub-box1">
@@ -27,7 +31,7 @@
 						<p class="payment-subtitle">dados de compra</p>
 						<div class="payment-data">
 							Total em produtos (${order.shoppingCart.formattedQuantityOfItems}) <span class="right-values">${order.shoppingCart.formattedSubTotalAmount}</span><br />
-							Frete para ${order.shippingAddress.city}<span class="right-values">${order.shoppingCart.formattedFreight}</span> <br />
+							Frete para ${order.shippingAddress.city}<span class="right-values">${order.formattedFreight}</span> <br />
 							<span class="total-order-price">Total: <span class="right-values">${order.shoppingCart.formattedTotalAmount}</span></span>
 						</div>
 					</div>
@@ -63,86 +67,43 @@
 					    </ul>
 					    
 					    <div id="formCard" class="simpleTabsContent">
-
-					    	<div>
-								<div>
-									<div>			
-									<ul>							
-										
-										<li>
-											<label><span>Nome do titular:</span>
-											<input type="text" name="holderName" autocomplete="off"  maxlength="100" />
-											</label>
-											<span class="holderNameAdvise">(Como gravado no cartão)</span>
-										</li>
-										<li>
-											<label><span>Número do cartão:</span>
-												<input type="text" name="cardNumber" autocomplete="off" maxlength="19"  />	
-											</label>
-										</li>
-										<li id="errorDateLi">
-											<div id="errorDate" style="display: none;" class="payErCont"></div>
-											
-											<label>						
-												<span>Validade:</span><select name="month" size="1">	
-												<option value="" selected="selected">Mês</option>
-													<option value="01">01</option>
-													<option value="02">02</option>
-													<option value="03">03</option>
-													<option value="04">04</option>
-													<option value="05">05</option>
-													<option value="06">06</option>
-													<option value="07">07</option>
-													<option value="08">08</option>
-													<option value="09">09</option>
-													<option value="10">10</option>
-													<option value="11">11</option>
-													<option value="12">12</option>
-												</select>
-											</label>
-										 	<label><select id="year" name="year" size="1">	<option value="" selected="selected">Ano</option>
-													<option value="2014">2014</option>
-													<option value="2015">2015</option>
-													<option value="2016">2016</option>
-													<option value="2017">2017</option>
-													<option value="2018">2018</option>
-													<option value="2019">2019</option>
-													<option value="2020">2020</option>
-													<option value="2021">2021</option>
-													<option value="2022">2022</option>
-													<option value="2023">2023</option>
-													<option value="2024">2024</option>
-												</select><span class="validationError"></span>
-											</label>
-										</li>
-										<li>
-											<div></div><span>							
-												<span>Código de segurança do Cartão:</span>
-												<input id="securityCode" type="text" name="securityCode" autocomplete="off" maxlength="4" />
-										</li>
-										
-										<li id=installmentsLi">
-											<div id="installmentErrorMessage" style="display: none;" class="payErCont"></div>
-											<label><span class="lbl">Parcelar em:</span><input id="acomForm:installmentQuantity" type="text" name="acomForm:installmentQuantity" autocomplete="off" class="tp3" maxlength="2" />
-											</label>		
-											<label><span>
-													<select id="installmentOptions">
-													</select><span id="acomForm:installmentQuantityMessage" class="validationError"></span></span>
-											</label><input id="acomForm:installmentOptionChosen" type="hidden" name="acomForm:installmentOptionChosen" />
-											
-										</li>
-									</ul></div>
-								</div>
-				
-							</div>
-			
-					
+					    	<table class="formCreditCard">
+					    		<tr>
+					    			<td class="label-input">Nome do titular:</td>
+					    			<td><input id="holderName" type="text" name="holderName" autocomplete="off"  maxlength="100" /></td>
+					    		</tr>
+					    		<tr>
+					    			<td class="label-input">Número do cartão:</td>
+					    			<td><input id="cardNumber" type="text" name="cardNumber" autocomplete="off" maxlength="19"  /></td>
+					    		</tr>
+					    		<tr>
+					    			<td class="label-input" for="expiryDate">Validade:</td>
+					    			<td><input name="cc_expiryDate" id="expiryDate" class="date-picker" />
+					    		</tr>
+					    		<tr>
+					    			<td>Código de segurança do Cartão:</td>
+					    			<td><input id="securityCode" type="text" name="securityCode" autocomplete="off" maxlength="4" /></td>
+					    		</tr>
+					    		<tr>
+					    			<td>Parcelar em:</td>
+					    			<td>
+						    			<select path="">
+						    				<c:forEach var="installment" items="${order.installments}">
+											    <option value="<c:out value="${installment.formattedValue}" />">
+											    	${installment.formattedValue}
+											    </option>
+											 </c:forEach>
+										<select></td>
+					    		</tr>
+					    		
+					    	</table>
+					   
 					    </div>
 					    <div id="formBillet" class="simpleTabsContent">
-
-							<p>
-								Formulário de boleto
-							</p>
+							<img class="billetImage" height="100px" alt="ícone de boleto" src="<c:url value="/resources/images/boleto.png" />">
+							<span class="billetMessage">
+								O seu boleto será enviado por email.
+							</span>
 
 					    </div>
 					 </div>

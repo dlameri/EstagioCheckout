@@ -74,7 +74,8 @@ public class CustomerService implements CustomerServiceBehavior {
     	Cookie customerCookie = new Cookie(CUSTOMER_KEY, "");
     	customerCookie.setMaxAge(-1); 
     	customerCookie.setDomain(cookieDomain);
-    	customerCookie.setPath(cookiePath);		
+    	customerCookie.setPath(cookiePath);	
+    	response.addCookie(customerCookie);
 	}
 
 	@Override

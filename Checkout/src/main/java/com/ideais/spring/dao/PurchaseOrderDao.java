@@ -33,8 +33,8 @@ public class PurchaseOrderDao implements PurchaseOrderDaoBehavior {
     @Override
     @Transactional
     public void saveOrUpdate(PurchaseOrder object) {
-    	PurchaseOrder purchaseHistory = (PurchaseOrder) sessionFactory.getCurrentSession().merge((PurchaseOrder) object);
-        sessionFactory.getCurrentSession().save(purchaseHistory);
+    	PurchaseOrder purchaseOrder = (PurchaseOrder) sessionFactory.getCurrentSession().merge((PurchaseOrder) object);
+        sessionFactory.getCurrentSession().save(purchaseOrder);
     }
 
     @Override

@@ -12,7 +12,6 @@
 	<title><decorator:title default="Ideais Electronics"/></title>
 
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 	<script type="text/javascript" src="<c:url value="/resources/js/jquery.bxslider/jquery.bxslider.js"/>"/>
 	<script type="text/javascript" src="<c:url value="/resources/js/javascript-home.js"/>"></script>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
@@ -26,6 +25,43 @@
 	<script src="<c:url value="/resources/js/validateForm.js" />"type="text/javascript"></script>
 	<script src="<c:url value="/resources/js/jquery.mask.min.js" />"type="text/javascript"></script>
 	<link rel="stylesheet" href="<c:url value="/resources/css/validationEngine.jquery.css"/>"/>
+	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+	
+	<link rel="stylesheet" href="<c:url value="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/base/jquery-ui.css"/>"/>
+<script type="text/javascript">
+$(function() {
+	$('#expiryDate').datepicker( {
+		monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+		monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+		closeText: 'confirmar',
+		currentText: 'hoje',
+		changeMonth: true,
+		changeYear: true,
+		showButtonPanel: true,
+		dateFormat: 'mm/yy',
+		minDate:'m', // restrict to show month greater than current month
+		onClose: function(dateText, inst) {
+		// set the date accordingly
+		var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+		var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+		$(this).datepicker('setDate', new Date(year, month, 1));
+		},
+		beforeShow : function(input, inst) {
+			if ((datestr = $(this).val()).length > 0) {
+				year = datestr.substring(datestr.length-4, datestr.length);
+				month = jQuery.inArray(datestr.substring(0, datestr.length-5), $(this).datepicker('option', 'monthNames'));
+				$(this).datepicker('option', 'defaultDate', new Date(year, month, 1));
+				$(this).datepicker('setDate', new Date(year, month, 1));
+			}
+		}
+	});
+});
+</script>
+
+  
+<style type="text/css">.ui-datepicker-calendar { display: none; } #ui-datepicker-div { display:none }
+</style>
+
 	
 </head>
 <body>

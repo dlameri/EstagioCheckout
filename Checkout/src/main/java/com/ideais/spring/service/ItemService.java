@@ -1,6 +1,7 @@
 package com.ideais.spring.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.httpclient.HttpException;
@@ -15,6 +16,7 @@ import com.ideais.spring.dao.interfaces.ProductDaoBehavior;
 import com.ideais.spring.domain.catalog.Product;
 import com.ideais.spring.domain.checkout.Dimensions;
 import com.ideais.spring.domain.checkout.Item;
+import com.ideais.spring.domain.checkout.PurchaseOrder;
 import com.ideais.spring.domain.stock.json.ImageJSON;
 import com.ideais.spring.domain.stock.json.ItemJSON;
 import com.ideais.spring.domain.stock.json.ProductJSON;
@@ -79,12 +81,31 @@ public class ItemService implements ItemServiceBehavior {
 
 	private void getDImensionsFromStock(Item item, ProductJSON productJSON) throws HttpException, IOException {
 		Dimensions dimensions = dimensionsDao.findById(productJSON.getURI("dimensions"));
+		
+		System.out.println(dimensions.getHeight() + " " + dimensions.getDepth() + " " + dimensions.getWidth());
+		
 		item.setDimensions(dimensions);
 	}
 	
 	@Override
 	public Boolean refreshItemQuantity(String cartJson) {
 		return itemDao.updateStock(cartJson);
+	}
+
+	@Override
+	public List<Item> checkStock(PurchaseOrder order) throws HttpException, IOException {
+		List<Item> nonStockItems = new ArrayList<Item>();
+		
+		for (int i = 0; i < order.getShoppingCart().getShoppingCartLines().size(); i++) {
+			ItemJSON stockItemJSON = itemDao.findById(order.getShoppingCart().getShoppingCartLines().get(i).getItem().getItemId());
+			Item stockItem = new Item(stockItemJSON);
+			
+			if (order.getShoppingCart().getShoppingCartLines().get(i).getItem().getStock() > stockItem.getStock()) {
+				nonStockItems.add(stockItem);
+			}
+		}
+		
+		return nonStockItems;
 	}
 	
 }

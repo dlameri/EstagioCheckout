@@ -40,6 +40,22 @@ public class CustomerController extends BaseController{
         return view;
     }
     
+    @RequestMapping(value = "/new/{status}", method = RequestMethod.GET)
+    public ModelAndView newCustomerError(@PathVariable String status, HttpServletRequest request){
+    	ModelAndView view = getBaseView("customer/new", request);
+    	RegisterWrapper rw = new RegisterWrapper();
+        rw.setAddress(new Address());
+        rw.setCustomer(new Customer());   	
+        
+        if (status != null && "error".equals(status)) {
+			view.addObject("errorMessage", "Email já cadastrado.");
+		} 
+        	
+    	view.addObject("register", rw);
+    	
+        return view;
+    }
+    
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public String newCustomer(RegisterWrapper rw){
         Address address = rw.getAddress();
@@ -51,29 +67,57 @@ public class CustomerController extends BaseController{
         
         if (existingCustomers == null || existingCustomers.size() == 0) {
         	customerService.saveOrUpdate(customer);
-            return "redirect:http://ideaiselectronics.com:9082/Checkout/customer/authenticate/loginForm";
+            return "redirect:http://ideaiselectronics.com:9082/Checkout/customer/authenticate/loginForm/successRegister";
         }
         
-        return "erro, email ja usado";
+        return "redirect:http://ideaiselectronics.com:9082/Checkout/customer/new/error";
     }
     
     @RequestMapping(value = "/updateCustomer",method = RequestMethod.POST)
     public String updateCustomer(HttpServletRequest request, Customer updatedCustomer){
-    	Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);   
-    	
-    	if (customer != null) {
-    		customer.updateCustomer(updatedCustomer);
-    		customerService.saveOrUpdate(customer);   
-    		customerService.setCustomerInSessionAfterUpdate(request, customer.getId());
+    	try {
+    		Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);   
+	    	
+	    	if (customer != null) {
+	    		customer.updateCustomer(updatedCustomer);
+	    		customerService.saveOrUpdate(customer);   
+	    		customerService.setCustomerInSessionAfterUpdate(request, customer.getId());
+	    		
+		        return "redirect:edit/success";
+	    	}
+	    	
+	        return "redirect:edit/errorSession";
+    	} catch (Exception e) {
+    		e.printStackTrace();
+	        return "redirect:edit/error";
     	}
-    	
-        return "redirect:edit";
     }
 
     @RequestMapping(value = "/edit",method = RequestMethod.GET)
     public ModelAndView edit(HttpServletRequest request){
     	ModelAndView view = getBaseView("customer/edit", request);
     	Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);   
+    	
+    	if (customer != null) {
+    		view.addObject("customer", customer);
+            return view;
+    	}
+    	
+        return view;
+    }
+    
+    @RequestMapping(value = "/edit/{status}",method = RequestMethod.GET)
+    public ModelAndView editMessage(@PathVariable String status, HttpServletRequest request){
+    	ModelAndView view = getBaseView("customer/edit", request);
+    	Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);   
+		
+    	if (status != null && "error".equals(status)) {
+			view.addObject("errorMessage", "Erro ao editar dados.");
+		} else if (status != null && "success".equals(status)) {
+			view.addObject("successMessage", "Dados editados com sucesso.");
+		} else if (status != null && "errorSession".equals(status)) {
+			view.addObject("successMessage", "Você precisa estar logado antes de editar informações.");
+		}
     	
     	if (customer != null) {
     		view.addObject("customer", customer);

@@ -1,8 +1,13 @@
 package com.ideais.spring.domain.checkout;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.JoinColumn;
@@ -12,8 +17,12 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.GenerationType;
+import javax.persistence.Transient;
+
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+
+import com.ideais.spring.util.ValueFormatter;
 
 @Entity
 @Table(name="ORDEM_DE_COMPRA")
@@ -43,8 +52,9 @@ public class PurchaseOrder {
 	@Column(name="NM_DESTINATARIO")
 	private String addressee; 
 	
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="CD_CARRINHO_COMPRAS", referencedColumnName="CD_CARRINHO_COMPRAS", nullable=false)
+	@Cascade(CascadeType.ALL)
 	private ShoppingCart shoppingCart;
 	
 	@OneToOne
@@ -55,14 +65,26 @@ public class PurchaseOrder {
 	@JoinColumn(name="CD_ENDERECO_COBRANCA", referencedColumnName="CD_ENDERECO", nullable=false)
 	private Address billingAddress;
 	
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="CD_PAGAMENTO", referencedColumnName="CD_PAGAMENTO", nullable=false)
+	@Cascade(CascadeType.ALL)	
 	private Payment payment;
 	
 	@ManyToOne
 	@JoinColumn(name="CD_CLIENTE", referencedColumnName="CD_CLIENTE", nullable=false)
-	@Cascade(CascadeType.MERGE)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	private Customer customer;
+	
+	@Transient
+	private List<Installment> installments;
+	
+	@Transient
+	private static final String NULL_FREIGHT = "R$ 0,00";
+	
+	@Transient
+	private static final String EMPTY_STRING = "";
+	
+	public PurchaseOrder() {}
 	
 	public PurchaseOrder(Customer customer, ShoppingCart shoppingCart) {
 		this.customer = customer;
@@ -72,6 +94,8 @@ public class PurchaseOrder {
 		this.shoppingCart = shoppingCart;
 		this.freight = shoppingCart.getFreight();
 		this.totalAmount = shoppingCart.getTotalAmount();
+		this.shoppingCart = shoppingCart;
+		installments = calculateInstallments(totalAmount);
 	}
 	
 	public BigDecimal getFreight() {
@@ -80,6 +104,7 @@ public class PurchaseOrder {
 
 	public void setFreight(BigDecimal freight) {
 		this.freight = freight;
+		calculateTotalAmount();
 	}
 	
 	public ShoppingCart getShoppingCart() {
@@ -168,6 +193,49 @@ public class PurchaseOrder {
 
 	public void setAddressee(String addressee) {
 		this.addressee = addressee;
+	}
+	
+	public List<Installment> getInstallments() {
+		return calculateInstallments(totalAmount);
+	}
+
+	private void calculateTotalAmount() {
+		totalAmount = totalAmount.add(freight);
+	}
+	
+	public String getLastInstallment() {
+		if(installments == null ){
+			getInstallments();
+		}		
+		return installments.get(installments.size() - 1).toString();
+	}
+	
+	public List<Installment> calculateInstallments(BigDecimal amount) {
+		int installment = 1;
+		installments = new ArrayList<Installment>();
+		double value = Double.valueOf(amount.doubleValue()) / installment;
+		
+		do{
+			installments.add(
+					new Installment(installment, ValueFormatter.format(new BigDecimal(value).setScale(2, RoundingMode.HALF_EVEN))));
+			
+			installment++;
+			value = Double.valueOf(amount.doubleValue()) / installment;
+		} while(installment <= 12 && value >= 10.00);
+				
+		return installments;
+	}
+	
+	public String getFormattedFreight() {
+		if (!NULL_FREIGHT.equals(ValueFormatter.format(freight))) {
+			return ValueFormatter.format(freight);
+		}
+		
+		return EMPTY_STRING;
+	}
+
+	public String getFormattedTotalAmount() {
+		return ValueFormatter.format(totalAmount);
 	}
 	
 }

@@ -74,6 +74,28 @@ public class AddressController extends BaseController {
     	
     	return view;	
     }
+	
+	@RequestMapping(value = "/editAddressForm/{id}/{status}", method = RequestMethod.GET)
+    public ModelAndView editAddress(@PathVariable Long id, @PathVariable String status, HttpServletRequest request) {
+    	ModelAndView view = getBaseView("customer/editaddress", request);
+    	
+    	Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);    	    	
+    	
+		if (status != null && "error".equals(status)) {
+			view.addObject("errorMessage", "Erro ao editar dados.");
+		} else if (status != null && "success".equals(status)) {
+			view.addObject("successMessage", "Dados editados com sucesso.");
+		} else if (status != null && "errorSession".equals(status)) {
+			view.addObject("successMessage", "Você precisa estar logado antes de editar informações.");
+		}
+    	
+    	if (customer != null) {
+    		view.addObject("address", customer.getAddressById(id));	
+    		return view;
+    	}
+    	
+    	return view;	
+    }
     
     @RequestMapping(value = "/editAddress", method = RequestMethod.POST)
     public String editAddress(Address address, HttpServletRequest request) {
@@ -90,7 +112,7 @@ public class AddressController extends BaseController {
 		    	return "redirect:editAddressForm/"+ address.getId() +"/success";	
     		}
         	
-	    	return "redirect:editAddressForm/"+ address.getId() +"/error";	
+	    	return "redirect:editAddressForm/"+ address.getId() +"/errorSession";	
     	} catch (Exception e) {
 	    	return "redirect:editAddressForm/"+ address.getId() +"/error";	
     	}
@@ -141,7 +163,9 @@ public class AddressController extends BaseController {
     @RequestMapping(value = "/setShippingAddress/{id}", method = RequestMethod.GET)
     public String setShippingAddress(@PathVariable Long id, HttpServletRequest request) {
     	try {
-    		PurchaseOrder order = (PurchaseOrder) request.getSession().getAttribute(ORDER_KEY);    	    	
+    		PurchaseOrder order = (PurchaseOrder) request.getSession().getAttribute(ORDER_KEY);
+    		Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);
+    		order.setCustomer(customer);
 
         	if (order != null) {        		
 	    		order.setShippingAddress(order.getCustomer().getAddressById(id));

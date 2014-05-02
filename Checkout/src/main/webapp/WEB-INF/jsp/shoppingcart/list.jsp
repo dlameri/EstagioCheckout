@@ -9,9 +9,7 @@
 	<body>
 	
 		<div id="content-container">
-			
-			<p> ${errorMessage}</p>
-	        
+				        
 	        <div class="freightBox">
 
 				<div class="inpPostCd">
@@ -33,7 +31,10 @@
 					
 				</div> 
  			</div>
-
+ 			
+			<c:if test="${errorMessage != null}">
+				<div class="errormsgbox">${errorMessage}</div>
+			</c:if>
 
 			<table class="cartItems">
 				<thead class="topBox">

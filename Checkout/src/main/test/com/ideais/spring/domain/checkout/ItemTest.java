@@ -29,7 +29,6 @@ public class ItemTest {
 		
 		item = new Item(itemJSON);
 		
-		assertEquals(item.getActive(),itemJSON.getActive());
 		assertEquals(item.getId(),itemJSON.getId());
 		assertEquals(item.getOptionName(),itemJSON.getOptionName());
 		assertEquals(item.getOptionValue(),itemJSON.getOptionValue());

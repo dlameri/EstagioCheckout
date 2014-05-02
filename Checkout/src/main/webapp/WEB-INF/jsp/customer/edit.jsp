@@ -14,8 +14,16 @@
 			<section class="addressForm">
 				<h1 class="payment-font">Editar dados de usuário</h1>
 				
+				<c:if test="${errorMessage != null}">
+					<div class="errormsgbox">${errorMessage}</div>
+				</c:if>
+				
+				<c:if test="${successMessage != null}">
+					<div class="successbox">${successMessage}</div>
+				</c:if>
+				
 				<div class="containerEditCustomer">
-					<form:form class="formNew" action="updateCustomer" autocomplete="off" commandName="customer" method="POST">
+					<form:form class="formNew" action="http://ideaiselectronics.com:9082/Checkout/customer/edit/updateCustomer" autocomplete="off" commandName="customer" method="POST">
 						<table>
 							<tr>
 								<td class="label-input"><label>Nome:</label></td>
@@ -39,11 +47,11 @@
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Login:</label></td>
-								<td><form:input type="text" path="username"  class=" form-control validate[required]"/></td>
+								<td><form:input type="text" path="username"  class="validate[required]"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Senha:</label></td>
-								<td><form:input type="password" path="password"  class="form-control validate[required]"/></td>
+								<td><form:input type="password" path="password"  class="validate[required]"/></td>
 							<tr/>
 						</table>
 						<form:button class="editAddressButton" type="submit">Editar</form:button>
@@ -65,13 +73,14 @@
 								<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/editAddressForm/${shippingAddress.id}" class="edit">editar</a> 
 							
 								<c:if test="${shippingAddress.main != true}">
-									<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/removeAddress/${shippingAddress.id}" class="edit">excluir</a>	
+									<a id="opener" href="http://ideaiselectronics.com:9082/Checkout/customer/address/removeAddress/${shippingAddress.id}" class="edit">excluir</a>	
 								</c:if>
 							
 							</div> 
 							<br />	
 								
 							<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/setMainAddress/${shippingAddress.id}" class="selectAddress">Tornar como endereço principal</a>
+						
 						</div>
 					</c:forEach>	
 				</div>			

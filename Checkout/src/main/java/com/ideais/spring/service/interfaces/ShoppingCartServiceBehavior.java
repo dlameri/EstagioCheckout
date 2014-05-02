@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.httpclient.HttpException;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
+import org.json.JSONException;
 
 import com.ideais.spring.domain.checkout.ShoppingCart;
 import com.ideais.spring.domain.checkout.json.Cart;
+import com.ideais.spring.exceptions.MissingQuantityStockException;
 
 public interface ShoppingCartServiceBehavior {
 	
@@ -18,13 +20,13 @@ public interface ShoppingCartServiceBehavior {
 	
 	public String getJsonCart(ShoppingCart shoppingCart) throws JsonGenerationException, JsonMappingException, IOException;
 	
-	public ShoppingCart getShoppingCart(String cartCookie, HttpServletRequest request) throws Exception;
+	public ShoppingCart getShoppingCart(String cartCookie, HttpServletRequest request) throws IOException, NumberFormatException, MissingQuantityStockException, JSONException;
 
 	public Cookie createCartCookie(ShoppingCart shoppingCart) throws JsonGenerationException, JsonMappingException, IOException;
 	
-	public void addItemToShoppingCart(Long id, ShoppingCart shoppingCart) throws Exception;
+	public void addItemToShoppingCart(Long id, ShoppingCart shoppingCart) throws IOException, JSONException, MissingQuantityStockException;
     
-    public void removeItemToShoppingCart(Long id, ShoppingCart shoppingCart) throws Exception;
+    public void removeItemToShoppingCart(Long id, ShoppingCart shoppingCart);
     
     public void setShoppingCartInSession(ShoppingCart shoppingCart, HttpServletRequest request);
     

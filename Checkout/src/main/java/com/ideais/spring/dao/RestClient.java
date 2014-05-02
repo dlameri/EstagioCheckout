@@ -74,7 +74,6 @@ public class RestClient implements Methods {
 			return false;
 		}
 		closeConnection(client);
-		response.close();
 		return false;
 	}
 

@@ -37,14 +37,11 @@ public class ShoppingCartLine {
 	private BigDecimal price;
 	
 	@OneToOne
+	@Cascade(CascadeType.SAVE_UPDATE)
 	private Item item;
-	
-	@JsonBackReference
-	@ManyToOne(targetEntity=ShoppingCart.class)
-	@JoinColumn(name="CD_CARRINHO_COMPRAS", referencedColumnName="CD_CARRINHO_COMPRAS", nullable=false)
-	@Cascade(CascadeType.ALL)
-	private ShoppingCart shoppingCart;
 		
+	public ShoppingCartLine() {}
+	
 	public ShoppingCartLine(Item item) {
 		this.item = item;
 		quantity = 1;
@@ -116,12 +113,4 @@ public class ShoppingCartLine {
 		this.id = id;
 	}
 
-	public ShoppingCart getShoppingCart() {
-		return shoppingCart;
-	}
-
-	public void setShoppingCart(ShoppingCart shoppingCart) {
-		this.shoppingCart = shoppingCart;
-	}
-	
 }

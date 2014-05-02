@@ -46,17 +46,13 @@ public class ShoppingCart {
 	@Column(name="NM_QUANTIDADE_ITEMS")
 	private Integer quantityOfItems = 0;
 	
-	@OneToOne(mappedBy = "shoppingCart")
-	@Cascade(CascadeType.ALL)
-	private PurchaseOrder purchaseOrder;
-	
-	@OneToMany(mappedBy="shoppingCart")
+	@OneToMany
 	@Cascade(CascadeType.ALL)
 	private List<ShoppingCartLine> shoppingCartLines;
 	
 	@ManyToOne(targetEntity=Customer.class)
 	@JoinColumn(name="CD_CLIENTE", referencedColumnName="CD_CLIENTE", nullable=false)
-	@Cascade(CascadeType.MERGE)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	private Customer customer;
 	
 	@Transient
@@ -155,7 +151,7 @@ public class ShoppingCart {
 		return null;
 	}
 	
-	public void addItem(Item item) throws Exception {
+	public void addItem(Item item) throws MissingQuantityStockException {
 		ShoppingCartLine shoppingCartLine = hasItem(item);
 		
 		if (shoppingCartLine == null && item != null) {
@@ -168,7 +164,6 @@ public class ShoppingCart {
 	private void processAddItem(ShoppingCartLine shoppingCartLine, Item item) throws MissingQuantityStockException {
 		if (item.getStock() > 0) {
 			shoppingCartLine = new ShoppingCartLine(item);
-			shoppingCartLine.setShoppingCart(this);
 			add(shoppingCartLine);	
 		} else {
 			throw new MissingQuantityStockException("Produto se encontra em falta no estoque!");
@@ -196,14 +191,6 @@ public class ShoppingCart {
 		}
 		
 		return false;
-	}
-
-	public PurchaseOrder getPurchaseOrder() {
-		return purchaseOrder;
-	}
-
-	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
-		this.purchaseOrder = purchaseOrder;
 	}
 
 	public List<ShoppingCartLine> getShoppingCartLines() {
@@ -258,7 +245,7 @@ public class ShoppingCart {
 		this.quantityOfItems = quantityOfItems;
 	}
 
-	public void editQuantity(Long itemId, Integer quantity) throws Exception {
+	public void editQuantity(Long itemId, Integer quantity) throws NumberFormatException, MissingQuantityStockException  {
 		Item item = getItem(itemId);
 		ShoppingCartLine shoppingCartLine = hasItem(item);
 				

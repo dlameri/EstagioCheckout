@@ -9,11 +9,13 @@ import com.ideais.spring.dao.interfaces.PurchaseOrderDaoBehavior;
 import com.ideais.spring.domain.checkout.PurchaseOrder;
 import com.ideais.spring.service.interfaces.PurchaseOrderServiceBehavior;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("purchaseOrderService")
 public class PurchaseOrderService implements PurchaseOrderServiceBehavior {
-
+	
+	@Autowired
     private PurchaseOrderDaoBehavior purchaseOrderDao;
     private static final String ORDER_KEY = "order";
 

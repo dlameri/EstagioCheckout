@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -28,13 +30,16 @@ public class Item {
 	@Column(name="CD_ITEM")
 	private Long id;
 	
+	@Column(name="CD_ITEM_ESTOQUE")
+	private Long itemId;
+	
 	@Column(name="NR_SKU")
 	private Long sku;
 	
-	@Column(name = "NR_PRECO_DE", precision = 7, scale = 2, nullable = false)
+	@Column(name = "NR_PRECO_DE", precision = 7, scale = 2)
 	private BigDecimal priceFrom;
 
-	@Column(name = "NR_PRECO_POR", precision = 7, scale = 2, nullable = false)
+	@Column(name = "NR_PRECO_POR", precision = 7, scale = 2)
 	private BigDecimal priceFor;
 	
 	@Column(name="NM_NOME_OPCAO")
@@ -43,14 +48,11 @@ public class Item {
 	@Column(name="NM_VALOR_OPCAO")
 	private String optionValue;
 	
-	@Column(name="NR_ESTOQUE", nullable=false)
+	@Column(name="NR_ESTOQUE")
 	private Integer stock;
 	
 	@Column(name="NR_PESO") 
 	private Integer weight;
-	
-	@Column(name="BO_ATIVO", nullable=false)
-	private Boolean active;
 	
 	@Column(name="NM_NOME_PRODUTO")
 	private String productName;
@@ -61,15 +63,23 @@ public class Item {
 	@Column(name="NM_URL_IMAGEM")
 	private String imageUrl;
 	
-	@OneToOne
-	@JoinColumn(name = "CD_DIMENSOES", referencedColumnName = "CD_DIMENSOES", nullable = false)
-	@Cascade(CascadeType.ALL)
+	@Column(name = "NM_ALTURA")
+	private Double height;
+	
+	@Column(name = "NM_LARGURA")
+	private Double width;
+	
+	@Column(name = "NM_COMPRIMENTO")
+	private Double depth;
+	
+	@Transient
 	private Dimensions dimensions;
+	
+	public Item() {}
 	
 	public Item(ItemJSON itemJSON) {
 		if (itemJSON != null) {
-			this.active = itemJSON.getActive();
-			this.id = itemJSON.getId();
+			this.itemId = itemJSON.getId();
 			this.optionName = itemJSON.getOptionName();
 			this.optionValue = itemJSON.getOptionValue();
 			this.priceFor = itemJSON.getPriceFor();
@@ -138,14 +148,6 @@ public class Item {
 	public void setStock(Integer stock) {
 		this.stock = stock;
 	}
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
 	
 	public String getFormattedPriceFrom() {
 	    return ValueFormatter.format(priceFrom);
@@ -171,12 +173,28 @@ public class Item {
 		this.imageUrl = imageUrl;
 	}
 
-	public Dimensions getDimensions() {
-		return dimensions;
+	public Double getHeight() {
+		return height;
 	}
 
-	public void setDimensions(Dimensions dimensions) {
-		this.dimensions = dimensions;
+	public void setHeight(Double height) {
+		this.height = height;
+	}
+
+	public Double getWidth() {
+		return width;
+	}
+
+	public void setWidth(Double width) {
+		this.width = width;
+	}
+
+	public Double getDepth() {
+		return depth;
+	}
+
+	public void setDepth(Double depth) {
+		this.depth = depth;
 	}
 
 	public void setProductId(Long productId) {
@@ -189,6 +207,26 @@ public class Item {
 
 	public void setWeight(Integer weight) {
 		this.weight = weight;
+	}
+
+	public Long getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(Long itemId) {
+		this.itemId = itemId;
+	}
+
+	public Dimensions getDimensions() {
+		return dimensions;
+	}
+
+	public void setDimensions(Dimensions dimensions) {
+		height = dimensions.getHeight();
+		depth = dimensions.getDepth();
+		width = dimensions.getWidth();
+		
+		this.dimensions = dimensions;
 	}
 	
 }

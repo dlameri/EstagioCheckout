@@ -33,7 +33,6 @@ public class ItemsPackageTest {
 	@Test
 	public void check_if_volumetric_weight_equals_0_when_shopping_cart_line_list_is_empty() {
 		ItemsPackage itemspackage = null;
-		
 		try {
 			itemspackage = new ItemsPackage(shoppingCartlines);
 		} catch (ItemPackageWeightException e) {
@@ -65,7 +64,6 @@ public class ItemsPackageTest {
 		shoppingCartlines.add(shoppingCartLine);
 		
 		ItemsPackage itemspackage = null;
-		
 		try {
 			itemspackage = new ItemsPackage(shoppingCartlines);
 		} catch (ItemPackageWeightException e) {
@@ -97,7 +95,6 @@ public class ItemsPackageTest {
 		shoppingCartlines.add(shoppingCartLine);
 		
 		ItemsPackage itemspackage = null;
-		
 		try {
 			itemspackage = new ItemsPackage(shoppingCartlines);
 		} catch (ItemPackageWeightException e) {

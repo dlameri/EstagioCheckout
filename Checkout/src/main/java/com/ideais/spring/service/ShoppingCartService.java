@@ -4,19 +4,24 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.httpclient.HttpException;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.ideais.spring.dao.interfaces.ShoppingCartDaoBehavior;
 import com.ideais.spring.domain.checkout.Item;
 import com.ideais.spring.domain.checkout.ShoppingCart;
 import com.ideais.spring.domain.checkout.ShoppingCartLine;
 import com.ideais.spring.domain.checkout.json.Cart;
 import com.ideais.spring.domain.checkout.json.CartItem;
+import com.ideais.spring.exceptions.MissingQuantityStockException;
 import com.ideais.spring.service.interfaces.ItemServiceBehavior;
 import com.ideais.spring.service.interfaces.ShoppingCartServiceBehavior;
 import com.ideais.spring.util.JsonUtil;
@@ -49,7 +54,7 @@ public class ShoppingCartService implements ShoppingCartServiceBehavior {
 	}
 	
     @Override
-	public ShoppingCart getShoppingCart(String cartCookie, HttpServletRequest request) throws Exception {
+	public ShoppingCart getShoppingCart(String cartCookie, HttpServletRequest request) throws IOException, NumberFormatException, MissingQuantityStockException, JSONException {
 		ShoppingCart shoppingCart = (ShoppingCart) request.getSession().getAttribute(CART_KEY);
 		
     	if (shoppingCart == null) {
@@ -59,7 +64,7 @@ public class ShoppingCartService implements ShoppingCartServiceBehavior {
     	return shoppingCart;
     }
 
-	private ShoppingCart getShoppingCartFromCookie(String cartCookie) throws Exception, IOException {
+	private ShoppingCart getShoppingCartFromCookie(String cartCookie) throws IOException, NumberFormatException, MissingQuantityStockException, JSONException {
 		if (cartCookie == null || EMPTY_STRING.equals(cartCookie)) {
 			return new ShoppingCart();
 		} else {
@@ -92,7 +97,7 @@ public class ShoppingCartService implements ShoppingCartServiceBehavior {
     }
     
       
-    private ShoppingCart createShoppingCartFromCart(Cart cart) throws Exception {
+    private ShoppingCart createShoppingCartFromCart(Cart cart) throws NumberFormatException, MissingQuantityStockException, IOException, JSONException {
     	ShoppingCart shoppingCart = new ShoppingCart();
     	List<ShoppingCartLine> shoppingCartLines = new ArrayList<ShoppingCartLine>();
     	
@@ -105,7 +110,7 @@ public class ShoppingCartService implements ShoppingCartServiceBehavior {
     	return shoppingCart;
     }
     
-    private ShoppingCartLine createShoppingCartLine(CartItem cartItem) throws Exception {
+    private ShoppingCartLine createShoppingCartLine(CartItem cartItem) throws NumberFormatException, MissingQuantityStockException, IOException, JSONException {
 		ShoppingCartLine shoppingCartLine = new ShoppingCartLine(itemService.getItem(cartItem.getCartItemId()));
 		shoppingCartLine.setQuantity(cartItem.getQuantity());
 		
@@ -113,7 +118,7 @@ public class ShoppingCartService implements ShoppingCartServiceBehavior {
     }
     
     @Override
-    public void addItemToShoppingCart(Long id, ShoppingCart shoppingCart) throws Exception {
+    public void addItemToShoppingCart(Long id, ShoppingCart shoppingCart) throws IOException, JSONException, MissingQuantityStockException {
     	if (!shoppingCart.hasItemWithId(id)) {    		
     		Item item = itemService.getItem(id);	
 			shoppingCart.addItem(item);	   		
@@ -121,7 +126,7 @@ public class ShoppingCartService implements ShoppingCartServiceBehavior {
     }
     
     @Override
-    public void removeItemToShoppingCart(Long id, ShoppingCart shoppingCart) throws Exception {
+    public void removeItemToShoppingCart(Long id, ShoppingCart shoppingCart) {
     	if (shoppingCart.hasItemWithId(id)) {
 			shoppingCart.removeItemFromId(id);				
     	}

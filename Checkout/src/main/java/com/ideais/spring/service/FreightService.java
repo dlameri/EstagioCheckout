@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.httpclient.HttpException;
+import org.jdom2.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,11 @@ import com.ideais.spring.domain.checkout.FreightDetails;
 import com.ideais.spring.domain.checkout.ItemsPackage;
 import com.ideais.spring.domain.checkout.PurchaseOrder;
 import com.ideais.spring.domain.checkout.ShoppingCart;
+import com.ideais.spring.exceptions.FreightException;
+import com.ideais.spring.exceptions.FreightZipCodeException;
+import com.ideais.spring.exceptions.ItemPackageDimensionException;
+import com.ideais.spring.exceptions.ItemPackageVolumeException;
+import com.ideais.spring.exceptions.ItemPackageWeightException;
 import com.ideais.spring.service.interfaces.FreightServiceBehavior;
 
 @Service("freightService")
@@ -24,7 +30,7 @@ public class FreightService implements FreightServiceBehavior{
     private static final String FREIGHT_KEY = "freightDetails";
 	
     @Override
-	public FreightDetails calculateFreightDetails(ShoppingCart shoppingCart, String zipCode) throws Exception {
+	public FreightDetails calculateFreightDetails(ShoppingCart shoppingCart, String zipCode) throws HttpException, IOException, FreightException, FreightZipCodeException, JDOMException, ItemPackageWeightException, ItemPackageVolumeException, ItemPackageDimensionException  {
 		return freightDao.getFreight(new ItemsPackage(shoppingCart.getShoppingCartLines()), zipCode);
 	}
 	
@@ -44,7 +50,7 @@ public class FreightService implements FreightServiceBehavior{
 	}
     
     @Override
-    public FreightDetails updateFreightDetails(ShoppingCart shoppingCart, FreightDetails freightDetails) throws Exception {
+    public FreightDetails updateFreightDetails(ShoppingCart shoppingCart, FreightDetails freightDetails) throws HttpException, IOException, FreightException, FreightZipCodeException, JDOMException, ItemPackageWeightException, ItemPackageVolumeException, ItemPackageDimensionException {
 		if (shoppingCart.getShoppingCartLines().size() <= 0) {
 			shoppingCart.setFreight(BigDecimal.ZERO);
 			freightDetails = new FreightDetails();
@@ -72,6 +78,7 @@ public class FreightService implements FreightServiceBehavior{
 		
 		if (freightDetails != null) {
 			order.setScheduledDelivery(freightDetails.getDeliveryDays());
+			order.setFreight(freightDetails.getFreightValue());
 		}
 	}
 	

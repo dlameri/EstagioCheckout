@@ -21,20 +21,22 @@ public class Cart {
 		for (int i = 0; i < shoppingCart.getShoppingCartLines().size(); i++) {
 			cartItems.add(new CartItem(shoppingCart.getShoppingCartLines().get(i).getItem(), shoppingCart.getShoppingCartLines().get(i).getQuantity()));
 		}
+		
+		calculateTotalQuantity();
 	}
 	
 	public Cart() {
 		cartItems = new ArrayList<CartItem>();
 	}
 	
-	public void addStockItem(CartItem cartItem) {
+	public void addCartItem(CartItem cartItem) {
 		if (cartItem != null) {
 			cartItems.add(cartItem);
 			calculateTotalQuantity();
 		}
 	}
 	
-	public void calculateTotalQuantity() {
+	private void calculateTotalQuantity() {
 		Integer quantity = 0;
 		
 		for (int i = 0; i < cartItems.size(); i++) {
@@ -45,6 +47,8 @@ public class Cart {
 	}
 	
 	public Integer getTotalQuantity() {
+		calculateTotalQuantity();
+		
 		return totalQuantity;
 	}
 	

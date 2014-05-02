@@ -133,6 +133,7 @@ public class Customer {
 
 	public void setMainAddress(Address mainAddress) {
 		mainAddress.setName("Endereço principal");
+		mainAddress.setAddressee(name + " " + surname); 
 		mainAddress.setMain(true);
 		mainAddress.setCustomer(this);
 		

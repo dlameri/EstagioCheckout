@@ -27,6 +27,7 @@ public class Dimensions {
 	@Column(name = "NM_COMPRIMENTO", nullable = false)
 	private Double depth;
 	
+	public Dimensions() {}
 
 	public Long getId() {
 		return id;
