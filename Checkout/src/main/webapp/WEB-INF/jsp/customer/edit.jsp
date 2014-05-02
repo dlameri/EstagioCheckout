@@ -3,6 +3,10 @@
 
 <html>
     <head>
+    <script src="js/jquery.validationEngine-pt_BR.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/validateForm.js"type="text/javascript"></script>
+		<style type="text/css" rel="stylesheet" href="css/validationEngine.jquery.css"></style>
         <title>Editar usuário</title>
     </head>
     <body>
@@ -15,31 +19,31 @@
 						<table>
 							<tr>
 								<td class="label-input"><label>Nome:</label></td>
-								<td><form:input type="text" path="name" /></td>
+								<td><form:input type="text" path="name" class="validate[required]" /></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Sobrenome:</label></td>
-								<td><form:input type="text" path="surname" /></td>
+								<td><form:input type="text" path="surname"  class="validate[required]" /></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Telefone:</label></td>
-								<td><form:input type="text" path="phoneNumber" /></td>
+								<td><form:input type="text" path="phoneNumber"  class="validate[required]"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>CPF:</label></td>
-								<td><form:input type="text" path="cpf" /></td>
+								<td><form:input type="text" path="cpf"  class="validate[required]"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>E-mail:</label></td>
-								<td><form:input type="email" path="email" /></td>
+								<td><form:input type="email" path="email"  class="validate[required,custom[email]]"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Login:</label></td>
-								<td><form:input type="text" class="form-control" path="username" /></td>
+								<td><form:input type="text" class="form-control" path="username"  class="validate[required]"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Senha:</label></td>
-								<td><form:input type="password" class="form-control" path="password" /></td>
+								<td><form:input type="password" class="form-control" path="password"  class="validate[required]"/></td>
 							<tr/>
 						</table>
 						<form:button class="editAddressButton" type="submit">Editar</form:button>

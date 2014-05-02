@@ -5,6 +5,10 @@
 <html>
     <head>
 		<title>Loja Virtual - Editar endereço</title>
+		<script src="js/jquery.validationEngine-pt_BR.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/validateForm.js"type="text/javascript"></script>
+		<style type="text/css" rel="stylesheet" href="css/validationEngine.jquery.css"></style>
 		<meta charset="utf-8">
 	</head>
 	<body>
@@ -18,11 +22,11 @@
 						<table>
 							<tr>
 								<td class="label-input"><label>Rua:</label> </td>
-								<td><form:input type="text" path="street" /></td>
+								<td><form:input type="text" path="street" class="validate[required]" /></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Número:</label></td>
-								<td><form:input type="text" path="number"/></td>
+								<td><form:input type="text" path="number" class="validate[required]"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Complemento:</label></td>
@@ -30,19 +34,19 @@
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Cidade</label></td>
-								<td><form:input type="text" path="city"/></td>
+								<td><form:input type="text" path="city" class="validate[required]"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Estado</label></td>
-								<td><form:input type="text" path="state"/></td>
+								<td><form:input type="text" path="state" class="validate[required]"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>País</label></td>
-								<td><form:input type="text" path="country"/></td>
+								<td><form:input type="text" path="country" class="validate[required]"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>CEP</label></td>
-								<td><form:input type="text" path="zipCode"/></td>
+								<td><form:input type="text" path="zipCode" class="cep validate[required]"/></td>
 							<tr/>
 						</table>
 						

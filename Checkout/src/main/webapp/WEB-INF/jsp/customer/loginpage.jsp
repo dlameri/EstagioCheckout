@@ -37,7 +37,7 @@
 					<div class="registerLogin">
 					<h1 class="title-font">Não sou cadastrado</h1>
 						<div class="registerButtonContainer">
-							<a class="registerLoginButton" href="">cadastre-se</a>
+							<a class="registerLoginButton" href="idaiselectronics.com:8081/catalogo/">cadastre-se</a>
 						</div>
 					</div>
 					
