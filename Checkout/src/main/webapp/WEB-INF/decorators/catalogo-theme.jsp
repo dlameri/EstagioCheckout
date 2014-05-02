@@ -68,7 +68,10 @@ $(function() {
 
 	<header id="main-header">
 		<div class="container-header">
-			<h1 class="logo"><a href="http://ideaiselectronics.com:8081/Catalogo/">Ideais Electronics</a></h1>
+			
+			<h1 class="logo">
+			<span class="logotipo"></span>
+			<a href="http://ideaiselectronics.com:8081/Catalogo/">Ideais Electronics</a></h1>
 			
 			<div class="login-or-register">
 			
