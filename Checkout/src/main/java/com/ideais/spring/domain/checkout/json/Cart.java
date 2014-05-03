@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ideais.spring.domain.checkout.ShoppingCart;
+import com.ideais.spring.domain.checkout.ShoppingCartLine;
 
 public class Cart {
 	
@@ -18,8 +19,8 @@ public class Cart {
 	public Cart(ShoppingCart shoppingCart) {
 		cartItems = new ArrayList<CartItem>();
 		
-		for (int i = 0; i < shoppingCart.getShoppingCartLines().size(); i++) {
-			cartItems.add(new CartItem(shoppingCart.getShoppingCartLines().get(i).getItem(), shoppingCart.getShoppingCartLines().get(i).getQuantity()));
+		for (ShoppingCartLine line : shoppingCart.getShoppingCartLines()) {
+			cartItems.add( new CartItem(line.getItem(), line.getQuantity()) );
 		}
 		
 		calculateTotalQuantity();
@@ -39,8 +40,8 @@ public class Cart {
 	private void calculateTotalQuantity() {
 		Integer quantity = 0;
 		
-		for (int i = 0; i < cartItems.size(); i++) {
-			quantity += cartItems.get(i).getQuantity();
+		for (CartItem item : cartItems) {
+			quantity += item.getQuantity();
 		}
 		
 		totalQuantity = quantity;
