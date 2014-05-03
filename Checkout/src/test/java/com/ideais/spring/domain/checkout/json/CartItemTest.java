@@ -27,7 +27,7 @@ public class CartItemTest {
 	public void check_if_cart_item_is_created_correctly_with_a_shopping_cart_line() {
 		
 		when(shoppingCartLine.getItem()).thenReturn(item);
-		when(item.getId()).thenReturn(new Long(1));
+		when(item.getItemId()).thenReturn(new Long(1));
 		when(shoppingCartLine.getQuantity()).thenReturn(10);
 		
 		cartItem = new CartItem(shoppingCartLine);
@@ -39,7 +39,7 @@ public class CartItemTest {
 	@Test
 	public void check_if_cart_item_is_created_correctly_with_an_item() {
 		
-		when(item.getId()).thenReturn(new Long(1));
+		when(item.getItemId()).thenReturn(new Long(1));
 		
 		cartItem = new CartItem(item, 10);
 	

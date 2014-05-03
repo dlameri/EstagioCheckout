@@ -103,7 +103,7 @@ public class ShoppingCartTest {
 	
 	@Test
 	public void check_adding_existing_item_to_cart() {
-		when(item.getId()).thenReturn(1L);
+		when(item.getItemId()).thenReturn(1L);
 		
 		try {
 			shoppingCart.addItem(item);

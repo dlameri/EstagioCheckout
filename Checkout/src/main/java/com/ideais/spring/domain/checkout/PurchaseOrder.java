@@ -96,6 +96,7 @@ public class PurchaseOrder {
 		this.totalAmount = shoppingCart.getTotalAmount();
 		this.shoppingCart = shoppingCart;
 		installments = calculateInstallments(totalAmount);
+		System.out.println(totalAmount);
 	}
 	
 	public BigDecimal getFreight() {
@@ -104,7 +105,7 @@ public class PurchaseOrder {
 
 	public void setFreight(BigDecimal freight) {
 		this.freight = freight;
-		calculateTotalAmount();
+		calculateTotalAmount();		
 	}
 	
 	public ShoppingCart getShoppingCart() {

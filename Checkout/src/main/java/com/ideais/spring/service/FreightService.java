@@ -76,7 +76,7 @@ public class FreightService implements FreightServiceBehavior{
 	public void setFreightDeliverInPurchaseOrder(HttpServletRequest request, PurchaseOrder order) {
 		FreightDetails freightDetails = getFreightDetails(request);
 		
-		if (freightDetails != null) {
+		if (freightDetails != null && order != null) {
 			order.setScheduledDelivery(freightDetails.getDeliveryDays());
 			order.setFreight(freightDetails.getFreightValue());
 		}
