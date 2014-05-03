@@ -1,12 +1,10 @@
 package com.ideais.spring.domain.checkout.json;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.math.BigDecimal;
-
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 
 import com.ideais.spring.domain.checkout.Item;
 import com.ideais.spring.domain.checkout.ShoppingCartLine;
