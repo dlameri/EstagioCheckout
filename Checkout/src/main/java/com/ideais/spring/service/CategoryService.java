@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.httpclient.HttpException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.ideais.spring.dao.interfaces.CategoryDaoBehavior;
 import com.ideais.spring.dao.interfaces.SubcategoryDaoBehavior;
 import com.ideais.spring.domain.catalog.Category;
@@ -11,10 +15,6 @@ import com.ideais.spring.domain.catalog.Subcategory;
 import com.ideais.spring.domain.stock.json.CategoryJSON;
 import com.ideais.spring.domain.stock.json.SubcategoryJSON;
 import com.ideais.spring.service.interfaces.CategoryServiceBehavior;
-
-import org.apache.commons.httpclient.HttpException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service("categoryService")
 public class CategoryService implements CategoryServiceBehavior {
@@ -52,7 +52,7 @@ public class CategoryService implements CategoryServiceBehavior {
 		
 		if (subcategoriesJSON != null) {
 			for (int j = 0; j < subcategoriesJSON.size(); j++) {
-				Subcategory subcategory = new Subcategory(subcategoriesJSON.get(i));
+				Subcategory subcategory = new Subcategory(subcategoriesJSON.get(j));
 				subcategory.setCategory(category);
 				
 				subcategories.add(subcategory);
