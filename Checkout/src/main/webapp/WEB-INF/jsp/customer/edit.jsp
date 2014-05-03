@@ -1,3 +1,4 @@
+<%@page pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
@@ -7,12 +8,12 @@
 		<script src="js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/validateForm.js"type="text/javascript"></script>
 		<style type="text/css" rel="stylesheet" href="css/validationEngine.jquery.css"></style>
-        <title>Editar usu·rio</title>
+        <title>Editar usu√°rio</title>
     </head>
     <body>
 			<div id="content-container">
 			<section class="addressForm">
-				<h1 class="payment-font">Editar dados de usu·rio</h1>
+				<h1 class="payment-font">Editar dados de usu√°rio</h1>
 				
 				<c:if test="${errorMessage != null}">
 					<div class="errormsgbox">${errorMessage}</div>
@@ -65,7 +66,7 @@
 				
 					<c:forEach items="${customer.deliveryAddresses}" var="shippingAddress" varStatus="status">
 						<div class="shippingAddressListUnit">
-							Destinat·rio: ${order.addressee} <br />
+							Destinat√°rio: ${order.addressee} <br />
 							${shippingAddress.street}, ${shippingAddress.number} <br />
 							${shippingAddress.neighborhood} ${shippingAddress.city}, ${shippingAddress.state} - ${shippingAddress.zipCode} <br />
 							<br /> 	
@@ -73,13 +74,13 @@
 								<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/editAddressForm/${shippingAddress.id}" class="edit">editar</a> 
 							
 								<c:if test="${shippingAddress.main != true}">
-									<a id="opener" href="http://ideaiselectronics.com:9082/Checkout/customer/address/removeAddress/${shippingAddress.id}" class="edit">excluir</a>	
+									<a id="opener" href="javascript:void(0)" class="edit" onclick = "summonLightBox('http://ideaiselectronics.com:9082/Checkout/customer/address/removeAddress/${shippingAddress.id}')">excluir</a>
 								</c:if>
 							
 							</div> 
 							<br />	
 								
-							<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/setMainAddress/${shippingAddress.id}" class="selectAddress">Tornar como endereÁo principal</a>
+							<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/setMainAddress/${shippingAddress.id}" class="selectAddress">Tornar como endere√ßo principal</a>
 						
 						</div>
 					</c:forEach>	
@@ -88,6 +89,7 @@
 			</section>
 			
 		</div>
-
+ <div id="light" class="white_content hidden"></div>
+			<div id="fade" class="black_overlay hidden"></div>
     </body>
 </html>

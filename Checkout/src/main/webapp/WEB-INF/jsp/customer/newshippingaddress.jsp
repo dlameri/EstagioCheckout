@@ -9,6 +9,7 @@
 		<script src="js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/validateForm.js"type="text/javascript"></script>
 		<style type="text/css" rel="stylesheet" href="css/validationEngine.jquery.css"></style>
+		
 		<meta charset="utf-8">
 	</head>
 	<body>
@@ -82,7 +83,7 @@
 						${order.shippingAddress.neighborhood} ${order.shippingAddress.city},  ${order.shippingAddress.state} - ${order.shippingAddress.zipCode} <br />
 						<br /> 	
 						<div class="managedAddress">
-							<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/editAddressForm/${order.shippingAddress.id}" class="edit">editar</a>
+							<a id="opener" href="javascript:void(0)" class="edit" onclick = "summonLightBox('http://ideaiselectronics.com:9082/Checkout/customer/address/removeAddress/${shippingAddress.id}')">excluir</a>
 						
 						</div> 
 						<br />	
@@ -100,7 +101,7 @@
 								<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/editAddressForm/${shippingAddress.id}" class="edit">editar</a> 
 							
 								<c:if test="${shippingAddress.main != true}">
-									<a id="openerOrder" href="http://ideaiselectronics.com:9082/Checkout/customer/address/removeAddress/${shippingAddress.id}" class="edit">excluir</a>	
+									<a id="opener" href="javascript:void(0)" class="edit" onclick = "summonLightBox('http://ideaiselectronics.com:9082/Checkout/customer/address/removeAddress/${shippingAddress.id}')">excluir</a>	
 								</c:if>
 							
 							</div> 
@@ -116,6 +117,7 @@
 			</section>
 			
 		</div>
-
+ <div id="light" class="white_content hidden"></div>
+			<div id="fade" class="black_overlay hidden"></div>
 	</body>
 </html>

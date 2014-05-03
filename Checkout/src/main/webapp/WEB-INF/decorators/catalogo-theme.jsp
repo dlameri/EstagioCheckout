@@ -27,6 +27,9 @@
 	<link rel="stylesheet" href="<c:url value="/resources/css/validationEngine.jquery.css"/>"/>
 	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 	
+	<link rel="stylesheet" href="<c:url value="/resources/css/lightbox.css"/>"/>
+	<script type="text/javascript" src="<c:url value="/resources/js/lightbox.js"/>"></script>
+	
 	<link rel="stylesheet" href="<c:url value="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/base/jquery-ui.css"/>"/>
 <script type="text/javascript">
 $(function() {
