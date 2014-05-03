@@ -89,6 +89,9 @@ dependencies {
 	compile 'org.codehaus.jackson:jackson-mapper-lgpl:1.9.13'
 	compile 'org.jboss.resteasy:resteasy-jaxrs:3.0.6.Final'
 	
+	//dependencia theme-catalogo
+	compile 'javax.servlet:jsp-api:2.0'
+	
 	// Selenium
 	testCompile 'org.seleniumhq.selenium:selenium-java:2.41.0'
 	testCompile 'org.seleniumhq.selenium:selenium-server:2.41.0'

@@ -5,7 +5,10 @@
 <html>
     <head>
         <title>Loja Virtual - Dados de Pagamento</title>
-  		
+  		<script src="js/jquery.validationEngine-pt_BR.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/validateForm.js"type="text/javascript"></script>
+		<style type="text/css" rel="stylesheet" href="css/validationEngine.jquery.css"></style>
     </head>
     <body>
 	    <div id="content-container">
@@ -70,11 +73,11 @@
 					    	<table class="formCreditCard">
 					    		<tr>
 					    			<td class="label-input">Nome do titular:</td>
-					    			<td><input id="holderName" type="text" name="holderName" autocomplete="off"  maxlength="100" /></td>
+					    			<td><input id="holderName" type="text" name="holderName" autocomplete="off"  maxlength="100" class="validate[required]" /></td>
 					    		</tr>
 					    		<tr>
 					    			<td class="label-input">Número do cartão:</td>
-					    			<td><input id="cardNumber" type="text" name="cardNumber" autocomplete="off" maxlength="19"  /></td>
+					    			<td><input id="cardNumber" type="text" name="cardNumber" autocomplete="off" maxlength="19" class="validate[required] creditcard" /></td>
 					    		</tr>
 					    		<tr>
 					    			<td class="label-input" for="expiryDate">Validade:</td>
