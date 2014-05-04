@@ -180,7 +180,7 @@ public class Customer {
 
 	public Address getAddressById(Long id) {
 		for (int i = 0; i < deliveryAddresses.size(); i++) {
-			if (deliveryAddresses.get(i).getId() == id) {
+			if (deliveryAddresses.get(i).getId().equals(id)) {
 				return deliveryAddresses.get(i);
 			}
 		}
@@ -190,7 +190,7 @@ public class Customer {
 
 	public void updateAddress(Address address) {
 		for (int i = 0; i < deliveryAddresses.size(); i++) {
-			if (deliveryAddresses.get(i).getId() == address.getId()) {
+			if (deliveryAddresses.get(i).getId().equals(address.getId())) {
 				deliveryAddresses.remove(i);
 				deliveryAddresses.add(address);
 				break;
@@ -200,7 +200,7 @@ public class Customer {
 
 	public void setMainAddress(Long id) {
 		for (int i = 0; i < deliveryAddresses.size(); i++) {
-			if (deliveryAddresses.get(i).getId() == id) {
+			if (deliveryAddresses.get(i).getId().equals(id)) {
 				deliveryAddresses.get(i).setMain(true);
 			} else {
 				deliveryAddresses.get(i).setMain(false);
@@ -224,7 +224,7 @@ public class Customer {
 		List<Address> notMainAddresses = new ArrayList<Address>();
 		
 		for (int i = 0; i < deliveryAddresses.size(); i++) {
-			if (deliveryAddresses.get(i).getId() != id) {
+			if (!deliveryAddresses.get(i).getId().equals(id)) {
 				notMainAddresses.add(deliveryAddresses.get(i));
 			}
 		}
