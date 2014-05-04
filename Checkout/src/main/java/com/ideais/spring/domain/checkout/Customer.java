@@ -56,7 +56,7 @@ public class Customer {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy = "customer")
 	@Cascade(CascadeType.ALL)
-	private List<Address> deliveryAddresses;
+	private List<Address> deliveryAddresses = new ArrayList<Address>();
 
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy = "customer")

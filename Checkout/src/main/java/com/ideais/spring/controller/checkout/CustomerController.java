@@ -133,7 +133,7 @@ public class CustomerController extends BaseController{
     }
     
     @RequestMapping(value = "/updateCustomer",method = RequestMethod.POST)
-    public String updateCustomer(HttpServletRequest request, Customer updatedCustomer){
+    public String updateCustomer(HttpServletRequest request, HttpServletResponse response, Customer updatedCustomer){
     	try {
     		Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);   
 	    	
@@ -141,6 +141,7 @@ public class CustomerController extends BaseController{
 	    		customer.updateCustomer(updatedCustomer);
 	    		customerService.saveOrUpdate(customer);   
 	    		customerService.setCustomerInSessionAfterUpdate(request, customer.getId());
+				response.addCookie(customerService.createCustomerCookie(customer));
 	    		
 		        return "redirect:edit/success";
 	    	}
