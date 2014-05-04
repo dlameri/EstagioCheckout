@@ -121,6 +121,8 @@ public class CustomerController extends BaseController{
         if (existingCustomers == null || existingCustomers.size() == 0) {
         	customerService.saveOrUpdate(customer);
         	
+        	customer = customerService.customerLogin(customer.getEmail(), customer.getPassword());
+        	
         	request.getSession().setAttribute(CUSTOMER_KEY, customer);
 			response.addCookie(customerService.createCustomerCookie(customer));
         	
