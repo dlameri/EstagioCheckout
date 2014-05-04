@@ -19,4 +19,14 @@ $(document).ready(function() {
 		    $("#orders").html("Mostrar compras");
 		}
 	});
+	
+	$("#orderItems").click(function() {
+		if($("#orderItemsDetails").is(':hidden')) {
+		    $("#orderItemsDetails").show(500);
+		    $("#orderItems").html("Ocultar itens do pedido");
+		} else {
+		    $("#orderItemsDetails").hide(300);
+		    $("#orderItems").html("Mostrar itens do pedido");
+		}
+	});
 });

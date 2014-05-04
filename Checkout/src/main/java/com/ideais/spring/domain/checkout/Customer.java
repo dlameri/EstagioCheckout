@@ -2,6 +2,7 @@ package com.ideais.spring.domain.checkout;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,8 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @Table(name = "CLIENTE")
@@ -49,10 +53,12 @@ public class Customer {
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private List<ShoppingCart> shoppingCarts;
 
-	@OneToMany(mappedBy = "customer", fetch=FetchType.EAGER)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "customer")
 	@Cascade(CascadeType.ALL)
 	private List<Address> deliveryAddresses;
 
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy = "customer")
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private List<PurchaseOrder> purchaseOrders;
@@ -230,10 +236,18 @@ public class Customer {
 		name = updatedCustomer.getName();
 		surname = updatedCustomer.getSurname();
 		phoneNumber = updatedCustomer.getPhoneNumber();
-		cpf = updatedCustomer.getCpf();
-		email = updatedCustomer.getEmail();
 		username = updatedCustomer.getUsername();
 		password = updatedCustomer.getPassword();
+	}
+
+	public PurchaseOrder findOrderById(Long id) {
+		for (int i = 0; i < purchaseOrders.size(); i++) {
+			if(purchaseOrders.get(i).getId().equals(id)) {
+				return purchaseOrders.get(i);
+			}
+		}
+		
+		return null;
 	}
 
 }

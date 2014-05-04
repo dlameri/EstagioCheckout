@@ -24,38 +24,30 @@
 				</c:if>
 				
 				<div class="containerEditCustomer">
-					<form:form class="formNew" action="http://ideaiselectronics.com:9082/Checkout/customer/updateCustomer" autocomplete="off" commandName="customer" method="POST">
+					<form:form class="formNew" action="http://ideaiselectronics.com:9082/Checkout/customer/updateCustomer" autocomplete="off" commandName="updatedCustomer" method="POST">
 						<table>
 							<tr>
 								<td class="label-input"><label>Nome:</label></td>
-								<td><form:input type="text" path="name" class="validate[required]" /></td>
+								<td><form:input type="text" maxlength="100" path="name" class="validate[required]" /></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Sobrenome:</label></td>
-								<td><form:input type="text" path="surname"  class="validate[required]" /></td>
+								<td><form:input type="text" maxlength="100" path="surname"  class="validate[required]" /></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Telefone:</label></td>
-								<td><form:input type="text" path="phoneNumber"  class="validate[required]"/></td>
-							<tr/>
-							<tr>
-								<td class="label-input"><label>CPF:</label></td>
-								<td><form:input type="text" path="cpf"  class="validate[required]"/></td>
-							<tr/>
-							<tr>
-								<td class="label-input"><label>E-mail:</label></td>
-								<td><form:input type="email" path="email"  class="validate[required,custom[email]]"/></td>
+								<td><form:input type="text" maxlength="100" path="phoneNumber"  class="validate[required] phoneNumber"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Login:</label></td>
-								<td><form:input type="text" path="username"  class="validate[required]"/></td>
+								<td><form:input type="text" maxlength="100" path="username"  class="validate[required]"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Senha:</label></td>
-								<td><form:input type="password" path="password"  class="validate[required]"/></td>
+								<td><form:input type="password" maxlength="100" path="password"  class="validate[required]"/></td>
 							<tr/>
 						</table>
-						<form:button class="editAddressButton" type="submit">Editar</form:button>
+						<form:button class="editAddressButton" maxlength="100" type="submit">Editar</form:button>
 						<br />
 						<br />
 						<a class="voltar" href="http://ideaiselectronics.com:9082/Checkout/customer/customerDetails">Voltar para minha conta</a>
@@ -66,7 +58,8 @@
 				
 					<c:forEach items="${customer.deliveryAddresses}" var="shippingAddress" varStatus="status">
 						<div class="shippingAddressListUnit">
-							Destinatário: ${order.addressee} <br />
+						    <span class="orderInfo">${shippingAddress.name}</span> <br />
+							Destinatário: ${shippingAddress.addressee} <br />
 							${shippingAddress.street}, ${shippingAddress.number} <br />
 							${shippingAddress.neighborhood} ${shippingAddress.city}, ${shippingAddress.state} - ${shippingAddress.zipCode} <br />
 							<br /> 	

@@ -30,11 +30,11 @@
 								<fieldset class="input-freight">
 									<tr>
 										<td class="label-input"><label class="loginLabel">Email</label> </td>
-										<td><input type="text" name="userEmail" id="userEmail" />  </td>
+										<td><input type="text" maxlength="100" name="userEmail" id="userEmail" />  </td>
 									<tr />
 									<tr>	
 										<td class="label-input"><label class="passwordLabel">Login de usuário</label></td>
-										<td><input type="text" name="userLogin" id="userLogin" /></td>
+										<td><input type="text" maxlength="100" name="userLogin" id="userLogin" /></td>
 									<tr />
 							
 								</fieldset>

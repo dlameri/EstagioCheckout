@@ -39,44 +39,44 @@
 						
 							<tr>
 								<td class="label-input"><label>Destinatário:</label> </td>
-								<td><form:input type="text" path="addressee" class="validate[required] text-input" /></td>
+								<td><form:input type="text" maxlength="100" path="addressee" class="validate[required] text-input" /></td>
 							<tr/>
 						
 							<tr>
 								<td class="label-input"><label>Rua:</label> </td>
-								<td><form:input type="text" path="street" class="validate[required] text-input" /></td>
+								<td><form:input type="text" maxlength="100" path="street" class="validate[required] text-input" /></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Número:</label></td>
-								<td><form:input type="text" path="number" class="validate[required] "/></td>
+								<td><form:input type="text" maxlength="100" path="number" class="validate[required] "/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Complemento:</label></td>
-								<td><form:input type="text" path="complement"/></td>
+								<td><form:input type="text" maxlength="100" path="complement"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Cidade</label></td>
-								<td><form:input type="text" path="city" class="validate[required] text-input"/></td>
+								<td><form:input type="text" maxlength="100" path="city" class="validate[required] text-input"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Bairro</label></td>
-								<td><form:input type="text" path="neighborhood" class="validate[required] text-input"/></td>
+								<td><form:input type="text" maxlength="100" path="neighborhood" class="validate[required] text-input"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Referencia</label></td>
-								<td><form:input type="text" path="reference" class="validate[required] text-input"/></td>
+								<td><form:input type="text" maxlength="100"  path="reference" class="validate[required] text-input"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Estado</label></td>
-								<td><form:input type="text" path="state" class="validate[required] text-input"/></td>
+								<td><form:input type="text" maxlength="100" path="state" class="validate[required] text-input"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>País</label></td>
-								<td><form:input type="text" path="country" class="validate[required] text-input"/></td>
+								<td><form:input type="text" maxlength="100" path="country" class="validate[required] text-input"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>CEP</label></td>
-								<td><form:input type="text" path="zipCode" class="validate[required] cep"/></td>
+								<td><form:input type="text" maxlength="100" path="zipCode" class="validate[required] cep"/></td>
 							<tr/>
 						</table>
 						

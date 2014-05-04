@@ -24,6 +24,9 @@ public class ErrorMessageFactory {
 		if ("errorDimension".equals(status)) {
 			return "Dimensão do pedido excedido!";
 		}		
+		if ("noItems".equals(status)) {
+			return "O carrinho está vazio, insira um item para continuar com a compra.";
+		}
 		return "Erro, tente novamente";
 	}
 

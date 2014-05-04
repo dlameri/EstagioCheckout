@@ -78,8 +78,24 @@ public class RestClient implements Methods {
 	}
 
 	@Override
-	public void put(String url, String json) {
-		// TODO Auto-generated method stub
+	public boolean put(String url, String json) {
+		ResteasyClient client = openConnection();
+		Response response = null;
+		try {
+			response = client.target(url).request().put(Entity.entity(json, "application/json"));
+			if (response.getStatus() == STATUS_OK) {
+				closeConnection(client);
+				response.close();
+				return true;
+			}
+		} catch(ResponseProcessingException exception) {
+			LOGGER.fatal("Nao foi possivel enviar o json ["+json+"] para o seguinte servico ["+url+"]", exception);
+			closeConnection(client);
+			response.close();
+			return false;
+		}
+		closeConnection(client);
+		return false;
 		
 	}
 

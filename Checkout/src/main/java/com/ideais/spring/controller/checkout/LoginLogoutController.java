@@ -20,6 +20,8 @@ import com.ideais.spring.controller.catalog.BaseController;
 import com.ideais.spring.domain.checkout.Customer;
 import com.ideais.spring.service.MailService;
 import com.ideais.spring.service.interfaces.CustomerServiceBehavior;
+import com.ideais.spring.service.interfaces.PurchaseOrderServiceBehavior;
+import com.ideais.spring.service.interfaces.ShoppingCartServiceBehavior;
 
 @Controller("LoginLogoutController")
 @RequestMapping("/customer/authenticate")
@@ -32,7 +34,6 @@ public class LoginLogoutController extends BaseController{
     @Autowired
     private MailService mailService;
 	private static final String CUSTOMER_KEY = "customer";
-    private static final String ORDER_KEY = "order";
         
 	@RequestMapping("loginForm")
 	public ModelAndView loginForm(HttpServletRequest request) {
@@ -44,7 +45,7 @@ public class LoginLogoutController extends BaseController{
 		ModelAndView view = getBaseView("customer/loginpage", request);
 		
 		if ("error".equals(status)) {
-			view.addObject("errorMessage", "Login ou senha inválidos!");
+			view.addObject("errorMessage", "Email ou senha inválidos!");
 		} else if ("successRegister".equals(status)) {
 			view.addObject("successMessage", "Você foi cadastrado com sucesso.");
 		}
@@ -115,11 +116,10 @@ public class LoginLogoutController extends BaseController{
 	
 	@RequestMapping("logout")
 	public String logout(HttpSession session, HttpServletResponse response) {
-	  session.invalidate();
-		
-	  customerService.removeCustomerCookie(response);
+		session.invalidate();
+	    customerService.removeCustomerCookie(response);
 	  
-	  return "redirect:http://ideaiselectronics.com:8081/catalogo/";
+	    return "redirect:http://ideaiselectronics.com:8081/catalogo/";
 	}
 
 }

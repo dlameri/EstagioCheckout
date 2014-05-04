@@ -27,7 +27,7 @@ public class ItemDao extends BasicRestClientDao implements ItemDaoBehavior {
 	
 	@Override
 	public Boolean updateStock(String cartJson) {
-        return client.post(buildUpdateStockString(), cartJson);
+        return client.put(buildUpdateStockString(), cartJson);
 	}
 	
 	private String buildUpdateStockString() {

@@ -37,8 +37,8 @@ public class ItemService implements ItemServiceBehavior {
 	@Override
 	public Item getItem(Long id) throws IOException, JSONException {		
 		ItemJSON itemJSON = itemDao.findById(id); 
-		Item item = new Item(itemJSON);
 		
+		Item item = new Item(itemJSON);	
 		return buildItem(itemJSON, item);
 	}
 

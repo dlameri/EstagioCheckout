@@ -25,35 +25,35 @@
 					<table>
 						<tr>
 							<td class="label-input"><label>Nome:</label></td>
-							<td><form:input type="text" path="customer.name" class="validate[required] text-input" /></td>
+							<td><form:input type="text" maxlength="100" path="customer.name" class="validate[required] text-input" /></td>
 						<tr/>
 						<tr>
 							<td class="label-input"><label>Sobrenome:</label></td>
-							<td><form:input type="text" path="customer.surname" class="validate[required] text-input" /></td>
+							<td><form:input type="text" maxlength="100" path="customer.surname" class="validate[required] text-input" /></td>
 						<tr/>
 						<tr>
 							<td class="label-input"><label>Telefone:</label></td>
-							<td><form:input type="text" path="customer.phoneNumber" class="validate[required] phoneNumber"/></td>
+							<td><form:input type="text" maxlength="100" path="customer.phoneNumber" class="validate[required] phoneNumber"/></td>
 						<tr/>
 						<tr>
 							<td class="label-input"><label>CPF:</label></td>
-							<td><form:input type="text" path="customer.cpf" class="cpf validate[required] "/></td>
+							<td><form:input type="text" maxlength="100" path="customer.cpf" class="cpf validate[required] "/></td>
 						<tr/>
 						<tr>
 							<td class="label-input"><label>E-mail:</label></td>
-							<td><form:input type="text" path="customer.email" class="validate[required,custom[email]]"/></td>
+							<td><form:input type="text" maxlength="100" path="customer.email" class="validate[required,custom[email]]"/></td>
 						<tr/>
 						<tr>
-							<td class="label-input"><label>Login:</label></td>
-							<td><form:input type="text" path="customer.username" class="validate[required] text-input" /></td>
+							<td class="label-input"><label>Nome de usuário:</label></td>
+							<td><form:input type="text" maxlength="100"path="customer.username" class="validate[required] text-input" /></td>
 						<tr/>
 						<tr>
 							<td class="label-input"><label>Senha:</label></td>
-							<td><form:input type="password"  path="customer.password" id="password" class="validate[required] text-input"/></td>
+							<td><form:input type="password" maxlength="100"  path="customer.password" id="password" class="validate[required] text-input"/></td>
 						<tr/>
 						<tr>
 							<td class="label-input"><label>Confirmar Senha:</label></td>
-							<td><input type="password" class = "validate[required,equals[password]]" ></td>
+							<td><input type="password" maxlength="100" class = "validate[required,equals[password]]" ></td>
 						<tr/>
 
 						<!-- -- -- -- endereço -- -- -- -->
@@ -98,7 +98,7 @@
 					<form:button id="submitBtn" class="editAddressButton" type="submit">Cadastrar</form:button>
 					<br />
 					<br />
-					<a class="voltar" href="http://ideaiselectronics.com:8081/Catalogo/">home</a>
+					<a class="voltar" href="http://ideaiselectronics.com:8081/catalogo/">home</a>
 			</form:form>
 			</div>
 		</section>

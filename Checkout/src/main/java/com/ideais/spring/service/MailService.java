@@ -1,13 +1,9 @@
 package com.ideais.spring.service;
 
-import java.util.List;
-
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-
 import com.ideais.spring.domain.checkout.PurchaseOrder;
-import com.ideais.spring.domain.checkout.ShoppingCartLine;
 
 public class MailService {
 	private static final String GREETINGS = ", obrigado por comprar em nossa Loja.";

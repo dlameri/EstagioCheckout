@@ -3,7 +3,7 @@ package com.ideais.spring.util;
 public class DigitsValidator {
 	
 	private static final String ZIP_CODE_REGEX = "[0-9]+";
-	private static final String QUANTITY_REGEX = "[1-9]+";
+	private static final String QUANTITY_REGEX = "^(0|[1-9][0-9]*)$";
 
 	public static boolean validateZipCodeInput(String input) {
 		return input != null && input.matches(ZIP_CODE_REGEX);

@@ -10,14 +10,14 @@
     <body>
 	    <div id="content-container">
 	    
-				<h1 class="payment-font">Pagamento</h1>		
+			<h1 class="payment-font">Pagamento</h1>		
 				
 			<div  id="customerDetails">	
 				<span class="successOrder">${order.customer.username} sua compra foi realizada com sucesso! Um email foi enviado para ${order.customer.email} com os detalhes da compra.</span>
 				
 				<br />
 				<br />
-				<a class="voltar" href="http://ideaiselectronics.com:8081/Catalogo/">home</a>
+				<a class="voltar" href="http://ideaiselectronics.com:8081/catalogo/">home</a>
 			</div>
 			
 		</div>	

@@ -27,12 +27,12 @@
 							<table>
 								<fieldset class="input-freight">
 									<tr>
-										<td class="label-input"><label class="loginLabel">Email ou login de usuário</label> </td>
-										<td><input type="text" name="userLogin" id="userLogin" />  </td>
+										<td class="label-input"><label class="loginLabel">Email de usuário</label> </td>
+										<td colspan="2"><input type="text" maxlength="100" name="userLogin" id="userLogin" />  </td>
 									<tr />
 									<tr>	
 										<td class="label-input"><label class="passwordLabel">Senha</label></td>
-										<td><input type="password" name="userPassword" id="userLogin" /></td>
+										<td colspan="2"><input type="password" maxlength="100" name="userPassword" id="userLogin" /></td>
 									<tr />
 							
 								</fieldset>

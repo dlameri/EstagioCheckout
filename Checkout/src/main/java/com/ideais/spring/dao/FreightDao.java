@@ -62,22 +62,24 @@ public class FreightDao extends BasicSoapClientDao implements FreightDaoBehavior
 	
 	@Override
 	public FreightDetails getFreight(ItemsPackage itemsPackage, String serviceType, String destinationZipCode) throws HttpException, IOException, FreightException, FreightZipCodeException, JDOMException {   
-		FreightDetails freightDetails;		
+		FreightDetails freightDetails = null;		
 	
-		if (EMPTY_STRING.equals(serviceType) && itemsPackage.getVolumetricWeight() > CorreiosCodes.valueOf(defaultServiceType).getMaximumWeight()) {
-			
-			freightDetails = new FreightDetails(defaultServiceType, destinationZipCode, storeZipCode);
-			freightDetails.setFreightValue(CorreiosCodes.valueOf(defaultServiceType).getMaximumFreight());
+		if (EMPTY_STRING.equals(serviceType)) {
+			if (itemsPackage.getVolumetricWeight() > CorreiosCodes.valueOf(defaultServiceType).getMaximumWeight()) {
+				freightDetails = new FreightDetails(CorreiosCodes.valueOf(defaultServiceType).getFreightServiceCode(), destinationZipCode, storeZipCode);
+				freightDetails.setFreightValue(CorreiosCodes.valueOf(defaultServiceType).getMaximumFreight());
+			} else {
+				freightDetails = makeFreightValueRequestFromCorreios(CorreiosCodes.valueOf(defaultServiceType).getFreightServiceCode(), destinationZipCode, itemsPackage);
+			}
 		
-		} else if (!EMPTY_STRING.equals(serviceType) && itemsPackage.getVolumetricWeight() > CorreiosCodes.valueOf(serviceType).getMaximumWeight()) {
-			
-			freightDetails = new FreightDetails(serviceType, destinationZipCode, storeZipCode);
-			freightDetails.setFreightValue(CorreiosCodes.valueOf(serviceType).getMaximumFreight());
-		
-		} else {
-		   
-			freightDetails = makeFreightValueRequestFromCorreios(serviceType, destinationZipCode, itemsPackage);
-		}
+		} else if (!EMPTY_STRING.equals(serviceType)) {
+			if (itemsPackage.getVolumetricWeight() > CorreiosCodes.valueOf(serviceType).getMaximumWeight()) {
+				freightDetails = new FreightDetails(serviceType, destinationZipCode, storeZipCode);
+				freightDetails.setFreightValue(CorreiosCodes.valueOf(serviceType).getMaximumFreight());
+			} else {
+				freightDetails = makeFreightValueRequestFromCorreios(serviceType, destinationZipCode, itemsPackage);
+			}
+		} 
 		
 	    freightDetails.setDeliveryDays(makeFreightDeiveryDaysRequestFromCorreios(serviceType, destinationZipCode));
 		
@@ -85,7 +87,7 @@ public class FreightDao extends BasicSoapClientDao implements FreightDaoBehavior
 	}
 	
 	private String makeFreightDeiveryDaysRequestFromCorreios(String serviceType, String destinationZipCode) throws HttpException, IOException, FreightException, FreightZipCodeException, JDOMException {
-		String url = buildFreightDaysUrl(serviceType, destinationZipCode);  			
+		String url = buildFreightDaysUrl(serviceType, destinationZipCode);  		
 		String response = (String) client.get(url, new GenericType<String>() {});		
 				
 		if (response == null || EMPTY_STRING.equals(response)) {
@@ -105,7 +107,8 @@ public class FreightDao extends BasicSoapClientDao implements FreightDaoBehavior
 	}
 
 	private FreightDetails makeFreightValueRequestFromCorreios(String serviceType, String destinationZipCode, ItemsPackage itemsPackage) throws HttpException, IOException, FreightException, FreightZipCodeException  {
-		String url = buildFreightValueUrl(itemsPackage, serviceType, destinationZipCode);    			
+		String url = buildFreightValueUrl(itemsPackage, serviceType, destinationZipCode);    
+
         String response = (String) client.get(url, new GenericType<String>() {});	
 		
 		if (response == null || EMPTY_STRING.equals(response)) {

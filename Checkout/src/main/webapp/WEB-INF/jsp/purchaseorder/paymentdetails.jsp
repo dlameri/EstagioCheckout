@@ -5,10 +5,7 @@
 <html>
     <head>
         <title>Loja Virtual - Dados de Pagamento</title>
-  		<script src="js/jquery.validationEngine-pt_BR.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/validateForm.js"type="text/javascript"></script>
-		<style type="text/css" rel="stylesheet" href="css/validationEngine.jquery.css"></style>
+  		
     </head>
     <body>
 	    <div id="content-container">
@@ -54,7 +51,7 @@
 						     		<div class="payment-type">
  										<img class="photo" src="<c:url value="/resources/images/card_image.jpg" />" />
 									</div>
-									<a id="creditSelect" href="#" class="selectPayment">Selecionar</a>			      			
+									<a id="creditSelect" href="javaScript:void(0);" class="selectPayment">Selecionar</a>			      			
 								</li>
 			      			</div>
 					      
@@ -63,7 +60,7 @@
 						     		<div class="payment-type">
 						      			<img class="photo" src="<c:url value="/resources/images/boleto_image.jpg" />" />
 									</div>
-									<a id="billetSelect" href="#" class="selectPayment">Selecionar</a>
+									<a id="billetSelect" href="javaScript:void(0);" class="selectPayment">Selecionar</a>
 				      			</li>
 			      			</div>
   
@@ -85,37 +82,59 @@
 					    		</tr>
 					    		<tr>
 					    			<td>Código de segurança do Cartão:</td>
-					    			<td><input id="securityCode" type="text" name="securityCode" autocomplete="off" maxlength="4" /></td>
-					    		</tr>
-					    		<tr>
-					    			<td>Parcelar em:</td>
-					    			<td>
-						    			<select path="">
-						    				<c:forEach var="installment" items="${order.installments}">
-											    <option value="<c:out value="${installment.formattedValue}" />">
-											    	${installment.formattedValue}
-											    </option>
-											 </c:forEach>
-										<select></td>
+					    			<td><input id="securityCode" type="text" name="securityCode" autocomplete="off" maxlength="4" class="validate[required]"/></td>
 					    		</tr>
 					    		
+					    		<form method="post" action="http://ideaiselectronics.com:9082/Checkout/purchaseOrder/processOrder" name="editQuantity">
+					    			<tr>
+					    		
+						    			<td>Parcelar em:</td>
+						    			<td>
+							    			<select name="installment">
+							    				<c:forEach var="installment" items="${order.installments}">
+												    <option value="<c:out value="${installment.formattedValue}" />">
+												    	${installment.formattedValue}
+												    </option>
+												 </c:forEach>
+											</select></td>
+						    		</tr>
+						    		<tr>	
+						    			<td>
+						    				<input class="credictPayment" type="text" name="paymentType" value="CREDIT_CARD" />
+						    			<td>
+						    		</tr>
+						    		<tr>
+						    			<td>
+							    			<c:if test="${order.shoppingCart.quantityOfItems > 0}">
+				   				   				<div class="finishOrder">
+								    				<input type="submit" class="proccessCartBuy" value="Finalizar compra">
+							      	 			</div>
+							      	 		</c:if>
+						      	 		</td>	
+					      	 		</tr>
+			      	 			
+	 							</form>
+				      	 	 		
 					    	</table>
 					   
-			   				<div class="finishOrder">
-				    				<a class="proccessCartBuy" href="processOrder">Finalizar compra</a>
-				      	 	</div>
-				      	 	
 					    </div>
 					    <div id="formBillet" class="simpleTabsContent">
 							<img class="billetImage" height="100px" alt="ícone de boleto" src="<c:url value="/resources/images/boleto.png" />">
 							<span class="billetMessage">
 								O seu boleto será enviado por email.
 							</span>
-
-
-							<div class="finishOrder">
-			      				<a class="proccessCartBuy" href="processOrder">Finalizar compra</a>
-				       	 	</div>
+							
+							<form method="post" action="http://ideaiselectronics.com:9082/Checkout/purchaseOrder/processOrder" name="editQuantity">
+							
+								<input class="credictPayment" type="text" name="paymentType" value="BILLET" />
+								
+								<c:if test="${order.shoppingCart.quantityOfItems > 0}">
+	   				   				<div class="finishOrder">
+					    				<input type="submit" class="proccessCartBuy" value="Finalizar compra">
+				      	 			</div>
+			      	 			</c:if>
+				       	 	
+				       	 	</form>
 					    </div>
 					 </div>
 					 

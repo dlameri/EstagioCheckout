@@ -20,6 +20,8 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import com.ideais.spring.exceptions.MissingQuantityStockException;
 import com.ideais.spring.util.ValueFormatter;
@@ -46,6 +48,7 @@ public class ShoppingCart {
 	@Column(name="NM_QUANTIDADE_ITEMS")
 	private Integer quantityOfItems = 0;
 	
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany
 	@Cascade(CascadeType.ALL)
 	private List<ShoppingCartLine> shoppingCartLines;
@@ -107,7 +110,8 @@ public class ShoppingCart {
 	
 	public ShoppingCartLine contains(ShoppingCartLine shoppingCartLine) {
 		for (int i = 0; i < shoppingCartLines.size(); i++) {
-			if (shoppingCartLine.getItem().getItemId().equals(shoppingCartLines.get(i).getItem().getItemId())) {
+			if (shoppingCartLine != null && shoppingCartLines.get(i).getItem() != null && shoppingCartLine.getItem() != null && 
+				shoppingCartLine.getItem().getItemId().equals(shoppingCartLines.get(i).getItem().getItemId())) {
 				return shoppingCartLines.get(i);
 			}
 		}
@@ -118,7 +122,7 @@ public class ShoppingCart {
 	public void removeItem(Item item) {
 		if (item != null) {
 			for (int i = 0; i < shoppingCartLines.size(); i++) {
-				if (shoppingCartLines.get(i).getItem().getItemId().equals(item.getItemId())) {
+				if (shoppingCartLines.get(i).getItem() != null && shoppingCartLines.get(i).getItem().getItemId().equals(item.getItemId())) {
 					shoppingCartLines.remove(shoppingCartLines.get(i));
 					break;
 				}
@@ -143,7 +147,7 @@ public class ShoppingCart {
 	
 	public Item getItem(Long id) {
 		for (int i = 0; i < shoppingCartLines.size(); i++) {
-			if (shoppingCartLines.get(i).getItem().getItemId().equals(id)) {
+			if (shoppingCartLines.get(i).getItem() != null && shoppingCartLines.get(i).getItem().getItemId().equals(id)) {
 				return shoppingCartLines.get(i).getItem();
 			}
 		}
@@ -174,7 +178,7 @@ public class ShoppingCart {
 	private ShoppingCartLine hasItem(Item item) {
 		if (item != null) {
 			for (int i = 0; i < shoppingCartLines.size(); i++) {
-				if (shoppingCartLines.get(i).getItem().getItemId().equals(item.getItemId())) {
+				if (shoppingCartLines.get(i).getItem() != null && shoppingCartLines.get(i).getItem().getItemId().equals(item.getItemId())) {
 					return shoppingCartLines.get(i);
 				}
 			}

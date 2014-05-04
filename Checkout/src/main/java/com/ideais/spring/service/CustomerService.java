@@ -46,7 +46,7 @@ public class CustomerService implements CustomerServiceBehavior {
 
 	@Override
 	public Customer customerLogin(String username, String password) {
-		return customerDao.findByLoginOrEmail(username, password);
+		return customerDao.findByEmail(username, password);
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class CustomerService implements CustomerServiceBehavior {
 	@Override
 	public void removeCustomerCookie(HttpServletResponse response) {
     	Cookie customerCookie = new Cookie(CUSTOMER_KEY, "");
-    	customerCookie.setMaxAge(-1); 
+    	customerCookie.setMaxAge(0); 
     	customerCookie.setDomain(cookieDomain);
     	customerCookie.setPath(cookiePath);	
     	response.addCookie(customerCookie);

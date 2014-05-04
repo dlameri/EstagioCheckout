@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.httpclient.HttpException;
 import org.codehaus.jackson.JsonGenerationException;
@@ -102,7 +104,11 @@ public class ShoppingCartService implements ShoppingCartServiceBehavior {
     	List<ShoppingCartLine> shoppingCartLines = new ArrayList<ShoppingCartLine>();
     	
     	for (int i = 0; i < cart.getCartItems().size(); i++) {
-    		shoppingCartLines.add(createShoppingCartLine(cart.getCartItems().get(i)));
+    		ShoppingCartLine shoppingCartLine = createShoppingCartLine(cart.getCartItems().get(i));
+    		
+    		if (shoppingCartLine != null) {
+    			shoppingCartLines.add(shoppingCartLine);
+    		}
     	}
     	
     	shoppingCart.setShoppingCartLines(shoppingCartLines);
@@ -111,17 +117,25 @@ public class ShoppingCartService implements ShoppingCartServiceBehavior {
     }
     
     private ShoppingCartLine createShoppingCartLine(CartItem cartItem) throws NumberFormatException, MissingQuantityStockException, IOException, JSONException {
-		ShoppingCartLine shoppingCartLine = new ShoppingCartLine(itemService.getItem(cartItem.getCartItemId()));
-		shoppingCartLine.setQuantity(cartItem.getQuantity());
-		
-		return shoppingCartLine;
+    	Item item = itemService.getItem(cartItem.getCartItemId());
+    	
+    	if (item != null && item.getActive()) {
+			ShoppingCartLine shoppingCartLine = new ShoppingCartLine(item);
+			shoppingCartLine.setQuantity(cartItem.getQuantity());
+			
+			return shoppingCartLine;
+    	}
+    	
+    	return null;
     }
     
     @Override
     public void addItemToShoppingCart(Long id, ShoppingCart shoppingCart) throws IOException, JSONException, MissingQuantityStockException {
     	if (!shoppingCart.hasItemWithId(id)) {    		
     		Item item = itemService.getItem(id);	
-			shoppingCart.addItem(item);	   		
+    		if (item != null && item.getActive()) {
+    			shoppingCart.addItem(item);
+    		}
     	}
     }
     
@@ -153,6 +167,26 @@ public class ShoppingCartService implements ShoppingCartServiceBehavior {
 		}
 		
 		return EMPTY_CART;
+	}
+
+	@Override
+	public void removeCartFromSession(HttpSession session, HttpServletResponse response) {
+		session.setAttribute(CART_KEY, null);
+		
+    	Cookie cartTopCookie = new Cookie(CART_TOP_COOKIE_KEY, null);
+    	cartTopCookie.setMaxAge(0);
+    	cartTopCookie.setDomain(cookieDomain);
+    	cartTopCookie.setPath(cookiePath);
+    	
+    	response.addCookie(cartTopCookie);
+    	
+    	Cookie cartCookie = new Cookie(CART_COOKIE_KEY, null);
+    	cartCookie.setMaxAge(60 * 60 * 1000);
+    	cartCookie.setDomain(cookieDomain);
+    	cartCookie.setPath(cookiePath);
+    	
+    	response.addCookie(cartCookie);
+
 	}
  
 }

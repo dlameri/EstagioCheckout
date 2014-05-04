@@ -35,8 +35,9 @@ public class SoapClient implements Methods {
 	}
 
 	@Override
-	public void put(String url, String json) {
+	public boolean put(String url, String json) {
 		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override

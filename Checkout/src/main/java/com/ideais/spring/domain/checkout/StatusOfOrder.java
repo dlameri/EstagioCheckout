@@ -1,7 +1,7 @@
 package com.ideais.spring.domain.checkout;
 
 public enum StatusOfOrder {
-	PAID("Pago"), WAITING_FOR_PAYMENT("Aguardando pagamento"), SENT("Enviado"), FINISHED("Finalizada"), DECLINED("Cancelado");
+	PAID("Pago"), WAITING_FOR_PAYMENT("Aguardando pagamento"), SENT("Enviado"), FINISHED("Finalizada"), DECLINED("Cancelada");
 	
 	private final String status;
 

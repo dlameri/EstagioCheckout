@@ -16,6 +16,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter {
 		String uri = request.getRequestURI();
 		
 		if((!uri.contains("purchase")  && !uri.contains("Details") && !uri.contains("address") &&
+			!(uri.contains("edit") && uri.contains("customer")) && 
 			!uri.contains("shipping")) || request.getSession().getAttribute(CUSTOMER_KEY) != null){
 			return true;
 		}

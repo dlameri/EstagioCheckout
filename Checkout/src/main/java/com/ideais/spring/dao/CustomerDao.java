@@ -45,10 +45,9 @@ public class CustomerDao implements CustomerDaoBehavior {
 
 	@Override
 	@Transactional
-	public Customer findByLoginOrEmail(String usernameOrEmail, String password) {
+	public Customer findByEmail(String email, String password) {
 		Customer customer = (Customer) session().createCriteria(Customer.class)
-				.add(Restrictions.or(Restrictions.eq("username", usernameOrEmail))
-				.add(Restrictions.or(Restrictions.eq("email", usernameOrEmail))))
+				.add(Restrictions.eq("email", email))
 				.add(Restrictions.eq("password", password)).uniqueResult();
 		
 		return customer;

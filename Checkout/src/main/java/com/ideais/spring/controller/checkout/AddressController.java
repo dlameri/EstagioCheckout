@@ -160,7 +160,8 @@ public class AddressController extends BaseController {
     	}
     }
     
-    @RequestMapping(value = "/setShippingAddress/{id}", method = RequestMethod.GET)
+    @SuppressWarnings("unused")
+	@RequestMapping(value = "/setShippingAddress/{id}", method = RequestMethod.GET)
     public String setShippingAddress(@PathVariable Long id, HttpServletRequest request) {
     	try {
     		PurchaseOrder order = (PurchaseOrder) request.getSession().getAttribute(ORDER_KEY);
@@ -169,6 +170,7 @@ public class AddressController extends BaseController {
 
         	if (order != null) {        		
 	    		order.setShippingAddress(order.getCustomer().getAddressById(id));
+	    		order.setAddressee(order.getShippingAddress().getAddressee());
 	    		purchaseOrderService.setPurchaseOrderInSession(request, order);
 		    		    		
 		    	return "redirect:../../../purchaseOrder/paymentDetails";	

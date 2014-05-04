@@ -2,6 +2,7 @@ package com.ideais.spring.domain.checkout;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -96,7 +97,6 @@ public class PurchaseOrder {
 		this.totalAmount = shoppingCart.getTotalAmount();
 		this.shoppingCart = shoppingCart;
 		installments = calculateInstallments(totalAmount);
-		System.out.println(totalAmount);
 	}
 	
 	public BigDecimal getFreight() {
@@ -104,8 +104,12 @@ public class PurchaseOrder {
 	}
 
 	public void setFreight(BigDecimal freight) {
+		if (!this.freight.equals(BigDecimal.ZERO)) {
+			totalAmount = totalAmount.subtract(this.freight);
+		}
+		
+		totalAmount = totalAmount.add(freight);
 		this.freight = freight;
-		calculateTotalAmount();		
 	}
 	
 	public ShoppingCart getShoppingCart() {
@@ -199,10 +203,6 @@ public class PurchaseOrder {
 	public List<Installment> getInstallments() {
 		return calculateInstallments(totalAmount);
 	}
-
-	private void calculateTotalAmount() {
-		totalAmount = totalAmount.add(freight);
-	}
 	
 	public String getLastInstallment() {
 		if(installments == null ){
@@ -237,6 +237,23 @@ public class PurchaseOrder {
 
 	public String getFormattedTotalAmount() {
 		return ValueFormatter.format(totalAmount);
+	}
+	
+	public String getFormattedPurchaseDate() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		return sdf.format(purchaseDate);
+	}
+
+	public void checkAddress(Customer customer) {
+		Address address = customer.getAddressById(shippingAddress.getId());
+		
+		if (address == null) {
+			shippingAddress = customer.getMainAddress();
+			addressee = shippingAddress.getAddressee();
+		}
+		
+		billingAddress = customer.getMainAddress();
 	}
 	
 }

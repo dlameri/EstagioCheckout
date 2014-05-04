@@ -9,6 +9,10 @@
 	<body>
 	
 		<div id="content-container">
+		
+			<c:if test="${errorMessage != null}">
+				<div class="errormsgbox">${errorMessage}</div>
+			</c:if>
 				        
 	        <div class="freightBox">
 
@@ -31,10 +35,6 @@
 					
 				</div> 
  			</div>
- 			
-			<c:if test="${errorMessage != null}">
-				<div class="errormsgbox">${errorMessage}</div>
-			</c:if>
 
 			<table class="cartItems">
 				<thead class="topBox">
@@ -146,7 +146,7 @@
 			</table>
 			
 	        <div class="buyToOrder">
-      			<a class="proccessCartBuy" href="proccessShoppingCart">Comprar</a>
+      			<a class="proccessCartBuy" href="processShoppingCart">Comprar</a>
 	        </div>
 	        
 		</div><!-- #content -->

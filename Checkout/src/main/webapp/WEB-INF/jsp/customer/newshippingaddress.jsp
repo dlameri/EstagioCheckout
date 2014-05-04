@@ -23,31 +23,31 @@
 						<table>
 							<tr>
 								<td class="label-input"><label>Descrição:</label> </td>
-								<td><form:input type="text" path="name" class="validate[required] text-input" /></td>
+								<td><form:input type="text" maxlength="100" path="name" class="validate[required] text-input" /></td>
 							<tr/>						
 							<tr>
 								<td class="label-input"><label>Destinatário:</label> </td>
-								<td><form:input type="text" path="addressee" class="validate[required] text-input" /></td>
+								<td><form:input type="text" maxlength="100" path="addressee" class="validate[required] text-input" /></td>
 							<tr/>	
 							<tr>
 								<td class="label-input"><label>Rua:</label> </td>
-								<td><form:input type="text" path="street" class="validate[required] text-input" /></td>
+								<td><form:input type="text" maxlength="100" path="street" class="validate[required] text-input" /></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Número:</label></td>
-								<td><form:input type="text" path="number" class="validate[required] "/></td>
+								<td><form:input type="text" maxlength="100" path="number" class="validate[required] "/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Complemento:</label></td>
-								<td><form:input type="text" path="complement"/></td>
+								<td><form:input type="text" maxlength="100" path="complement"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Cidade</label></td>
-								<td><form:input type="text" path="city" class="validate[required] text-input"/></td>
+								<td><form:input type="text" maxlength="100" path="city" class="validate[required] text-input"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Bairro</label></td>
-								<td><form:input type="text" path="neighborhood" class="validate[required] text-input"/></td>
+								<td><form:input type="text" maxlength="100" path="neighborhood" class="validate[required] text-input"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Referencia</label></td>
@@ -55,15 +55,15 @@
 							<tr/>
 							<tr>
 								<td class="label-input"><label>Estado</label></td>
-								<td><form:input type="text" path="state" class="validate[required] text-input"/></td>
+								<td><form:input type="text" maxlength="100" path="state" class="validate[required] text-input"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>País</label></td>
-								<td><form:input type="text" path="country" class="validate[required] text-input"/></td>
+								<td><form:input type="text" maxlength="100" path="country" class="validate[required] text-input"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>CEP</label></td>
-								<td><form:input type="text" path="zipCode" class="validate[required] cep"/></td>
+								<td><form:input type="text" maxlength="100" path="zipCode" class="validate[required] cep"/></td>
 							<tr/>
 						</table>
 						
@@ -77,14 +77,18 @@
 				<div class="shippingAddressList">
 				
 					<div class="shippingAddressListUnit">
+						<span class="orderInfo">${order.shippingAddress.name}</span> <br />
 						(sendo utilizado)
 						Destinatário: ${order.addressee} <br />
 						${order.shippingAddress.street}, ${order.shippingAddress.number} <br />
 						${order.shippingAddress.neighborhood} ${order.shippingAddress.city},  ${order.shippingAddress.state} - ${order.shippingAddress.zipCode} <br />
 						<br /> 	
 						<div class="managedAddress">
-							<a id="opener" href="javascript:void(0)" class="edit" onclick = "summonLightBox('http://ideaiselectronics.com:9082/Checkout/customer/address/removeAddress/${shippingAddress.id}')">excluir</a>
+							<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/editAddressForm/${order.shippingAddress.id}" class="edit">editar</a> 
 						
+							<c:if test="${order.shippingAddress.main != true}">
+								<a id="opener" href="javascript:void(0)" class="edit" onclick = "summonLightBox('http://ideaiselectronics.com:9082/Checkout/customer/address/removeAddress/${shippingAddress.id}')">excluir</a>
+							</c:if>
 						</div> 
 						<br />	
 							
@@ -93,15 +97,16 @@
 					
 					<c:forEach items="${notSelectedShippingAddresses}" var="shippingAddress" varStatus="status">
 						<div class="shippingAddressListUnit">
-							Destinatário: ${order.addressee} <br />
+						    <span class="orderInfo">${shippingAddress.name}</span> <br />
+							Destinatário: ${shippingAddress.addressee} <br />
 							${shippingAddress.street}, ${shippingAddress.number} <br />
 							${shippingAddress.neighborhood} ${shippingAddress.city}, ${shippingAddress.state} - ${shippingAddress.zipCode} <br />
 							<br /> 	
 							<div class="managedAddress">
 								<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/editAddressForm/${shippingAddress.id}" class="edit">editar</a> 
-							
+
 								<c:if test="${shippingAddress.main != true}">
-									<a id="opener" href="javascript:void(0)" class="edit" onclick = "summonLightBox('http://ideaiselectronics.com:9082/Checkout/customer/address/removeAddress/${shippingAddress.id}')">excluir</a>	
+									<a href="javascript:void(0)" class="edit" onclick = "summonLightBox('http://ideaiselectronics.com:9082/Checkout/customer/address/removeAddress/${shippingAddress.id}')">excluir</a>	
 								</c:if>
 							
 							</div> 

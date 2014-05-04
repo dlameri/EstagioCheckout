@@ -1,19 +1,27 @@
 package com.ideais.spring.controller.checkout;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.ideais.spring.controller.catalog.BaseController;
 import com.ideais.spring.domain.checkout.Address;
 import com.ideais.spring.domain.checkout.Customer;
 import com.ideais.spring.domain.checkout.PurchaseOrder;
 import com.ideais.spring.domain.checkout.RegisterWrapper;
+import com.ideais.spring.exceptions.MissingQuantityStockException;
 import com.ideais.spring.service.interfaces.CustomerServiceBehavior;
+import com.ideais.spring.service.interfaces.PurchaseOrderServiceBehavior;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +35,8 @@ public class CustomerController extends BaseController{
 	
     @Autowired
     private CustomerServiceBehavior customerService;
+    @Autowired
+    private PurchaseOrderServiceBehavior purchaseOrderService;
     private static final String CUSTOMER_KEY = "customer";
     
     @RequestMapping(value = "/new", method = RequestMethod.GET)
@@ -57,8 +67,50 @@ public class CustomerController extends BaseController{
         return view;
     }
     
+    @RequestMapping(value = "/orderDetails/{id}", method = RequestMethod.GET)
+    public ModelAndView newCustomerError(@PathVariable Long id, HttpServletRequest request){
+	    try {	
+    		ModelAndView view = getBaseView("customer/orderDetails", request);
+	    	
+	    	Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);   
+	    	
+	    	if (customer != null) {
+		    	PurchaseOrder order = customer.findOrderById(id);
+		    	purchaseOrderService.requestItemsFromStock(order);
+		    	
+		    	if (order != null) {
+		    		view.addObject("order", order);
+		    		return view;
+		    	}
+		    	
+		    	view.addObject("errorMessage", "Ordem de compra não encontrada.");
+	    		return view;
+	    	}
+	    	
+	    	view.addObject("errorMessage", "Logue antes de acessar essa página..");
+	        return view;
+        
+		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MissingQuantityStockException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+    }
+    
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String newCustomer(RegisterWrapper rw){
+    public String newCustomer(RegisterWrapper rw,  HttpServletResponse response, HttpServletRequest request){
         Address address = rw.getAddress();
         Customer customer = rw.getCustomer();
     	address.setCustomer(customer);
@@ -68,7 +120,11 @@ public class CustomerController extends BaseController{
         
         if (existingCustomers == null || existingCustomers.size() == 0) {
         	customerService.saveOrUpdate(customer);
-            return "redirect:http://ideaiselectronics.com:9082/Checkout/customer/authenticate/loginForm/successRegister";
+        	
+        	request.getSession().setAttribute(CUSTOMER_KEY, customer);
+			response.addCookie(customerService.createCustomerCookie(customer));
+        	
+            return "redirect:http://ideaiselectronics.com:8081/catalogo/";
         }
         
         return "redirect:http://ideaiselectronics.com:9082/Checkout/customer/new/error";
@@ -100,6 +156,10 @@ public class CustomerController extends BaseController{
     	Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);   
     	
     	if (customer != null) {
+    		Customer updatedCustomer = new Customer();
+    		updatedCustomer.updateCustomer(customer);
+    		
+    		view.addObject("updatedCustomer", updatedCustomer);
     		view.addObject("customer", customer);
             return view;
     	}
@@ -121,6 +181,10 @@ public class CustomerController extends BaseController{
 		}
     	
     	if (customer != null) {
+    		Customer updatedCustomer = new Customer();
+    		updatedCustomer.updateCustomer(customer);
+    		
+    		view.addObject("updatedCustomer", updatedCustomer);
     		view.addObject("customer", customer);
             return view;
     	}
@@ -131,11 +195,13 @@ public class CustomerController extends BaseController{
     @RequestMapping(value = "/customerDetails",method = RequestMethod.GET)
     public ModelAndView accountDetails(HttpServletRequest request) {
     	ModelAndView view = getBaseView("customer/customerdetails", request);
-    	Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);   
-    	List<PurchaseOrder> orders = customer.getPurchaseOrders();
+    	
+    	Customer sessionCustomer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);  
+    	Customer customer = customerService.find(sessionCustomer.getId());
+    	customerService.setCustomerInSessionAfterUpdate(request, customer.getId());
+    	
     	if (customer != null) {
     		view.addObject("customer", customer);
-    		view.addObject("orders", orders);
             return view;
     	}
     	

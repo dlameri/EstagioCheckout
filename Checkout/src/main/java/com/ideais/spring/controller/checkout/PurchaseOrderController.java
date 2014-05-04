@@ -1,9 +1,12 @@
 package com.ideais.spring.controller.checkout;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.ideais.spring.controller.catalog.BaseController;
@@ -43,6 +46,7 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller("PurchaseOrderController")
@@ -50,7 +54,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Scope(BeanDefinition.SCOPE_SINGLETON)
 public class PurchaseOrderController extends BaseController{
 
-    //TODO: quando fechar a compra destruir cookie do carrinho e destruir carrinho e ordem de compra da sessão
 	//TODO: mandar email com os dados da compra
 	
     @Autowired
@@ -70,22 +73,35 @@ public class PurchaseOrderController extends BaseController{
     private static final String ORDER_KEY = "order";
 	private static final Logger logger = Logger.getLogger("purchaseOrderController");
     
-    @RequestMapping("/processOrder")
-    public synchronized ModelAndView showPaymentDetails(HttpServletRequest request) {
+    @RequestMapping(value = "/processOrder", method = RequestMethod.POST)
+    public synchronized ModelAndView showPaymentDetails(HttpServletRequest request, 
+    		HttpServletResponse response,
+    		@RequestParam(value="paymentType", required=false) String paymentType, 
+			 @RequestParam(value="installment", required=false) String installmentsNumber) {
     	try {
 	    	ModelAndView view = getBaseView("purchaseorder/successorder", request);
-	    	Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);
+	    		    	
 			PurchaseOrder order = (PurchaseOrder) request.getSession().getAttribute(ORDER_KEY);
 	    	order.getShoppingCart().setCustomer(order.getCustomer());
-	    	order.setPayment(new Payment());
+	    	Payment payment = new Payment(paymentType, installmentsNumber, order.getTotalAmount());
+	    	order.setPayment(payment);
+	    	
+	    	Date date = new Date();
+	    	order.setPurchaseDate(date);
 			
 	    	List<Item> items = itemService.checkStock(order);
 	    	
 	    	if (items.size() == 0) {
-		    	mailService.sendMail(customer.getEmail(), order);
 		    	itemService.refreshItemQuantity(shoppingCartService.getJsonCart(order.getShoppingCart()));
 		    	order.setStatusOfOrder(StatusOfOrder.FINISHED.getStatus());
 		    	purchaseOrderService.save(order);
+		    	
+		    	mailService.sendMail(order.getCustomer().getEmail(), order);
+		    	
+		    	customerService.setCustomerInSessionAfterUpdate(request, order.getCustomer().getId());
+		    	
+		  	    shoppingCartService.removeCartFromSession(request.getSession(), response);
+			    purchaseOrderService.removeOrderFromSession(request.getSession());
 		    	
 		    	view.addObject("order", order);
 		    	return view;
@@ -175,21 +191,23 @@ public class PurchaseOrderController extends BaseController{
 		    		order = new PurchaseOrder(customer, shoppingCart);
 		    		logger.debug("Customer de id: " + customer.getId() + "carrinho da sessão setados em uma ordem de compra.");
 	    		} 
-	    		
-				FreightDetails freightDetails = null;
-				freightDetails = freightService.calculateFreightDetails(shoppingCart, order.getShippingAddress().getFormattedZipCode());
-	
-				freightService.setFreightInSession(freightDetails, shoppingCart, request);
-	    		freightService.setFreightDeliverInPurchaseOrder(request, order);
-	    		
+	    		if (shoppingCart.getQuantityOfItems() > 0) {
+					FreightDetails  freightDetails = freightService.calculateFreightDetails(shoppingCart, order.getShippingAddress().getFormattedZipCode());
+		
+					freightService.setFreightInSession(freightDetails, shoppingCart, request);
+		    		freightService.setFreightDeliverInPurchaseOrder(request, order);
+	    		} else {
+	    			view.addObject("errorMessage", "O carrinho está vazio, insira um item para continuar com a compra.");
+	    		}
 	    		purchaseOrderService.setPurchaseOrderInSession(request, order);
 	    		
+	    		order.checkAddress(customer);
 	    		view.addObject("order", order);
 	    	}
 	    	
 	    	logger.warn("Customer ou shoppingCart não estão na sessão");
 	    	
-	        return getMessageForOrder(view, customer, shoppingCart);
+	        return getMessageForOrder(view, customer,  shoppingCart);
 		} catch (NumberFormatException e) {
 			view.addObject("errorMessage", "Dado de input inválido.");
 			return view;
@@ -197,7 +215,6 @@ public class PurchaseOrderController extends BaseController{
 			view.addObject("errorMessage", "Erro, tente novamente!");
 			return view;		
 		} catch (MissingQuantityStockException e) {
-			view.addObject("errorMessage", "Quantidade indisponível no estoque!");
 			return view;
 		} catch (JSONException e) {
 			view.addObject("errorMessage", "Erro, tente novamente!");

@@ -8,7 +8,7 @@ public interface CustomerDaoBehavior {
 	
     public Customer findById(Long id);
         
-    public Customer findByLoginOrEmail(String username, String password);
+    public Customer findByEmail(String email, String password);
    
     public void saveOrUpdate(Customer object);
 

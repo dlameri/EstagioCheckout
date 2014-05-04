@@ -18,6 +18,7 @@ public class Item {
 	private Long productId;
 	private String imageUrl;
 	private Dimensions dimensions;
+	private Boolean active;
 	
 	public Item() {}
 	
@@ -30,6 +31,7 @@ public class Item {
 			this.priceFrom = itemJSON.getPriceFrom();
 			this.sku = itemJSON.getSku();
 			this.stock = itemJSON.getStock();
+			this.active = itemJSON.getActive();
 		}
 	}
 	
@@ -135,6 +137,14 @@ public class Item {
 
 	public void setDimensions(Dimensions dimensions) {
 		this.dimensions = dimensions;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 	
 }

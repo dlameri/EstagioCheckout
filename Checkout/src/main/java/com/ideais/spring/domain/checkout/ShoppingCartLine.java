@@ -40,6 +40,9 @@ public class ShoppingCartLine {
 	@Column(name="CD_ITEM")
 	private Long itemId;
 	
+	@Transient
+	private BigDecimal unitPrice;
+	
 	public Long getItemId() {
 		return itemId;
 	}
@@ -129,6 +132,12 @@ public class ShoppingCartLine {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public String getFormattedUnitPrice() {
+		unitPrice = price.divide(new BigDecimal(quantity));
+		
+		return ValueFormatter.format(unitPrice);
 	}
 
 }

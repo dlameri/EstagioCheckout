@@ -10,7 +10,7 @@ public interface Methods {
 	
 	public boolean post(String url, String json);
 	
-	public void put(String url, String json);
+	public boolean put(String url, String json);
 	
 	public void options();
 
