@@ -21,6 +21,7 @@ public class MailService {
 
     public void sendMail(String email, PurchaseOrder order) throws MailException {
         SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
+        msg.setSubject("Ideais Electronicts - compra realizada - Data: " + order.getFormattedPurchaseDate());
         msg.setTo(email);
         msg.setText(formatMessage(order));
 
@@ -29,15 +30,16 @@ public class MailService {
     
     public void sendPasswordMail(String password, String email) throws MailException {
         SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
+        msg.setSubject("Ideais Electronicts - recuperação de senha.");
         msg.setTo(email);
-        msg.setText(password);
+        msg.setText("Olá, sua senha recuperada é: \n" + password);
 
         this.mailSender.send(msg);
     }
     public String formatMessage(PurchaseOrder order){
-    	String message = "Olá Sr(a) "+order.getCustomer().getName()+ GREETINGS + ORDER_DETAILS;
+    	String message = "Olá Sr(a) " + order.getCustomer().getName() + GREETINGS + ORDER_DETAILS;
     	
-    	message+="\nTotal da Compra: "+order.getFormattedTotalAmount();
+    	message+="\nTotal da Compra: " + order.getFormattedTotalAmount();
     	message+= insertDeliveryInfo(order);
     	
     	return message;

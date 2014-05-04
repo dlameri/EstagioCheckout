@@ -57,11 +57,9 @@ public class ShoppingCartController extends BaseController {
 
 	    	shoppingCartService.addItemToShoppingCart(id, shoppingCart);
 	    	
-    		freightService.recalculateFreight(shoppingCart, request);
-    		
-	        shoppingCartService.setShoppingCartInSession(shoppingCart, request);
-	    	response.addCookie(shoppingCartService.createCartCookie(shoppingCart));
-	    	response.addCookie(shoppingCartService.createCartTopCookie(shoppingCart));
+    		freightService.recalculateFreight(shoppingCart, request);    		
+	        shoppingCartService.setShoppingCartInSession(shoppingCart, request, response);
+
 	    	
 	    	return "redirect:../";
 		} catch (NumberFormatException e) {
@@ -76,7 +74,7 @@ public class ShoppingCartController extends BaseController {
     }
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView listCartItems(@CookieValue(value=CART_COOKIE_KEY, required=false) String cartCookie, HttpServletRequest request) {
+    public ModelAndView listCartItems(@CookieValue(value=CART_COOKIE_KEY, required=false) String cartCookie, HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView view = getBaseView("shoppingcart/list", request);
 		ShoppingCart shoppingCart;
 		
@@ -88,7 +86,7 @@ public class ShoppingCartController extends BaseController {
     			freightService.setFreightInSession(new FreightDetails(), shoppingCart, request);
     		}
     	    
-    		shoppingCartService.setShoppingCartInSession(shoppingCart, request);
+    		shoppingCartService.setShoppingCartInSession(shoppingCart, request, response);
     		view.addObject("cart", shoppingCart);
     		
 	    	return view;
@@ -112,9 +110,9 @@ public class ShoppingCartController extends BaseController {
 	
 	@RequestMapping(value = "/{status}", method = RequestMethod.GET)
     public ModelAndView listCartItemsError(@CookieValue(value=CART_COOKIE_KEY, required=false) String cartCookie, 
-    		@PathVariable String status, HttpServletRequest request) {
+    		@PathVariable String status, HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView view = getBaseView("shoppingcart/list", request);
-		ShoppingCart shoppingCart;
+		ShoppingCart shoppingCart = null;
 		
 		try {
 			shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);
@@ -124,21 +122,25 @@ public class ShoppingCartController extends BaseController {
     			freightService.setFreightInSession(new FreightDetails(), shoppingCart, request);
     		}
     	    
-    		shoppingCartService.setShoppingCartInSession(shoppingCart, request);
+    		shoppingCartService.setShoppingCartInSession(shoppingCart, request, response);
     		view.addObject("cart", shoppingCart);
     		view.addObject("errorMessage", getErrorMessage(status));
     		
 	    	return view;
 		} catch (NumberFormatException e) {
+			view.addObject("cart", shoppingCart);
 			view.addObject("errorMessage", "Dado de input inválido.");
 			return view;
 		} catch (IOException e) {
+			view.addObject("cart", shoppingCart);
 			view.addObject("errorMessage", "Erro, tente novamente!");
 			return view;		
 		} catch (MissingQuantityStockException e) {
+			view.addObject("cart", shoppingCart);
 			view.addObject("errorMessage", "Quantidade indisponível no estoque!");
 			return view;
 		} catch (JSONException e) {
+			view.addObject("cart", shoppingCart);
 			view.addObject("errorMessage", "Erro, tente novamente!");
 			return view;
 		}			
@@ -161,10 +163,7 @@ public class ShoppingCartController extends BaseController {
 			shoppingCartService.removeItemToShoppingCart(id, shoppingCart);
 			
 			freightService.recalculateFreight(shoppingCart, request);
-	    	
-	        shoppingCartService.setShoppingCartInSession(shoppingCart, request);
-			response.addCookie(shoppingCartService.createCartCookie(shoppingCart));		
-	    	response.addCookie(shoppingCartService.createCartTopCookie(shoppingCart));
+	        shoppingCartService.setShoppingCartInSession(shoppingCart, request, response);
 	        
 	    	return "redirect:../";
 		} catch (NumberFormatException e) {
@@ -182,11 +181,8 @@ public class ShoppingCartController extends BaseController {
     public String emptyCart(ShoppingCart shoppingCart, HttpServletResponse response, HttpServletRequest request) {
     	try {
     		shoppingCart.emptyShoppingCart();
-    		freightService.recalculateFreight(shoppingCart, request);
-    		
-	        shoppingCartService.setShoppingCartInSession(shoppingCart, request);
-	    	response.addCookie(shoppingCartService.createCartCookie(shoppingCart));
-	    	response.addCookie(shoppingCartService.createCartTopCookie(shoppingCart));
+    		freightService.recalculateFreight(shoppingCart, request);		
+	        shoppingCartService.setShoppingCartInSession(shoppingCart, request, response);
     		
         	return "redirect:";
     	} catch(IOException e) {
@@ -209,10 +205,7 @@ public class ShoppingCartController extends BaseController {
     			shoppingCart.editQuantity(id, Integer.parseInt(quantity));	    		
     		
 	    		freightService.recalculateFreight(shoppingCart, request);
-	    		
-		        shoppingCartService.setShoppingCartInSession(shoppingCart, request);
-		    	response.addCookie(shoppingCartService.createCartCookie(shoppingCart));
-		    	response.addCookie(shoppingCartService.createCartTopCookie(shoppingCart));
+		        shoppingCartService.setShoppingCartInSession(shoppingCart, request, response);
     		}
     		
 	    	return "redirect:../";
@@ -243,10 +236,7 @@ public class ShoppingCartController extends BaseController {
 				freightDetails = freightService.calculateFreightDetails(shoppingCart, postalCodeID1 + postalCodeID2);
 
     			freightService.setFreightInSession(freightDetails, shoppingCart, request);
-
-    	        shoppingCartService.setShoppingCartInSession(shoppingCart, request);
-    	    	response.addCookie(shoppingCartService.createCartCookie(shoppingCart));
-    	    	response.addCookie(shoppingCartService.createCartTopCookie(shoppingCart));
+    	        shoppingCartService.setShoppingCartInSession(shoppingCart, request, response);
     		}
    	    	
 	    	return "redirect:";
@@ -275,7 +265,7 @@ public class ShoppingCartController extends BaseController {
 
 	@RequestMapping(value = "/processShoppingCart", method = RequestMethod.GET)
     public String proccessShoppingCart(@CookieValue(value=CART_COOKIE_KEY, required=false) String cartCookie, 
-    		           HttpServletRequest request) {
+    		           HttpServletRequest request, HttpServletResponse response) {
     	
     	ShoppingCart shoppingCart;
 
@@ -283,7 +273,7 @@ public class ShoppingCartController extends BaseController {
 			shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);    			
 		    
 			if (shoppingCart.getQuantityOfItems() > 0) {
-				shoppingCartService.setShoppingCartInSession(shoppingCart, request);
+				shoppingCartService.setShoppingCartInSession(shoppingCart, request, response);
 				
 				return "redirect:../purchaseOrder/paymentDetails";
 			}

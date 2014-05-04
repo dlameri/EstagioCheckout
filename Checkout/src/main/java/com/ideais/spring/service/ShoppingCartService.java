@@ -62,7 +62,8 @@ public class ShoppingCartService implements ShoppingCartServiceBehavior {
     	if (shoppingCart == null) {
     		return getShoppingCartFromCookie(cartCookie);
     	}
-
+    	
+    	
     	return shoppingCart;
     }
 
@@ -119,7 +120,7 @@ public class ShoppingCartService implements ShoppingCartServiceBehavior {
     private ShoppingCartLine createShoppingCartLine(CartItem cartItem) throws NumberFormatException, MissingQuantityStockException, IOException, JSONException {
     	Item item = itemService.getItem(cartItem.getCartItemId());
     	
-    	if (item != null && item.getActive()) {
+    	if (item != null && item.getActive() && item.getStock() > 0) {
 			ShoppingCartLine shoppingCartLine = new ShoppingCartLine(item);
 			shoppingCartLine.setQuantity(cartItem.getQuantity());
 			
@@ -147,8 +148,11 @@ public class ShoppingCartService implements ShoppingCartServiceBehavior {
     }
     
     @Override
-    public void setShoppingCartInSession(ShoppingCart shoppingCart, HttpServletRequest request) {
+    public void setShoppingCartInSession(ShoppingCart shoppingCart, HttpServletRequest request, HttpServletResponse response) throws JsonGenerationException, JsonMappingException, IOException {
         request.getSession().setAttribute(CART_KEY, shoppingCart);
+        
+    	response.addCookie(createCartCookie(shoppingCart));
+    	response.addCookie(createCartTopCookie(shoppingCart));
 	}
     
 	@Override

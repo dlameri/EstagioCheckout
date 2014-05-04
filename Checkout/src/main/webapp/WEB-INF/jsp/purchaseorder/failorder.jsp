@@ -4,13 +4,27 @@
 
 <html>
     <head>
-        <title>Loja Virtual - Compra falhou</title>
+        <title>Loja Virtual - Erro ao concluir a compra</title>
   		
     </head>
     <body>
 	    <div id="content-container">
-			<h1 class="payment-font">Pagamento</h1>		
-			
+	    
+			<h1 class="payment-font">Erro ao concluir a compra</h1>		
+				
+			<div  id="customerDetails">	
+				<span class="successOrder">${errorMessage}</span>
+				
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<div class="managedCustomer">
+					<a class="voltar" href="http://ideaiselectronics.com:8081/catalogo/">Continuar comprando</a>
+				</div>
+			</div>
 			
 		</div>	
     </body>

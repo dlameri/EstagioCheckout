@@ -53,8 +53,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/purchaseOrder")
 @Scope(BeanDefinition.SCOPE_SINGLETON)
 public class PurchaseOrderController extends BaseController{
-
-	//TODO: mandar email com os dados da compra
 	
     @Autowired
     private PurchaseOrderServiceBehavior purchaseOrderService; 
@@ -74,59 +72,112 @@ public class PurchaseOrderController extends BaseController{
 	private static final Logger logger = Logger.getLogger("purchaseOrderController");
     
     @RequestMapping(value = "/processOrder", method = RequestMethod.POST)
-    public synchronized ModelAndView showPaymentDetails(HttpServletRequest request, 
+    public synchronized ModelAndView showPaymentDetails(@CookieValue(value=CART_COOKIE_KEY, required=false) String cartCookie,
+    		HttpServletRequest request, 
     		HttpServletResponse response,
     		@RequestParam(value="paymentType", required=false) String paymentType, 
-			 @RequestParam(value="installment", required=false) String installmentsNumber) {
+			@RequestParam(value="installment", required=false) String installmentsNumber) {
+    	
+    	//data da compra
+    	Date date = new Date();
+		PurchaseOrder order = (PurchaseOrder) request.getSession().getAttribute(ORDER_KEY);
+		
     	try {
 	    	ModelAndView view = getBaseView("purchaseorder/successorder", request);
-	    		    	
-			PurchaseOrder order = (PurchaseOrder) request.getSession().getAttribute(ORDER_KEY);
-	    	order.getShoppingCart().setCustomer(order.getCustomer());
-	    	Payment payment = new Payment(paymentType, installmentsNumber, order.getTotalAmount());
-	    	order.setPayment(payment);
-	    	
-	    	Date date = new Date();
-	    	order.setPurchaseDate(date);
-			
-	    	List<Item> items = itemService.checkStock(order);
-	    	
-	    	if (items.size() == 0) {
-		    	itemService.refreshItemQuantity(shoppingCartService.getJsonCart(order.getShoppingCart()));
-		    	order.setStatusOfOrder(StatusOfOrder.FINISHED.getStatus());
-		    	purchaseOrderService.save(order);
+	    	//monta a ordem de compra pra salvar
+	    	if (order != null) {
+	    		ShoppingCart shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);
+	    		
+	    		order.setShoppingCart(shoppingCart);
+		    	order.getShoppingCart().setCustomer(order.getCustomer());
+		    	Payment payment = new Payment(paymentType, installmentsNumber, order.getTotalAmount());
+		    	order.setPayment(payment);
 		    	
-		    	mailService.sendMail(order.getCustomer().getEmail(), order);
+		    	order.setPurchaseDate(date);
+				
+		    	//checa o estoque dos items mais uma vez
+		    	List<Item> items = itemService.checkStock(order);
 		    	
-		    	customerService.setCustomerInSessionAfterUpdate(request, order.getCustomer().getId());
+		    	if (items.size() == 0) {
+		    		//fecha o pedido
+			    	itemService.refreshItemQuantity(shoppingCartService.getJsonCart(order.getShoppingCart()));
+			    	order.setStatusOfOrder(StatusOfOrder.FINISHED.getStatus());
+			    	purchaseOrderService.save(order);
+			    	
+			    	mailService.sendMail(order.getCustomer().getEmail(), order);
+			    	
+			    	customerService.setCustomerInSessionAfterUpdate(request, order.getCustomer().getId());
+			    	
+			  	    shoppingCartService.removeCartFromSession(request.getSession(), response);
+				    purchaseOrderService.removeOrderFromSession(request.getSession());
+			    	
+			    	view.addObject("order", order);
+			    	return view;
+		    	}
 		    	
-		  	    shoppingCartService.removeCartFromSession(request.getSession(), response);
-			    purchaseOrderService.removeOrderFromSession(request.getSession());
+		    	request.getSession().setAttribute(CART_COOKIE_KEY, null);
+		    	shoppingCartService.removeCartFromSession(request.getSession(), response);
+		    	shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);
+		    	shoppingCartService.setShoppingCartInSession(shoppingCart, request, response);
+		    	
+		    	view = getBaseView("purchaseorder/missingitems", request);
 		    	
 		    	view.addObject("order", order);
-		    	return view;
+		    	view.addObject("missingItems", items);
+	    	} else {
+	    		view.addObject("errorMessage", "Logue antes de efetuar uma compra.");
 	    	}
-	    	
-	    	view = getBaseView("purchaseorder/failorder", request);
-	    	
-	    	view.addObject("order", order);
-	    	view.addObject("missingItems", items);
 	    	
 	        return view;
     	} catch (MailException e) {
-    		return null;
+    		if (order != null) {
+    			//cancela a compra se o email falha
+    			Long customerId = order.getCustomer().getId();
+    			order = purchaseOrderService.findByPurchaseDate(date, customerId );
+    			if (order != null) {
+	    			order.setStatusOfOrder(StatusOfOrder.DECLINED.getStatus());
+	    			purchaseOrderService.save(order);
+    			}
+    			ModelAndView view = getBaseView("purchaseorder/failorder", request);
+    			view.addObject("errorMessage", "Sua compra foi cancelada, ocorreu um problema ao concluir sua compra e enviar o seu email de confirmação, verifique se o seu email está correto (email: " + 
+    			order.getCustomer().getEmail() + ") e tente novamente.");
+    			
+    			return view;
+    		}
+
+    		ModelAndView view = getBaseView("purchaseorder/failorder", request);
+			view.addObject("errorMessage", "Sua compra foi cancelada, ocorreu um problema ao concluir sua compra, tente novamente.");
+			
+			return view;
     	} catch (JsonGenerationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+    		ModelAndView view = getBaseView("purchaseorder/failorder", request);
+			view.addObject("errorMessage", "Sua compra foi cancelada, ocorreu um problema ao concluir sua compra, tente novamente.");
+			
+			return view;
 		} catch (JsonMappingException e) {
+
+    		ModelAndView view = getBaseView("purchaseorder/failorder", request);
+			view.addObject("errorMessage", "Sua compra foi cancelada, ocorreu um problema ao concluir sua compra, tente novamente.");
+			
+			return view;
+		} catch (IOException e) {
+
+    		ModelAndView view = getBaseView("purchaseorder/failorder", request);
+			view.addObject("errorMessage", "Sua compra foi cancelada, ocorreu um problema ao concluir sua compra, tente novamente.");
+			
+			return view;
+		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (MissingQuantityStockException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
-    	return null;
+		return null;
     }
     
     @RequestMapping(value = "/orderDetails/{id}", method = RequestMethod.GET)

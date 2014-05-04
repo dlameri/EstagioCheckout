@@ -30,7 +30,7 @@ public interface ShoppingCartServiceBehavior {
     
     public void removeItemToShoppingCart(Long id, ShoppingCart shoppingCart);
     
-    public void setShoppingCartInSession(ShoppingCart shoppingCart, HttpServletRequest request);
+    public void setShoppingCartInSession(ShoppingCart shoppingCart, HttpServletRequest request, HttpServletResponse response) throws JsonGenerationException, JsonMappingException, IOException;
     
     public Cookie createCartTopCookie(ShoppingCart shoppingCart) throws JsonGenerationException, JsonMappingException, IOException;
 

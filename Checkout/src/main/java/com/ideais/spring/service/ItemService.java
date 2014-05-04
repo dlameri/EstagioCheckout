@@ -98,8 +98,10 @@ public class ItemService implements ItemServiceBehavior {
 			ItemJSON stockItemJSON = itemDao.findById(order.getShoppingCart().getShoppingCartLines().get(i).getItem().getItemId());
 			Item stockItem = new Item(stockItemJSON);
 			
-			if (order.getShoppingCart().getShoppingCartLines().get(i).getItem().getStock() > stockItem.getStock()) {
-				nonStockItems.add(stockItem);
+			Integer stock = (stockItem.getStock() - order.getShoppingCart().getShoppingCartLines().get(i).getQuantity());
+			
+			if (stock.compareTo(0) < 0) {
+				nonStockItems.add(order.getShoppingCart().getShoppingCartLines().get(i).getItem());
 			}
 		}
 		

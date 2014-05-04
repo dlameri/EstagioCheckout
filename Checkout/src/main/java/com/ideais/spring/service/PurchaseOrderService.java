@@ -1,6 +1,7 @@
 package com.ideais.spring.service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +31,11 @@ public class PurchaseOrderService implements PurchaseOrderServiceBehavior {
     @Override
     public PurchaseOrder findById(Long id, Long customerId) {
         return purchaseOrderDao.findById(id, customerId);
+    }
+    
+    @Override
+    public PurchaseOrder findByPurchaseDate(Date date, Long customerId) {
+        return purchaseOrderDao.findByPurchaseDate(date, customerId);
     }
     
     @Override

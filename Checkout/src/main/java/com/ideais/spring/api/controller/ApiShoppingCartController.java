@@ -37,7 +37,7 @@ public class ApiShoppingCartController {
 	    	shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);
     		shoppingCartService.addItemToShoppingCart(id, shoppingCart);    		
     		
-	        shoppingCartService.setShoppingCartInSession(shoppingCart, request);
+	        shoppingCartService.setShoppingCartInSession(shoppingCart, request, response);
 	    	response.addCookie(shoppingCartService.createCartCookie(shoppingCart));
 	    	
 	    	return Response.status(SUCCESS_RESPONSE_CODE).entity(id.toString()).build();

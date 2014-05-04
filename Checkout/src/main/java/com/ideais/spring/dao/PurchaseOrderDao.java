@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Component("purchaseOrderDao")
@@ -28,6 +29,13 @@ public class PurchaseOrderDao implements PurchaseOrderDaoBehavior {
     public PurchaseOrder findById(Long id, Long customerId) {
         return (PurchaseOrder) sessionFactory.getCurrentSession().createCriteria(PurchaseOrder.class).
         		add(Restrictions.eq("customer.id", customerId)).add(Restrictions.eq("id", id)).uniqueResult();
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public PurchaseOrder findByPurchaseDate(Date date, Long customerId) {
+        return (PurchaseOrder) sessionFactory.getCurrentSession().createCriteria(PurchaseOrder.class).
+        		add(Restrictions.eq("customer.id", customerId)).add(Restrictions.eq("purchaseDate", date)).uniqueResult();
     }
 
     @Override

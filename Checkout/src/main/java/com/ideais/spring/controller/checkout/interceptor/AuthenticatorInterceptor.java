@@ -20,6 +20,11 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter {
 			!uri.contains("shipping")) || request.getSession().getAttribute(CUSTOMER_KEY) != null){
 			return true;
 		}
+		
+		if (uri.contains("purchaseOrder/processOrder")) {
+			response.sendRedirect("http://ideaiselectronics.com:9082/Checkout/shoppingCart/");
+			return false;
+		}
 				
 		request.getSession().setAttribute("loginTarget", uri);
 		response.sendRedirect("http://ideaiselectronics.com:9082/Checkout/customer/authenticate/loginForm");

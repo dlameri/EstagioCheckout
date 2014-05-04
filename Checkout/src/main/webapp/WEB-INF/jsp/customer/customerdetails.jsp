@@ -40,30 +40,37 @@
 			</div>
 			
 			<div id="orderList">
-					<p class="customer-subtitle">Compras</p>									
-				
-					<c:forEach items="${customer.purchaseOrders}" var="order" varStatus="status">
-						<div class="orderListUnit">
-							Número do pedido: ${order.id} <span class="right-values">Data do pedido: ${order.formattedPurchaseDate}</span></br>  
-							Total: ${order.formattedTotalAmount} Frete: ${order.formattedFreight} </br>  
-							Frete: ${order.formattedFreight} 
-							
-							<c:if test="${order.statusOfOrder eq 'Finalizada'}">
-								<span class="fineshedOrder"> ${order.statusOfOrder}</span> 
-							</c:if>
-							
-							<c:if test="${order.statusOfOrder eq 'Cancelada'}">
-								<span class="closedOrder"> ${order.statusOfOrder}</span> 
-							</c:if>
-							
-							<span class="right-values">Status: </span>
-							
-							
-							<br />
-							<br />
-							<a href="http://ideaiselectronics.com:9082/Checkout/customer/orderDetails/${order.id}" class="edit">Ver detalhes</a> 
-						</div>
-					</c:forEach>	
+					
+					<c:if test="${customer.purchaseOrders != null && !empty customer.purchaseOrders}">
+						<p class="customer-subtitle">Compras</p>									
+					
+						<c:forEach items="${customer.purchaseOrders}" var="order" varStatus="status">
+							<div class="orderListUnit">
+								Número do pedido: ${order.id} <span class="right-values">Data do pedido: ${order.formattedPurchaseDate}</span></br>  
+								Total: ${order.formattedTotalAmount} Frete: ${order.formattedFreight} </br>  
+								Frete: ${order.formattedFreight} 
+								
+								<c:if test="${order.statusOfOrder eq 'Finalizada'}">
+									<span class="fineshedOrder"> ${order.statusOfOrder}</span> 
+								</c:if>
+								
+								<c:if test="${order.statusOfOrder eq 'Cancelada'}">
+									<span class="closedOrder"> ${order.statusOfOrder}</span> 
+								</c:if>
+								
+								<span class="right-values">Status: </span>
+								
+								
+								<br />
+								<br />
+								<a href="http://ideaiselectronics.com:9082/Checkout/customer/orderDetails/${order.id}" class="edit">Ver detalhes</a> 
+							</div>
+						</c:forEach>	
+					</c:if>
+					
+					<c:if test="${customer.purchaseOrders == null || empty customer.purchaseOrders}">
+						<p class="customer-subtitle">Você não efetuou nenhuma compra</p>									
+					</c:if>
 				</div>	
 			
 		</div>

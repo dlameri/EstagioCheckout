@@ -121,7 +121,7 @@
 					    <div id="formBillet" class="simpleTabsContent">
 							<img class="billetImage" height="100px" alt="ícone de boleto" src="<c:url value="/resources/images/boleto.png" />">
 							<span class="billetMessage">
-								O seu boleto será enviado por email.
+								Os dados de pagamento da sua compra serão enviados para o seu email.
 							</span>
 							
 							<form method="post" action="http://ideaiselectronics.com:9082/Checkout/purchaseOrder/processOrder" name="editQuantity">

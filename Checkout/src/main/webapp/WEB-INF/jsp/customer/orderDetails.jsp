@@ -22,7 +22,14 @@
 						<p class="customer-subtitle">Informações da compra</p>
 					
 						Número do pedido: <span class="orderInfo">${order.id}</span> <br />
-						Data do pedido: <span class="orderInfo">${order.formattedPurchaseDate}</span> <br />
+						<c:if test="${order.statusOfOrder eq 'Finalizada'}">
+							Status: <span class="fineshedOrderDetails"> ${order.statusOfOrder}</span> <br/>
+						</c:if>
+						
+						<c:if test="${order.statusOfOrder eq 'Cancelada'}">
+							Status: <span class="closedOrderDetails"> ${order.statusOfOrder}</span> <br/> 
+						</c:if>
+						Data do pedido: <span class="orderInfoDetails">${order.formattedPurchaseDate}</span> <br />
 	
 						<br />
 						<br />

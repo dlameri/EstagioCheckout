@@ -1299,12 +1299,32 @@ ul.installments li{
 	float: right;
 }
 
+.fineshedOrderDetails {
+	font-weight: bold;
+	color: #00A108;
+}
+
 .closedOrder {
 	padding-left: 5px;
 	color: #C90A00;
 	float: right;
 }
 
+.closedOrderDetails {
+	font-weight: bold;
+	color: #C90A00;
+}
+
+.noStockMessage {
+	text-align: center;
+	font-weight: bold;
+	color: #C90A00;
+}
+
 .credictPayment {
 	display: none;
+}
+
+.cartItems {
+	width: 100%;
 }

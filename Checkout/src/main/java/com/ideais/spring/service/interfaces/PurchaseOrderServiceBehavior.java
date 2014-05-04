@@ -1,6 +1,7 @@
 package com.ideais.spring.service.interfaces;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,5 +28,7 @@ public interface PurchaseOrderServiceBehavior {
 	void requestItemsFromStock(PurchaseOrder order) throws IOException, JSONException, MissingQuantityStockException;
 
 	public void removeOrderFromSession(HttpSession session);
+
+	public PurchaseOrder findByPurchaseDate(Date date, Long customerId);
 	
 }

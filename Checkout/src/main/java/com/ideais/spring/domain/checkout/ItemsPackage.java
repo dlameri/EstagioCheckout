@@ -44,7 +44,7 @@ public class ItemsPackage {
 			weight += getValueToIncrementWeight(itemVolumetricWeight, shoppingCartLines.get(i));	
 		}
 		
-		volumetricWeight = weight / 50;
+		volumetricWeight = weight / 40;
 	}
 	
 	private Integer getItemVolumetricWeight(Item item) throws ItemPackageVolumeException, ItemPackageDimensionException {
