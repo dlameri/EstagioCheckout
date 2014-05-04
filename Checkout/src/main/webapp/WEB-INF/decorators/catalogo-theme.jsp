@@ -100,7 +100,7 @@ $(function() {
 			<nav id="main-nav" class="main-menu">
 				<ul class="menu">
 					<c:forEach items="${categories}"  var="category">
-						<li class="menu-item"><a href="http://ideaiselectronics.com:8080/EstagioEstoque/api/category/${category.id}">${category.name}</a>
+						<li class="menu-item"><a href="http://ideaiselectronics.com:8081/catalogo/category/${category.id}/product">${category.name}</a>
 							<ul class="sub-menu">
 								<c:forEach items="${category.subcategories}" var="subcategory">
 									<li class="submenu-item"><a href="http://ideaiselectronics.com:8081/catalogo/subcategory/${subcategory.id}/product">${subcategory.name}</a></li>

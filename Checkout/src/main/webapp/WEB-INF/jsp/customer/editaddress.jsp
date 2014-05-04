@@ -24,68 +24,70 @@
 					<div class="successbox">${successMessage}</div>
 				</c:if>
 				
-				<div class="container">
-					<form:form class="form" action="http://ideaiselectronics.com:9082/Checkout/customer/address/editAddress" autocomplete="off" commandName="address" method="POST" accept-charset="UTF-8">
-						<form:hidden path="id"/>
-						<form:hidden path="main"/>
-						<table>
-						
-							<c:if test="${main != true}">
+				<c:if test="${address != null}">
+					<div class="container">
+						<form:form class="form" action="http://ideaiselectronics.com:9082/Checkout/customer/address/editAddress" autocomplete="off" commandName="address" method="POST" accept-charset="UTF-8">
+							<form:hidden path="id"/>
+							<form:hidden path="main"/>
+							<table>
+							
+								<c:if test="${main != true}">
+									<tr>
+										<td class="label-input"><label>Descrição:</label> </td>
+										<td><form:input type="text" path="name" class="validate[required] text-input" /></td>
+									<tr/>
+								</c:if>
+							
 								<tr>
-									<td class="label-input"><label>Descrição:</label> </td>
-									<td><form:input type="text" path="name" class="validate[required] text-input" /></td>
+									<td class="label-input"><label>Destinatário:</label> </td>
+									<td><form:input type="text" maxlength="100" path="addressee" class="validate[required] text-input" /></td>
 								<tr/>
-							</c:if>
-						
-							<tr>
-								<td class="label-input"><label>Destinatário:</label> </td>
-								<td><form:input type="text" maxlength="100" path="addressee" class="validate[required] text-input" /></td>
-							<tr/>
-						
-							<tr>
-								<td class="label-input"><label>Rua:</label> </td>
-								<td><form:input type="text" maxlength="100" path="street" class="validate[required] text-input" /></td>
-							<tr/>
-							<tr>
-								<td class="label-input"><label>Número:</label></td>
-								<td><form:input type="text" maxlength="100" path="number" class="validate[required] "/></td>
-							<tr/>
-							<tr>
-								<td class="label-input"><label>Complemento:</label></td>
-								<td><form:input type="text" maxlength="100" path="complement"/></td>
-							<tr/>
-							<tr>
-								<td class="label-input"><label>Cidade</label></td>
-								<td><form:input type="text" maxlength="100" path="city" class="validate[required] text-input"/></td>
-							<tr/>
-							<tr>
-								<td class="label-input"><label>Bairro</label></td>
-								<td><form:input type="text" maxlength="100" path="neighborhood" class="validate[required] text-input"/></td>
-							<tr/>
-							<tr>
-								<td class="label-input"><label>Referencia</label></td>
-								<td><form:input type="text" maxlength="100"  path="reference" class="validate[required] text-input"/></td>
-							<tr/>
-							<tr>
-								<td class="label-input"><label>Estado</label></td>
-								<td><form:input type="text" maxlength="100" path="state" class="validate[required] text-input"/></td>
-							<tr/>
-							<tr>
-								<td class="label-input"><label>País</label></td>
-								<td><form:input type="text" maxlength="100" path="country" class="validate[required] text-input"/></td>
-							<tr/>
-							<tr>
-								<td class="label-input"><label>CEP</label></td>
-								<td><form:input type="text" maxlength="100" path="zipCode" class="validate[required] cep"/></td>
-							<tr/>
-						</table>
-						
-						<form:button class="editAddressButton" type="submit">Editar endereço</form:button>
-						<br />
-						<br />
-						<a class="voltar" href="javascript:history.go(-1)">voltar</a>
-					</form:form>
-				</div>
+							
+								<tr>
+									<td class="label-input"><label>Rua:</label> </td>
+									<td><form:input type="text" maxlength="100" path="street" class="validate[required] text-input" /></td>
+								<tr/>
+								<tr>
+									<td class="label-input"><label>Número:</label></td>
+									<td><form:input type="text" maxlength="100" path="number" class="validate[required] "/></td>
+								<tr/>
+								<tr>
+									<td class="label-input"><label>Complemento:</label></td>
+									<td><form:input type="text" maxlength="100" path="complement"/></td>
+								<tr/>
+								<tr>
+									<td class="label-input"><label>Cidade</label></td>
+									<td><form:input type="text" maxlength="100" path="city" class="validate[required] text-input"/></td>
+								<tr/>
+								<tr>
+									<td class="label-input"><label>Bairro</label></td>
+									<td><form:input type="text" maxlength="100" path="neighborhood" class="validate[required] text-input"/></td>
+								<tr/>
+								<tr>
+									<td class="label-input"><label>Referencia</label></td>
+									<td><form:input type="text" maxlength="100"  path="reference" class="validate[required] text-input"/></td>
+								<tr/>
+								<tr>
+									<td class="label-input"><label>Estado</label></td>
+									<td><form:input type="text" maxlength="100" path="state" class="validate[required] text-input"/></td>
+								<tr/>
+								<tr>
+									<td class="label-input"><label>País</label></td>
+									<td><form:input type="text" maxlength="100" path="country" class="validate[required] text-input"/></td>
+								<tr/>
+								<tr>
+									<td class="label-input"><label>CEP</label></td>
+									<td><form:input type="text" maxlength="100" path="zipCode" class="validate[required] cep"/></td>
+								<tr/>
+							</table>
+							
+							<form:button class="editAddressButton" type="submit">Editar endereço</form:button>
+							<br />
+							<br />
+							<a class="voltar" href="javascript:history.go(-1)">voltar</a>
+						</form:form>
+					</div>
+				</c:if>
 			</section>
 		</div>
 

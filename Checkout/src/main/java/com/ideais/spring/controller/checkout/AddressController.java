@@ -66,10 +66,13 @@ public class AddressController extends BaseController {
     	ModelAndView view = getBaseView("customer/editaddress", request);
     	
     	Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);    	    	
-
-    	if (customer != null) {
-    		view.addObject("address", customer.getAddressById(id));	
+    	Address address = customer.getAddressById(id);
+    	
+    	if (customer != null && address != null) {
+    		view.addObject("address", address);	
     		return view;
+    	} else {
+    		view.addObject("errorMessage", "Endereço não encontrado");
     	}
     	
     	return view;	
