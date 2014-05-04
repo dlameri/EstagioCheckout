@@ -67,7 +67,7 @@ public class LoginLogoutController extends BaseController{
 			response.addCookie(customerService.createCustomerCookie(customer));
 			
 			if (targetUrl == null || (targetUrl != null && (targetUrl.contains("address") || (targetUrl.contains("Checkout/customer/authenticate/loginForm"))))) {
-				return "redirect:http://ideaiselectronics.com:8081/Catalogo/";
+				return "redirect:http://ideaiselectronics.com:8081/catalogo/";
 			} 
 
 			return "redirect:http://ideaiselectronics.com:9082" + targetUrl;
@@ -119,7 +119,7 @@ public class LoginLogoutController extends BaseController{
 		
 	  customerService.removeCustomerCookie(response);
 	  
-	  return "redirect:http://ideaiselectronics.com:8081/Catalogo/";
+	  return "redirect:http://ideaiselectronics.com:8081/catalogo/";
 	}
 
 }

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.ideais.spring.controller.catalog.BaseController;
 import com.ideais.spring.domain.checkout.Address;
 import com.ideais.spring.domain.checkout.Customer;
+import com.ideais.spring.domain.checkout.PurchaseOrder;
 import com.ideais.spring.domain.checkout.RegisterWrapper;
 import com.ideais.spring.service.interfaces.CustomerServiceBehavior;
 
@@ -131,9 +132,10 @@ public class CustomerController extends BaseController{
     public ModelAndView accountDetails(HttpServletRequest request) {
     	ModelAndView view = getBaseView("customer/customerdetails", request);
     	Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);   
-    	
+    	List<PurchaseOrder> orders = customer.getPurchaseOrders();
     	if (customer != null) {
     		view.addObject("customer", customer);
+    		view.addObject("orders", orders);
             return view;
     	}
     	

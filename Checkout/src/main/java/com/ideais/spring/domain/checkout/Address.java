@@ -184,5 +184,8 @@ public class Address {
 	public void setAddressee(String addressee) {
 		this.addressee = addressee;
 	}
-	
+	public String getFormattedAdress(){
+		return "Endereço: "+street +", nº:"+ number+"\nCidade: "+city+", cep:"+getFormattedZipCode()+
+				"\nDestinatário: "+addressee;
+	}
 }

@@ -74,7 +74,7 @@ public class PurchaseOrderController extends BaseController{
     public synchronized ModelAndView showPaymentDetails(HttpServletRequest request) {
     	try {
 	    	ModelAndView view = getBaseView("purchaseorder/successorder", request);
-	    	
+	    	Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);
 			PurchaseOrder order = (PurchaseOrder) request.getSession().getAttribute(ORDER_KEY);
 	    	order.getShoppingCart().setCustomer(order.getCustomer());
 	    	order.setPayment(new Payment());
@@ -82,7 +82,7 @@ public class PurchaseOrderController extends BaseController{
 	    	List<Item> items = itemService.checkStock(order);
 	    	
 	    	if (items.size() == 0) {
-		    	mailService.sendMail();
+		    	mailService.sendMail(customer.getEmail(), order);
 		    	itemService.refreshItemQuantity(shoppingCartService.getJsonCart(order.getShoppingCart()));
 		    	order.setStatusOfOrder(StatusOfOrder.FINISHED.getStatus());
 		    	purchaseOrderService.save(order);
