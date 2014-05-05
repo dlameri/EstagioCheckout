@@ -1,6 +1,9 @@
 package com.ideais.spring.controller.checkout;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -31,21 +34,29 @@ public class AddressController extends BaseController {
     private static final String ORDER_KEY = "order";
 	
 	@RequestMapping(value = "/newAddress", method = RequestMethod.GET)
-    public ModelAndView newAddress(HttpServletRequest request) {
-    	ModelAndView view = getBaseView("customer/newshippingaddress", request);
-    	
-    	Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);
-    	PurchaseOrder order = (PurchaseOrder) request.getSession().getAttribute(ORDER_KEY);
+    public ModelAndView newAddress(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			ModelAndView view = getBaseView("customer/newshippingaddress", request);
 	    	
-    	if (customer != null && order != null) {
-    		view.addObject("notSelectedShippingAddresses", customer.getNotSelectedShippingAddresses(order.getShippingAddress().getId()));
-    		view.addObject("address", new Address());	
-    		return view;
-    	}
-
-    	view.addObject("customerError", "sessão expirou! Logue antes de criar novo endereço!");
-
-    	return view;	
+	    	Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);
+	    	PurchaseOrder order = (PurchaseOrder) request.getSession().getAttribute(ORDER_KEY);
+		    	
+	    	if (customer != null && order != null) {
+	    		view.addObject("notSelectedShippingAddresses", customer.getNotSelectedShippingAddresses(order.getShippingAddress().getId()));
+	    		view.addObject("address", new Address());	
+	    		return view;
+	    	} else if (order == null) {
+					response.sendRedirect("http://ideaiselectronics.com:9082/Checkout/purchaseOrder/paymentDetails");
+	    	}
+	
+	    	view.addObject("customerError", "sessão expirou! Logue antes de criar novo endereço!");
+	
+	    	return view;	
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
     }
     
     @RequestMapping(value = "/newShippingAddress", method = RequestMethod.POST)
@@ -59,6 +70,27 @@ public class AddressController extends BaseController {
     	}
     	
     	return "redirect:newAddress";	
+    }
+    
+    @RequestMapping(value = "/newCustomerAddress", method = RequestMethod.GET)
+    public ModelAndView newCustomerAddress(Address address, HttpServletRequest request) {    	
+		ModelAndView view = getBaseView("customer/newcustomeraddress", request);
+		
+		view.addObject("address", new Address());	
+		return view;	
+    }
+    
+    @RequestMapping(value = "/newAddressCustomerDetails", method = RequestMethod.POST)
+    public String newAddressCustomerDetails(Address address, HttpServletRequest request) {    	
+    	Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);
+    	
+    	if (customer != null) {
+    		customer.addDeliveryAddress(address);
+    		customerService.saveOrUpdate(customer);   
+    		customerService.setCustomerInSessionAfterUpdate(request, customer.getId());
+    	}
+    	
+    	return "redirect:http://ideaiselectronics.com:9082/Checkout/customer/edit";	
     }
     
 	@RequestMapping(value = "/editAddressForm/{id}", method = RequestMethod.GET)
@@ -80,7 +112,7 @@ public class AddressController extends BaseController {
 	
 	@RequestMapping(value = "/editAddressForm/{id}/{status}", method = RequestMethod.GET)
     public ModelAndView editAddress(@PathVariable Long id, @PathVariable String status, HttpServletRequest request) {
-    	ModelAndView view = getBaseView("customer/editaddress", request);
+    	ModelAndView view = getBaseView("customer/editaddressmessage", request);
     	
     	Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);    	    	
     	
@@ -112,6 +144,13 @@ public class AddressController extends BaseController {
 		    	customerService.saveOrUpdate(customer);    	
 	    		customerService.setCustomerInSessionAfterUpdate(request, customer.getId());
 		    	
+	    		PurchaseOrder order = (PurchaseOrder) request.getSession().getAttribute(ORDER_KEY);
+	    		if (order != null && order.getShippingAddress() != null && 
+	    			order.getShippingAddress().getId().equals(address.getId())) {
+	    			order.setShippingAddress(customer.getAddressById(address.getId()));
+	    			purchaseOrderService.setPurchaseOrderInSession(request, order);
+	    		}		
+	    		
 		    	return "redirect:editAddressForm/"+ address.getId() +"/success";	
     		}
         	

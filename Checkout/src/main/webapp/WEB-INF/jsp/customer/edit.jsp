@@ -50,7 +50,13 @@
 						<form:button class="editAddressButton" maxlength="100" type="submit">Editar</form:button>
 						<br />
 						<br />
-						<a class="voltar" href="http://ideaiselectronics.com:9082/Checkout/customer/customerDetails">Voltar para minha conta</a>
+						<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/newCustomerAddress" class="selectAddress">Cadastrar novo endereço</a>
+						
+						<br />
+						<br />
+						<div class="managedAddress">
+							<a class="voltar" href="http://ideaiselectronics.com:9082/Checkout/customer/customerDetails">Voltar para minha conta</a>
+						</div>
 				</form:form>
 				</div>
 				
@@ -73,13 +79,25 @@
 							</div> 
 							<br />	
 								
-							<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/setMainAddress/${shippingAddress.id}" class="selectAddress">Tornar como endereço principal</a>
+							<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/setMainAddress/${shippingAddress.id}" class="selectAddress">Tornar como endereço padrão</a>
 						
 						</div>
 					</c:forEach>	
 				</div>			
 			
 			</section>
+			
+			<input type="hidden" id="refreshed" value="no">
+			<script type="text/javascript">
+				onload=function() {
+					var e=document.getElementById("refreshed");
+					if(e.value=="no") {
+						e.value="yes";
+					} else {
+						e.value="no";location.reload();
+					}
+				};
+			</script>
 			
 		</div>
  <div id="light" class="white_content hidden"></div>

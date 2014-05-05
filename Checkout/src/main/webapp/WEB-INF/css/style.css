@@ -741,6 +741,11 @@ ul.installments li{
 	border-color: #D2D2D2;
 }
 
+.newCustomerAddress a {
+	color: #fff;
+	text-decoration: none;
+}
+
 .payment-data {
 	color: #5A5A5A;
 	font-size: 0.9em;
@@ -929,13 +934,13 @@ ul.installments li{
 	font-weight: bold;
 }
 
-.container a, .containerNewAddress a, .containerEditCustomer a, .containerRecover a, #dialog a, #dialogOrder a, #orderList a {
+.container a, .containerNewAddress a, .containerRecover a, #dialog a, #dialogOrder a, #orderList a {
 	color: #404040;
 	text-decoration: underline;
 	
 }
 
-.container a:hover, .containerNewAddress a:hover, .containerEditCustomer a:hover, .containerRecover a:hover, #dialog a:hover, #dialogOrder a:hover, #orderList a:hover {
+.container a:hover, .containerNewAddress a:hover,  .containerRecover a:hover, #dialog a:hover, #dialogOrder a:hover, #orderList a:hover {
 	color: #676767;
 }
 
@@ -1327,4 +1332,8 @@ ul.installments li{
 
 .cartItems {
 	width: 100%;
+}
+
+#voltarEdit {
+	cursor: pointer;
 }

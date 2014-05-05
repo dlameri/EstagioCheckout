@@ -7,7 +7,7 @@ import com.ideais.spring.domain.checkout.PurchaseOrder;
 
 public class MailService {
 	private static final String GREETINGS = ", obrigado por comprar em nossa Loja.";
-	private static final String ORDER_DETAILS = "\nA seguir algumas informações sobre a compra";
+	private static final String ORDER_DETAILS = "\n\nA seguir algumas informações sobre a compra";
     private MailSender mailSender;
     private SimpleMailMessage templateMessage;
 
@@ -46,7 +46,7 @@ public class MailService {
     }
 	
 	private String insertDeliveryInfo(PurchaseOrder order){
-		String message = "\nOs itens serão enviados para o seguinte destinatário:\n";
+		String message = "\n\nOs itens serão enviados para o seguinte destinatário:\n";
 		message+= order.getShippingAddress().getFormattedAdress();
 		return message;
 	}
