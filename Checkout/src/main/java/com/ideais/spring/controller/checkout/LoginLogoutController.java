@@ -87,7 +87,7 @@ public class LoginLogoutController extends BaseController{
 		ModelAndView view = getBaseView("customer/recoverpassword", request);
 		
 		if ("error".equals(status)) {
-			view.addObject("errorMessage", "Erro ao enviar o email, email não encontrado.");
+			view.addObject("errorMessage", "Erro ao enviar o email, email ou login de usuário não encontrados.");
 		} else if ("success".equals(status)) {
 			view.addObject("successMessage", "Email enviado com sucesso.");
 		}
