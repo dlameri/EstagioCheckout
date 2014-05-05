@@ -20,10 +20,12 @@
 					<div class="sub-box1">
 						<p class="payment-subtitle">endereço de entrega</p>
 						<div class="shipping-address">
-							Destinatário: ${order.addressee} <br />
-							${order.shippingAddress.street}, ${order.shippingAddress.number}, ${order.shippingAddress.city}, ${order.shippingAddress.state} - ${order.shippingAddress.zipCode} <br />
-							<a class="editShipAddress" href="../customer/address/newAddress"><span class="editAddressShipping">Alterar o endereço de entrega</span></a>
-							<a href="../customer/address/editAddressForm/${order.shippingAddress.id}"><span class="editAddressShipping" class="right-values">Editar o endereço atual</span></a>
+							<c:if test="${errorMessage == null}">
+								Destinatário: ${order.addressee} <br />
+								${order.shippingAddress.street}, ${order.shippingAddress.number}, ${order.shippingAddress.city}, ${order.shippingAddress.state} - ${order.shippingAddress.zipCode} <br />
+								<a class="editShipAddress" href="../customer/address/newAddress"><span class="editAddressShipping">Alterar o endereço de entrega</span></a>
+								<a href="../customer/address/editAddressForm/${order.shippingAddress.id}"><span class="editAddressShipping" class="right-values">Editar o endereço atual</span></a>
+							</c:if>
 						</div>
 					</div>
 					

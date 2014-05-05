@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import com.ideais.spring.controller.catalog.BaseController;
 import com.ideais.spring.domain.checkout.Address;
+import com.ideais.spring.domain.checkout.CorreiosCodes;
 import com.ideais.spring.domain.checkout.Customer;
 import com.ideais.spring.domain.checkout.FreightDetails;
 import com.ideais.spring.domain.checkout.Item;
@@ -255,16 +256,13 @@ public class PurchaseOrderController extends BaseController{
 	    		order.checkAddress(customer);
 	    		view.addObject("order", order);
 	    	}
-	    	
-	    	logger.warn("Customer ou shoppingCart não estão na sessão");
-	    	
+	    		    	
 	        return getMessageForOrder(view, customer,  shoppingCart);
 		} catch (NumberFormatException e) {
 			view.addObject("errorMessage", "Dado de input inválido.");
 			return view;
 		} catch (IOException e) {
-			view.addObject("errorMessage", "Erro, tente novamente!");
-			return view;		
+			return buildPaymentPageIfCorreiosDies(cartCookie, request);		
 		} catch (MissingQuantityStockException e) {
 			return view;
 		} catch (JSONException e) {
@@ -289,8 +287,54 @@ public class PurchaseOrderController extends BaseController{
 			view.addObject("errorMessage", "Dimensão do pedido excedido!");
 			return view;
 		}
-    	
     }
+
+	private ModelAndView buildPaymentPageIfCorreiosDies(String cartCookie, HttpServletRequest request) {
+		ModelAndView view = getBaseView("purchaseorder/paymentdetails", request);
+    	
+    	ShoppingCart shoppingCart;
+
+    	try {
+			shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);
+	    	Customer customer = (Customer) request.getSession().getAttribute(CUSTOMER_KEY);
+	    		    	
+	    	if (customer != null && shoppingCart != null) {
+	    		
+	    		PurchaseOrder order = (PurchaseOrder) request.getSession().getAttribute(ORDER_KEY);
+	    		
+	    		if (order == null) {	    			
+		    		order = new PurchaseOrder(customer, shoppingCart);
+		    		logger.debug("Customer de id: " + customer.getId() + "carrinho da sessão setados em uma ordem de compra.");
+	    		} 
+	    		if (shoppingCart.getQuantityOfItems() > 0) {
+					FreightDetails freightDetails = new FreightDetails();
+					freightDetails.setDeliveryDays(CorreiosCodes.PAC.getDefaultDays());
+					freightDetails.setFreightValue(CorreiosCodes.PAC.getDefaultFreight());
+					
+					freightService.setFreightInSession(freightDetails, shoppingCart, request);
+		    		freightService.setFreightDeliverInPurchaseOrder(request, order);
+	    		} else {
+	    			view.addObject("errorMessage", "O carrinho está vazio, insira um item para continuar com a compra.");
+	    		}
+	    		purchaseOrderService.setPurchaseOrderInSession(request, order);
+	    		
+	    		order.checkAddress(customer);
+	    		view.addObject("order", order);
+	    	}
+	    		    	
+	        return getMessageForOrder(view, customer,  shoppingCart);
+		} catch (NumberFormatException e) {
+			view.addObject("errorMessage", "Dado de input inválido.");
+			return view;
+		} catch (IOException e) {
+			return buildPaymentPageIfCorreiosDies(cartCookie, request);		
+		} catch (MissingQuantityStockException e) {
+			return view;
+		} catch (JSONException e) {
+			view.addObject("errorMessage", "Erro, tente novamente!");
+			return view;
+		} 
+	}
 
 	private ModelAndView getMessageForOrder(ModelAndView view, Customer customer, ShoppingCart shoppingCart) {
 		if (customer == null && shoppingCart != null) {

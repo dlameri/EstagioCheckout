@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 
 public enum CorreiosCodes {
 	
-	PAC("41106", 30, new BigDecimal(130.00), new BigDecimal(20.0), "3 dias úteis."), 
-	SEDEX("40010", 30, new BigDecimal(130.00), new BigDecimal(20.0), "3 dias úteis."), 
-	SEDEX_10("40215", 10, new BigDecimal(130.00), new BigDecimal(20.0), "3 dias úteis."), 
-	E_SEDEX("81019", 15, new BigDecimal(130.00), new BigDecimal(20.0), "3 dias úteis.");
+	PAC("41106", 30, new BigDecimal(130.00), new BigDecimal(20.0), "3"), 
+	SEDEX("40010", 30, new BigDecimal(130.00), new BigDecimal(20.0), "3"), 
+	SEDEX_10("40215", 10, new BigDecimal(130.00), new BigDecimal(20.0), "3"), 
+	E_SEDEX("81019", 15, new BigDecimal(130.00), new BigDecimal(20.0), "3");
 	
     private final String freightServiceCode;
     private final Integer maximumWeight;

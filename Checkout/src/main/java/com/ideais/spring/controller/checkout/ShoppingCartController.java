@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ideais.spring.controller.catalog.BaseController;
 import com.ideais.spring.controller.checkout.message.ErrorMessageFactory;
+import com.ideais.spring.domain.checkout.CorreiosCodes;
 import com.ideais.spring.domain.checkout.FreightDetails;
 import com.ideais.spring.domain.checkout.ShoppingCart;
 import com.ideais.spring.exceptions.FreightException;
@@ -65,7 +66,7 @@ public class ShoppingCartController extends BaseController {
 		} catch (NumberFormatException e) {
 			return "redirect:../errorNumber";
 		} catch (IOException e) {
-			return "redirect:../error";
+			return 	buildDefaultFreightDetailsIfCorreiosDies(cartCookie, request);
 		} catch (MissingQuantityStockException e) {
 			return "redirect:../errorQuantity";
 		} catch (JSONException e) {
@@ -169,7 +170,7 @@ public class ShoppingCartController extends BaseController {
 		} catch (NumberFormatException e) {
 			return "redirect:../errorNumber";
 		} catch (IOException e) {
-			return "redirect:../error";
+			return 	buildDefaultFreightDetailsIfCorreiosDies(cartCookie, request);
 		} catch (MissingQuantityStockException e) {
 			return "redirect:../errorQuantity";
 		} catch (JSONException e) {
@@ -212,7 +213,7 @@ public class ShoppingCartController extends BaseController {
 		} catch (NumberFormatException e) {
 			return "redirect:../errorNumber";
 		} catch (IOException e) {
-			return "redirect:../error";
+			return 	buildDefaultFreightDetailsIfCorreiosDies(cartCookie, request);
 		} catch (MissingQuantityStockException e) {
 			return "redirect:../errorQuantity";
 		} catch (JSONException e) {
@@ -243,7 +244,8 @@ public class ShoppingCartController extends BaseController {
 		} catch (NumberFormatException e) {
 			return "redirect:errorNumber";
 		} catch (IOException e) {
-			return "redirect:error";
+			return 	buildDefaultFreightDetailsIfCorreiosDies(cartCookie, request);
+			//return "redirect:error";
 		} catch (MissingQuantityStockException e) {
 			return "redirect:errorQuantity";
 		} catch (JSONException e) {
@@ -262,6 +264,28 @@ public class ShoppingCartController extends BaseController {
 			return "redirect:errorDimension";
 		} 
     }
+
+	private String buildDefaultFreightDetailsIfCorreiosDies(String cartCookie, HttpServletRequest request) {
+		ShoppingCart shoppingCart;
+		try {
+			shoppingCart = shoppingCartService.getShoppingCart(cartCookie, request);
+		
+			FreightDetails freightDetails = new FreightDetails();
+			freightDetails.setDeliveryDays(CorreiosCodes.PAC.getDefaultDays());
+			freightDetails.setFreightValue(CorreiosCodes.PAC.getDefaultFreight());
+			freightService.setFreightInSession(freightDetails, shoppingCart, request);
+		
+	    	return "redirect:";
+		} catch (NumberFormatException e) {
+			return "redirect:errorNumber";
+		} catch (IOException e) {
+			return "redirect:error";
+		} catch (MissingQuantityStockException e) {
+			return "redirect:errorQuantity";
+		} catch (JSONException e) {
+			return "redirect:error";
+		}
+	}
 
 	@RequestMapping(value = "/processShoppingCart", method = RequestMethod.GET)
     public String proccessShoppingCart(@CookieValue(value=CART_COOKIE_KEY, required=false) String cartCookie, 

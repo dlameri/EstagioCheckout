@@ -170,6 +170,14 @@ public class AddressController extends BaseController {
 	    		
 		    	customerService.saveOrUpdate(customer);    	
 	    		customerService.setCustomerInSessionAfterUpdate(request, customer.getId());
+	    		
+	    		PurchaseOrder order = (PurchaseOrder) request.getSession().getAttribute(ORDER_KEY);
+	    		
+	    		if (order != null) {
+	    			if (order.getShippingAddress().getMain()) {
+	    				order.setShippingAddress(customer.getMainAddress());
+	    			}
+	    		}
 	    	
 		    	return "redirect:../../edit/";	
     		}
