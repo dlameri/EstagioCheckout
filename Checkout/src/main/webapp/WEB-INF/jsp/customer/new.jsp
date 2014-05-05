@@ -81,10 +81,7 @@
 						<tr>
 							<td class="label-input"><label>Bairro</label></td>
 							<td><form:input type="text" path="address.neighborhood" class="validate[required]"/></td>
-						<tr/>
-						<tr>
-							<td class="label-input"><label>País</label></td>
-							<td><form:input type="text" path="address.country" class="validate[required]"/></td>
+							<td><form:input type="hidden" value="Brasil" path="address.country" class="validate[required]"/></td>
 						<tr/>
 						<tr>
 							<td class="label-input"><label>Referencia</label></td>

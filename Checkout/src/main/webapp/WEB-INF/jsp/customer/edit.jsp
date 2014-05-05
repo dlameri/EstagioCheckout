@@ -80,9 +80,10 @@
 							
 							</div> 
 							<br />	
-								
-							<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/setMainAddress/${shippingAddress.id}" class="selectAddress">Tornar como endereço padrão</a>
-						
+							
+							<c:if test="${shippingAddress.main != true}">	
+								<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/setMainAddress/${shippingAddress.id}" class="selectAddress">Tornar como endereço padrão</a>
+							</c:if>
 						</div>
 					</c:forEach>	
 				</div>			

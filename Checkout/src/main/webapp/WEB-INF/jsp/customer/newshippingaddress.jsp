@@ -56,10 +56,8 @@
 							<tr>
 								<td class="label-input"><label>Estado</label></td>
 								<td><form:input type="text" maxlength="100" path="state" class="validate[required] text-input"/></td>
-							<tr/>
-							<tr>
-								<td class="label-input"><label>País</label></td>
-								<td><form:input type="text" maxlength="100" path="country" class="validate[required] text-input"/></td>
+								<td><form:input type="hidden" maxlength="100" value="Brasil" path="country" class="validate[required] text-input"/></td>
+								
 							<tr/>
 							<tr>
 								<td class="label-input"><label>CEP</label></td>
@@ -92,7 +90,7 @@
 						</div> 
 						<br />	
 							
-						<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/setShippingAddress/${order.shippingAddress.id}" class="selectAddress">Selecionar endereço</a>
+<%-- 						<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/setShippingAddress/${order.shippingAddress.id}" class="selectAddress">Selecionar endereço</a> --%>
 					</div>
 					
 					<c:forEach items="${notSelectedShippingAddresses}" var="shippingAddress" varStatus="status">

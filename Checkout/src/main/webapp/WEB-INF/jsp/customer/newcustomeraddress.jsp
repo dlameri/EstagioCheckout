@@ -59,10 +59,7 @@
 							<tr>
 								<td class="label-input"><label>Estado</label></td>
 								<td><form:input type="text" maxlength="100" path="state" class="validate[required] text-input"/></td>
-							<tr/>
-							<tr>
-								<td class="label-input"><label>País</label></td>
-								<td><form:input type="text" maxlength="100" path="country" class="validate[required] text-input"/></td>
+								<td><form:input type="hidden" value="Brasil" maxlength="100" path="country" class="validate[required] text-input"/></td>
 							<tr/>
 							<tr>
 								<td class="label-input"><label>CEP</label></td>
