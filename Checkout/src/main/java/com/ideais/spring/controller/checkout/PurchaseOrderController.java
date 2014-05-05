@@ -244,6 +244,10 @@ public class PurchaseOrderController extends BaseController{
 		    		logger.debug("Customer de id: " + customer.getId() + "carrinho da sessão setados em uma ordem de compra.");
 	    		} 
 	    		if (shoppingCart.getQuantityOfItems() > 0) {
+	    			if ( order.getShippingAddress() == null) {
+	    				order.setShippingAddress(customer.getMainAddress());
+	    			}
+	    			
 					FreightDetails  freightDetails = freightService.calculateFreightDetails(shoppingCart, order.getShippingAddress().getFormattedZipCode());
 		
 					freightService.setFreightInSession(freightDetails, shoppingCart, request);

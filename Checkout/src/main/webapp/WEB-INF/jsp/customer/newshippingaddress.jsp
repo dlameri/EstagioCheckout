@@ -105,9 +105,9 @@
 							<div class="managedAddress">
 								<a href="http://ideaiselectronics.com:9082/Checkout/customer/address/editAddressForm/${shippingAddress.id}" class="edit">editar</a> 
 
-								<c:if test="${shippingAddress.main != true}">
-									<a href="javascript:void(0)" class="edit" onclick = "summonLightBox('http://ideaiselectronics.com:9082/Checkout/customer/address/removeAddress/${shippingAddress.id}')">excluir</a>	
-								</c:if>
+<%-- 								<c:if test="${shippingAddress.main != true}"> --%>
+<%-- 									<a href="javascript:void(0)" class="edit" onclick = "summonLightBox('http://ideaiselectronics.com:9082/Checkout/customer/address/removeAddress/${shippingAddress.id}')">excluir</a>	 --%>
+<%-- 								</c:if> --%>
 							
 							</div> 
 							<br />	

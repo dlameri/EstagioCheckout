@@ -176,6 +176,7 @@ public class AddressController extends BaseController {
 	    		if (order != null) {
 	    			if (order.getShippingAddress().getMain()) {
 	    				order.setShippingAddress(customer.getMainAddress());
+	    				order.setBillingAddress(customer.getMainAddress());
 	    			}
 	    		}
 	    	
@@ -198,6 +199,18 @@ public class AddressController extends BaseController {
         	if (customer != null) {
         		customerService.removeAddress(customer, id);
 	    		customerService.setCustomerInSessionAfterUpdate(request, customer.getId());
+	    		
+	    		PurchaseOrder order = (PurchaseOrder) request.getSession().getAttribute(ORDER_KEY);
+
+	        	if (order != null) {        
+		    		order.setCustomer(customer);
+
+		    		order.setShippingAddress(order.getCustomer().getAddressById(id));
+		    		order.setAddressee(order.getShippingAddress().getAddressee());
+		    		purchaseOrderService.setPurchaseOrderInSession(request, order);
+			    		    		
+			    	return "redirect:../../../purchaseOrder/paymentDetails";	
+	    		}
 	    	
 		    	return "redirect:" + uri;	
     		}
