@@ -78,7 +78,7 @@
 				
 					<div class="shippingAddressListUnit">
 						<span class="orderInfo">${order.shippingAddress.name}</span> <br />
-						(sendo utilizado)
+						(Sendo utilizado)
 						Destinatário: ${order.addressee} <br />
 						${order.shippingAddress.street}, ${order.shippingAddress.number} <br />
 						${order.shippingAddress.neighborhood} ${order.shippingAddress.city},  ${order.shippingAddress.state} - ${order.shippingAddress.zipCode} <br />

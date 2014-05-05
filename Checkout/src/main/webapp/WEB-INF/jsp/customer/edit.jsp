@@ -65,7 +65,9 @@
 					<c:forEach items="${customer.deliveryAddresses}" var="shippingAddress" varStatus="status">
 						<div class="shippingAddressListUnit">
 						    <span class="orderInfo">${shippingAddress.name}</span> <br />
-							Destinatário: ${shippingAddress.addressee} <br />
+							<c:if test="${shippingAddress.main == true}">
+						    	(Endereço padrão)
+						    </c:if>Destinatário: ${shippingAddress.addressee} <br />
 							${shippingAddress.street}, ${shippingAddress.number} <br />
 							${shippingAddress.neighborhood} ${shippingAddress.city}, ${shippingAddress.state} - ${shippingAddress.zipCode} <br />
 							<br /> 	
